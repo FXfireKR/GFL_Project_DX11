@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Dx2D Framework">
+      <UniqueIdentifier>{cf0f9737-e0c6-4fac-8a88-d2fb5acfb2b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\1. MainClasses">
+      <UniqueIdentifier>{bb3000f2-faee-45d4-b318-13eae14e95b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\0. ShaderFiles">
+      <UniqueIdentifier>{62e78e75-1636-4ef7-8e74-be06a6887802}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2.Manager">
+      <UniqueIdentifier>{bb0e66bc-f683-4e2e-ac6b-3ddbe9a815a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\1. MainClasses\Scene">
+      <UniqueIdentifier>{002e166d-c0b6-4b64-9025-5fd1a0af917a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2.Manager\Rectangle_Class">
+      <UniqueIdentifier>{35f5f96b-4e02-49b4-85dd-dde34b6c6274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2.Manager\ETC">
+      <UniqueIdentifier>{68aad295-9cbb-43bb-8b96-a0f330de55e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2.Manager\Motion">
+      <UniqueIdentifier>{993e1615-5ef7-49f5-936e-c52b28799c42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\1. MainClasses\Scene\Complete">
+      <UniqueIdentifier>{ba0a2fc8-192a-4033-b230-c0f9cb87b2d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2.Manager\Sound">
+      <UniqueIdentifier>{466f9875-ff1f-4ae8-bbca-e80888030962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2.Manager\SingleFrameMotion">
+      <UniqueIdentifier>{9f686569-25b1-4532-98de-da4c5ed4e699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\Add">
+      <UniqueIdentifier>{fbafc2fc-91b4-4e23-9f40-0e74906efb67}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11_2D.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dxComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DXRect.h">
+      <Filter>Dx2D Framework\2.Manager\Rectangle_Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Dx2D Framework\0. ShaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="GameNode.h">
+      <Filter>Dx2D Framework\2.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.h">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Dx2D Framework\2.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBind.h">
+      <Filter>Dx2D Framework\1. MainClasses\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>Dx2D Framework\1. MainClasses\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>Dx2D Framework\1. MainClasses\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Dx2D Framework\2.Manager\Sound</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11_2D.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DXRect.cpp">
+      <Filter>Dx2D Framework\2.Manager\Rectangle_Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Dx2D Framework\0. ShaderFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Dx2D Framework\2.Manager\ETC</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Dx2D Framework\2.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>Dx2D Framework\1. MainClasses\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>Dx2D Framework\1. MainClasses\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Dx2D Framework\2.Manager\Sound</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Dx11_2D.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Dx11_2D.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\_Shader\Rect.hlsl">
+      <Filter>Dx2D Framework\0. ShaderFiles</Filter>
+    </None>
+    <None Include="..\..\_Shader\Effect.hlsl">
+      <Filter>Dx2D Framework\0. ShaderFiles</Filter>
+    </None>
+    <None Include="..\..\_Shader\Sprite.hlsl">
+      <Filter>Dx2D Framework\0. ShaderFiles</Filter>
+    </None>
+    <None Include="..\..\_Shader\Sprite2_alpha.hlsl">
+      <Filter>Dx2D Framework\0. ShaderFiles</Filter>
+    </None>
+  </ItemGroup>
+</Project>
