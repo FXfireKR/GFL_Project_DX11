@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "Dx11_2D.h"
 #include "MainGame.h"
+#include <crtdbg.h>
 
 #define MAX_LOADSTRING 100
 
@@ -15,8 +16,19 @@ POINT		_ptMouse;
 WCHAR		szTitle[MAX_LOADSTRING] = L"DIRECTX_2D API_v0601";		// 제목 표시줄 텍스트입니다.
 MainGame*	pMainGame;
 int KeyCode;
+mutex			locker;
 
 // Dx11 전역 변수:
+
+IDXGIFactory* dxgiFactory;
+IDXGIDevice* pDXGIDevice;
+IDXGIAdapter *pAdapter;
+ID2D1RenderTarget* d2Rtg;
+ID2D1Factory* d2dFactory;
+IDWriteFactory* dwFactory;
+IDXGISurface* pBackBuffer;
+
+
 IDXGISwapChain* SwapChain;			// 렌더 버퍼(모든 윈도우) 관리 변수 : 클리어, 비긴, 엔드, 프레젠트
 ID3D11Device* Device;				// 하나의 장치(창)에 대한 버퍼, 텍스쳐 등 생성 관리를 위한 인터페이스 (CPU)
 ID3D11DeviceContext* DeviceContext;	// 생성 된 리소스를 관리하기 위한 인터페이스 (GPU -> 텍스쳐 렌더링)
@@ -26,6 +38,9 @@ ID3D11VertexShader* VertexShader;	// 버텍스 셰이더
 ID3D11PixelShader* PixelShader;		// 픽셀 셰이더
 ID3D10Blob* VsBlob;					// 컴파일 된 버텍스 셰이더
 ID3D10Blob* PsBlob;					// 컴파일 된 픽셀 셰이더
+
+
+ID2D1Factory* factory;
 
 D3DXVECTOR2	virtualPos;
 
@@ -79,9 +94,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	FPSTIMER->release();
 	FPSTIMER->delInstance();
 
+	//SAFE_REL(Rendtrg);
+
+	//_CrtDumpMemoryLeaks();
+
     return (int) msg.wParam;
 }
 
+/*
+----------------------------------------------------------------------
+
+
+		[	N O N E		M E M O R Y		L E A K		]
+
+
+				>>>>	2 0 1 9 - 1 1 - 0 4
+
+----------------------------------------------------------------------
+*/
 
 
 //
@@ -161,35 +191,40 @@ void InitDirectX(HINSTANCE hInstance)
 {
 	//Create g_pDevice and g_pDeviceContext, g_pSwapChain
 	{
-		DXGI_MODE_DESC bufferDesc;
-		ZeroMemory(&bufferDesc, sizeof(DXGI_MODE_DESC));	// DXGI 다이렉트X 그래픽 인터페이스
+		HRESULT hr = S_OK;
 
-		bufferDesc.Width = WINSIZEX;
-		bufferDesc.Height = WINSIZEY;
-		bufferDesc.RefreshRate.Numerator = 10;
-		bufferDesc.RefreshRate.Denominator = 0;
-		bufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		bufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-		bufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+		D3D11CreateDevice(pAdapter, D3D_DRIVER_TYPE_HARDWARE, NULL, D3D11_CREATE_DEVICE_BGRA_SUPPORT, 
+			NULL, NULL, D3D11_SDK_VERSION, &Device, NULL, &DeviceContext);
 
+		if (SUCCEEDED(hr))
+			hr = Device->QueryInterface(&Device);
+		
+		if (SUCCEEDED(hr))
+			hr = Device->QueryInterface(&pDXGIDevice);
+		
+		if (SUCCEEDED(hr))
+			hr = pDXGIDevice->GetAdapter(&pAdapter);
+		
+		if (SUCCEEDED(hr))
+			hr = pAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory));
+		
 
-		DXGI_SWAP_CHAIN_DESC desc;
-		ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));
+		DXGI_SWAP_CHAIN_DESC swapDesc;
+		::ZeroMemory(&swapDesc, sizeof(swapDesc));
 
-		desc.BufferDesc = bufferDesc;
-		desc.SampleDesc.Count = 1;
-		desc.SampleDesc.Quality = 0;
-		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		desc.BufferCount = 1;
-		desc.OutputWindow = g_hWnd;
-		desc.Windowed = TRUE;
-		desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+		swapDesc.BufferDesc.Width = WINSIZEX;
+		swapDesc.BufferDesc.Height = WINSIZEY;
+		swapDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+		swapDesc.BufferDesc.RefreshRate.Numerator = 60;
+		swapDesc.BufferDesc.RefreshRate.Denominator = 1;
+		swapDesc.SampleDesc.Count = 1;
+		swapDesc.SampleDesc.Quality = 0;
+		swapDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		swapDesc.BufferCount = 1;
+		swapDesc.OutputWindow = g_hWnd;
+		swapDesc.Windowed = TRUE;
 
-		HRESULT hr = D3D11CreateDeviceAndSwapChain
-		(
-			NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, NULL, NULL, NULL,
-			D3D11_SDK_VERSION, &desc, &SwapChain, &Device, NULL, &DeviceContext
-		);
+		hr = dxgiFactory->CreateSwapChain(Device, &swapDesc, &SwapChain);
 		assert(SUCCEEDED(hr));
 	}
 
@@ -279,7 +314,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 		_ptMouse.x = static_cast<float>(LOWORD(lParam));
 		_ptMouse.y = static_cast<float>(HIWORD(lParam));
-		_ptMouse.y = WINSIZEY - _ptMouse.y;
+		//_ptMouse.y = WINSIZEY - _ptMouse.y;
 		break;
 
 	case WM_DESTROY:

@@ -27,6 +27,7 @@
 #include <mutex>
 #include <fstream>
 #include <sstream>
+#include <atlbase.h>
 
 using namespace std;
 
@@ -49,11 +50,32 @@ using namespace std;
 using namespace irrklang;
 #pragma comment(lib, "irrKlang.lib")
 
+#include "util.h"
+
+enum LOADRESOURCE_TYPE
+{
+	RESOURCE_SOUND = 0,
+	RESOURCE_IMAGE,
+	RESOURCE_MAP,
+	RESOURCE_EQUIP,
+	RESOURCE_TEXT
+};
+
+extern mutex			locker;
+
 #include "KeyManager.h"
 #include "SceneManager.h"
 #include "TimeManager.h"
 #include "ShaderManager.h"
+#include "LoadManager.h"
+#include "Direct2DManager.h"
+#include "ImageManager.h"
 #include "SoundManager.h"
+#include "EffectManager.h"
+#include "BattleDataBase.h"
+#include "Player.h"
+#include "BulletManager.h"
+#include "TextManager.h"
 
 // 전역 디파인
 #define WINSIZEX 1280
@@ -61,14 +83,26 @@ using namespace irrklang;
 
 #define PI 3.14159265
 
-#define DELTA	TimeManager::getInstance()->getDeltaTime()
-
+#define CIPHING_BLOC_SIZE	32
 
 #define KEYMANAGER		KeyManager::getInstance()
 #define SCENE			SceneManager::getInstance()
 #define FPSTIMER		TimeManager::getInstance()
 #define SHADER			ShaderManager::getInstance()
+#define LOADMANAGER		LoadManager::getInstance()
+#define DRAWMANAGER		Direct2DManager::getInstance()
 #define SOUNDMANAGER	SoundManager::getInstance()
+#define IMAGEMANAGER	ImageManager::getInstance()
+#define BDATA			BattleDataBase::getInstance()
+#define PLAYER			Player::getInstance()
+#define BEFCT			BulletManager::getInstance()
+#define EFFECT			EffectManager::getInstance()
+#define TEXT			TextManager::getInstance()
+
+#define VPOS			BattleDataBase::getInstance()->p_getVirtualPos()
+#define DELTA			TimeManager::getInstance()->getDeltaTime()
+
+
 
 #define SAFE_REL(p) {if(p!=nullptr){p->Release();p=nullptr;}}
 #define SAFE_DEL(p) {if(p!=nullptr){delete p; p=nullptr;}}
@@ -83,132 +117,3 @@ extern HWND			g_hWnd;
 extern POINT		_ptMouse;
 extern int			KeyCode;
 extern D3DXVECTOR2	virtualPos;
-
-
-static void ShakeCamera(OUT float& x, OUT float& y, IN int size)
-{
-	x = x + (rand() % size) - size/2;
-	y = y + (rand() % size) - size/2;
-}
-
-static float getDistance(float x1, float y1, float x2, float y2)
-{
-	float x = x2 - x1;
-	float y = y2 - y1;
-	float result = sqrtf(pow(x, 2) + pow(y, 2));
-
-	return result;
-}
-
-static float rGetAngle(float x1, float y1, float x2, float y2)
-{
-	float x = x2 - x1;
-	float y = y2 - y1;
-	float d = sqrtf((x * x) + (y * y));
-	float angle = acosf(x / d);
-	//float angle = atanf(y/x);
-
-	//acosf(x) x는 -1~1의 값을 가진다 (라디안 값)
-	//cos의 역함수이며, 치역은 (0~180 degree)
-	//180도가 넘어가면 181도가 아니라 179도가 된다
-
-	if (y < 0) angle = (PI * 2) - angle;
-
-	return angle;
-}
-
-static float dGetAngle(float x1, float y1, float x2, float y2)
-{
-	float x = x2 - x1;
-	float y = y2 - y1;
-	float d = sqrtf(pow(x, 2) + pow(y, 2));
-	float angle = acosf(x / d);
-
-	//float angle = atanf(y/x);
-
-	//acosf(x) x는 -1~1의 값을 가진다 (라디안 값)
-	//cos의 역함수이며, 치역은 (0~180 degree)
-	//180도가 넘어가면 181도가 아니라 179도가 된다
-
-	//Radian
-	if (y < 0) angle = (PI * 2) - angle;
-
-	angle = DGR(angle);
-
-	return angle;
-}
-
-static bool AABB_Collition(const DXRect & rc1, const DXRect & rc2)
-{
-	if ((rc1.getTransX() - rc1.getScaleX()*0.5f) > (rc2.getTransX() + rc2.getScaleX()*0.5f) || (rc1.getTransX() + rc2.getScaleX()*0.5f) < (rc2.getTransX() - rc2.getScaleX()*0.5f))return false;
-	if ((rc1.getTransY() + rc1.getScaleY()*0.5f) < (rc2.getTransY() - rc2.getScaleY()*0.5f) || (rc1.getTransY() - rc2.getScaleY()*0.5f) > (rc2.getTransY() + rc2.getScaleY()*0.5f))return false;
-
-	return true;
-}
-
-static bool API_Collition(const DXRect & rc1, const DXRect & rc2)
-{
-	RECT rt1, rt2, temp;
-	rt1.left = rc1.getTransX() - rc1.getScaleX()*0.5f;
-	rt1.right = rc1.getTransX() + rc1.getScaleX()*0.5f;
-	rt1.top = rc1.getTransY() - rc1.getScaleY()*0.5f;
-	rt1.bottom = rc1.getTransY() + rc1.getScaleY()*0.5f;
-
-	rt2.left = rc2.getTransX() - rc2.getScaleX()*0.5f;
-	rt2.right = rc2.getTransX() + rc2.getScaleX()*0.5f;
-	rt2.top = rc2.getTransY() - rc2.getScaleY()*0.5f;
-	rt2.bottom = rc2.getTransY() + rc2.getScaleY()*0.5f;
-
-
-	return IntersectRect(&temp, &rt1, &rt2);
-}
-
-static bool API_Collition(OUT DXRect& intersect, const DXRect & rc1, const DXRect & rc2)
-{
-	RECT rt1, rt2, temp;
-	rt1.left = rc1.getTransX() - rc1.getScaleX()*0.5f;
-	rt1.right = rc1.getTransX() + rc1.getScaleX()*0.5f;
-	rt1.top = rc1.getTransY() - rc1.getScaleY()*0.5f;
-	rt1.bottom = rc1.getTransY() + rc1.getScaleY()*0.5f;
-
-	rt2.left = rc2.getTransX() - rc2.getScaleX()*0.5f;
-	rt2.right = rc2.getTransX() + rc2.getScaleX()*0.5f;
-	rt2.top = rc2.getTransY() - rc2.getScaleY()*0.5f;
-	rt2.bottom = rc2.getTransY() + rc2.getScaleY()*0.5f;
-
-	bool result = IntersectRect(&temp, &rt1, &rt2);
-
-	if (result)
-	{
-		intersect.setScaleX(temp.right - temp.left);
-		intersect.setScaleY(temp.bottom - temp.top);
-		intersect.setTransX(temp.left + intersect.getScaleX()*0.5f);
-		intersect.setTransY(temp.bottom - intersect.getScaleY()*0.5f);
-	}
-
-	return result;
-}
-
-static bool ptInRect(D3DXVECTOR2 scale, POINT pos, POINT mPos)
-{
-	FLOAT left = pos.x - (scale.x / 2.0F);
-	FLOAT right = pos.x + (scale.x / 2.0F);
-	FLOAT bottom = pos.y + (scale.y / 2.0F);
-	FLOAT top = pos.y - (scale.y / 2.0F);
-
-	if (mPos.x > left && mPos.x < right)
-		if (mPos.y > top && mPos.y < bottom)
-			return true;
-
-	return false;
-}
-
-struct tagDoubleFloat
-{
-	float x, y;
-}; typedef tagDoubleFloat FPNT;
-
-struct tagSTATUSPOINT
-{
-	int max, current;
-};  typedef tagSTATUSPOINT STATUSPOINT;

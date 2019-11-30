@@ -1,0 +1,117 @@
+#include "stdafx.h"
+#include "LoadManager.h"
+
+LoadManager::LoadManager()
+{
+	curLoad = nullptr;
+	ListPointer = 0;
+	threadLock = false;
+	autoInit = true;
+}
+
+LoadManager::~LoadManager()
+{
+}
+
+void LoadManager::Add_LoadTray(string _key, const char * _path, __in LOADRESOURCE_TYPE type)
+{
+	LoadResourceInfo* info = new LoadResourceInfo;
+
+	info->key = _key;
+	info->path = _path;
+	info->type = type;
+
+	LoadList.push_back(info);
+}
+
+void LoadManager::Add_LoadTray(string _key, string _path, LOADRESOURCE_TYPE type)
+{
+	// is there same Key?
+
+	bool isSame = false;
+	for (auto& it : LoadList)
+	{
+		if (!it->key.compare(_key))
+		{
+			isSame = true;
+			break;
+		}
+	}
+
+	if (!isSame) {
+		LoadResourceInfo* info = new LoadResourceInfo;
+
+		info->key = _key;
+		info->path = _path;
+		info->type = type;
+
+		LoadList.push_back(info);
+	}
+}
+
+void LoadManager::update()
+{
+	if (!threadLock)
+	{
+		thread trd([&]() {
+
+			while (LoadList.size() != ListPointer)
+			{
+				if (curLoad == nullptr && LoadList.size() > ListPointer)
+				{
+					curLoad = LoadList[ListPointer];
+
+					switch (curLoad->type)
+					{
+					case RESOURCE_SOUND:
+						SOUNDMANAGER->InsertSoundBianry(LoadList[ListPointer]->key, LoadList[ListPointer]->path);				
+					break;
+
+					case RESOURCE_IMAGE:
+						IMAGEMANAGER->InsertImageBinary(LoadList[ListPointer]->key, LoadList[ListPointer]->path);			
+					break;
+
+					case RESOURCE_MAP:
+						break;
+
+					case RESOURCE_EQUIP:
+						break;
+
+					case RESOURCE_TEXT:
+						break;
+					}
+
+					locker.lock();
+					curLoad = nullptr;
+					++ListPointer;
+					locker.unlock();
+
+				}
+			}
+
+		});
+		trd.detach();
+
+		threadLock = true;
+	}
+
+	else
+	{
+		if (LoadList.size() == ListPointer)
+		{
+			for (auto& it : LoadList)
+				SAFE_DEL(it);
+			LoadList.clear();
+
+			SCENE->Change_Scene(this->getNextScene());
+
+			if (autoInit)
+				SCENE->Init_Scene();
+
+			ListPointer = 0;
+			threadLock = false;
+		}
+
+	}
+	
+}

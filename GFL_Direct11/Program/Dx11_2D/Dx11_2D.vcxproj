@@ -83,7 +83,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>../../_Libraries/Irrklang/include;../Include;../../_Libraries/ImGui;$(IncludePath)</IncludePath>
-    <LibraryPath>../../_Libraries/Irrklang/lib;../Lib/x86;../Lib/x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>../../_Libraries/Irrklang/lib;../Lib/x86;../Lib/x64;../../_Libraries/ImGui;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -155,12 +155,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ARCHITECT.h" />
+    <ClInclude Include="BattleDataBase.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletManager.h" />
+    <ClInclude Include="Direct2DManager.h" />
+    <ClInclude Include="DXCircle.h" />
     <ClInclude Include="dxComponent.h" />
     <ClInclude Include="DXRect.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectManager.h" />
+    <ClInclude Include="EllipseBase.h" />
+    <ClInclude Include="EllipseCol.h" />
+    <ClInclude Include="FNFAL.h" />
+    <ClInclude Include="FrameImage.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="Dx11_2D.h" />
+    <ClInclude Include="GriffonDoll.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="ImageManager.h" />
+    <ClInclude Include="IOPtacDollType.h" />
+    <ClInclude Include="IOPtaticDoll.h" />
+    <ClInclude Include="Jaeger.h" />
     <ClInclude Include="KeyManager.h" />
+    <ClInclude Include="LoadManager.h" />
+    <ClInclude Include="LoadScene.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="MainLoadScene.h" />
+    <ClInclude Include="Motion.h" />
+    <ClInclude Include="MotionManager.h" />
+    <ClInclude Include="NTW20.h" />
+    <ClInclude Include="NTW_20.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneBind.h" />
@@ -168,22 +194,59 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="singleton.h" />
+    <ClInclude Include="SmokeBase.h" />
+    <ClInclude Include="SNVtacDoll.h" />
+    <ClInclude Include="SNVtacDollType.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SquadManager.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StoryScene.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TaticDollBase.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="TextBase.h" />
+    <ClInclude Include="TextManager.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="util.h" />
+    <ClInclude Include="VisualBar.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ARCHITECT.cpp" />
+    <ClCompile Include="BattleDataBase.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="Direct2DManager.cpp" />
     <ClCompile Include="Dx11_2D.cpp" />
+    <ClCompile Include="DXCircle.cpp" />
     <ClCompile Include="DXRect.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
+    <ClCompile Include="EllipseBase.cpp" />
+    <ClCompile Include="EllipseCol.cpp" />
+    <ClCompile Include="FNFAL.cpp" />
+    <ClCompile Include="FrameImage.cpp" />
+    <ClCompile Include="GriffonDoll.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="ImageManager.cpp" />
+    <ClCompile Include="IOPtaticDoll.cpp" />
+    <ClCompile Include="Jaeger.cpp" />
     <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="LoadManager.cpp" />
+    <ClCompile Include="LoadScene.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="MainLoadScene.cpp" />
+    <ClCompile Include="Motion.cpp" />
+    <ClCompile Include="MotionManager.cpp" />
+    <ClCompile Include="NTW20.cpp" />
+    <ClCompile Include="NTW_20.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="SmokeBase.cpp" />
+    <ClCompile Include="SNVtacDoll.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -191,9 +254,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StoryScene.cpp" />
+    <ClCompile Include="TaticDollBase.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="TextBase.cpp" />
+    <ClCompile Include="TextManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="VisualBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx11_2D.rc" />
@@ -221,6 +289,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\_Shader\Circle_Shader.hlsl">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

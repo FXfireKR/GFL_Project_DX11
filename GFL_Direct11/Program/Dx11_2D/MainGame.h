@@ -1,6 +1,7 @@
 #pragma once
 #include "GameNode.h"
 #include "SceneBind.h"
+#include "NTW_20.h"
 
 class MainGame : public GameNode
 {

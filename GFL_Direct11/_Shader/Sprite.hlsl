@@ -38,14 +38,14 @@ Texture2D Texture : register(t0);
 
 cbuffer PS_Color : register(b0)
 {
-    float4 Color = { 1, 1, 1, 1 };
+    float4 Color;
 }
 
 float4 PS(PixelInput input) : SV_TARGET
 {
     float4 color = Texture.Sample(Sampler, input.UV);
 
-    //color *= Color;
+	color = color * Color;
 
     return color;
 }

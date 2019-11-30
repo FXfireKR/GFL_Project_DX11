@@ -53,11 +53,26 @@ MainGame::MainGame()
 		Device->CreateBlendState(&desc, &AlphaBlendState);
 	}
 
+
+	TEXT->DWInit();
+
 	KEYMANAGER->init();
 	SOUNDMANAGER->init();
+	BDATA->init();
+	PLAYER->init();
+	BEFCT->init();
+
+	IMAGEMANAGER->InsertImageBinary("LoadBK", "../../_Textures/LoadImg_First.ab");
+	IMAGEMANAGER->InsertImageBinary("Logo", "../../_Textures/Logo.ab");
+	IMAGEMANAGER->InsertImageBinary("LogoFont", "../../_Textures/Logo_font.ab");
+	
+	IMAGEMANAGER->InsertImageBinary("ARIFLE_BLT", "../../_Textures/arbullet.ab");
+	IMAGEMANAGER->InsertImageBinary("RIFLE_BLT", "../../_Textures/riflebullet.ab");
 
 	Init();
 	ShaderInsert();
+
+	DRAWMANAGER->init();
 }
 
 MainGame::~MainGame()
@@ -65,8 +80,25 @@ MainGame::~MainGame()
 	SAFE_REL(vpBuffer);
 	SAFE_DEL(vpMatrix);
 
+	TEXT->release();
+	TEXT->delInstance();
+
+	BDATA->release();
+	BDATA->delInstance();
+
+	BEFCT->release();
+	BEFCT->delInstance();
+
+	PLAYER->release();
+	PLAYER->delInstance();
+
 	SOUNDMANAGER->release();
 	SOUNDMANAGER->delInstance();
+
+	LOADMANAGER->delInstance();
+
+	IMAGEMANAGER->release();
+	IMAGEMANAGER->delInstance();
 
 	SHADER->release();
 	SHADER->delInstance();
@@ -90,6 +122,7 @@ void MainGame::ShaderInsert()
 
 	SHADER->AddShaderFile(PTLayoutDesc, PTElementCount, "SPRITE2", L"../../_Shader/Sprite2_alpha.hlsl");
 
+
 	D3D11_INPUT_ELEMENT_DESC PTLayoutDesc2[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -98,23 +131,40 @@ void MainGame::ShaderInsert()
 	PTElementCount = ARRAYSIZE(PTLayoutDesc2);
 
 	SHADER->AddShaderFile(PTLayoutDesc2, PTElementCount, "RECT", L"../../_Shader/Rect.hlsl");
+
+	// Shader :: Sprite_alpha.hlsl
+	D3D11_INPUT_ELEMENT_DESC PTLayoutDesc3[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+	PTElementCount = ARRAYSIZE(PTLayoutDesc3);
+
+	SHADER->AddShaderFile(PTLayoutDesc3, PTElementCount, "SPRITE", L"../../_Shader/Sprite.hlsl");
+	SHADER->AddShaderFile(PTLayoutDesc3, PTElementCount, "CIRCLE", L"../../_Shader/Circle_Shader.hlsl");
 }
 
 void MainGame::Init()
 {
+	//LoadImg_First
+
 	SCENE->Create_Scene("TEST", new TestScene);
+	SCENE->Create_Scene("FirstLoad", new MainLoadScene);
 	SCENE->Init_Scene();
 
-	SCENE->Change_Scene("TEST");
+	//SCENE->Create_Scene("Story", new StoryScene);
+	
 
-	SOUNDMANAGER->InsertSoundFile("test", "../../_SoundSource/Solom.mp3");
+	SCENE->Change_Scene("FirstLoad");
 }
 
 void MainGame::Update()
 {
 	ImGui::Update();
-	FPSTIMER->update(60.0f);
+
+	FPSTIMER->update(120.0f);
 	SCENE->Update_Scene();
+
 	SOUNDMANAGER->setVolum();
 
 	//ImGui::DragFloat("FPS", &FramePerSecond, 0.5f, 15.0f, 200.0f);
@@ -122,18 +172,27 @@ void MainGame::Update()
 
 void MainGame::Render()
 {
-	D3DXCOLOR background = D3DXCOLOR(0, 0, 0, 1);
-	DeviceContext->ClearRenderTargetView(RTV, (float *)background);
+	DXGI_SWAP_CHAIN_DESC swapDesc;
+	HRESULT hr = SwapChain->GetDesc(&swapDesc);
 
-	// Set VPMatrix Buffer
-	DeviceContext->UpdateSubresource(vpBuffer, 0, NULL, vpMatrix, 0, 0);
-	DeviceContext->VSSetConstantBuffers(0, 1, &vpBuffer);
+	if (SUCCEEDED(hr))
+		if (d2Rtg)
+		{
+			D3DXCOLOR background = D3DXCOLOR(0, 0, 0, 1);
 
-	DeviceContext->OMSetBlendState(AlphaBlendState, NULL, 0xFF);
-	{	
-		SCENE->Render_Scene();
-	}
-	DeviceContext->OMSetBlendState(NormalBlendState, NULL, 0xFF);
+			DeviceContext->ClearRenderTargetView(RTV, (float *)background);
+
+			// Set VPMatrix Buffer
+			DeviceContext->UpdateSubresource(vpBuffer, 0, NULL, vpMatrix, 0, 0);
+			DeviceContext->VSSetConstantBuffers(0, 1, &vpBuffer);		
+
+			DeviceContext->OMSetBlendState(AlphaBlendState, NULL, 0xFF);
+			{		
+				SCENE->Render_Scene();
+			}
+			DeviceContext->OMSetBlendState(NormalBlendState, NULL, 0xFF);
+			
+		}
 
 	ImGui::Render();
 	SwapChain->Present(0, 0);
