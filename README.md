@@ -19,3 +19,9 @@ If the value was conformed the huddle, Changed the motion Special Normal Attack.
 
 ### - JAEGER
 SNVLines SniperRifle Model, Skill is not implemented.
+
+
+## Thread UnCiphing
+File .ab was Ciphing By Chain-Block-Ciphing.
+
+. . .
