@@ -1,0 +1,591 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Dx2D Framework">
+      <UniqueIdentifier>{cf0f9737-e0c6-4fac-8a88-d2fb5acfb2b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\1. MainClasses">
+      <UniqueIdentifier>{bb3000f2-faee-45d4-b318-13eae14e95b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\0. Shader Files">
+      <UniqueIdentifier>{389c072b-9609-4213-b5ac-29cdfc3829d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager">
+      <UniqueIdentifier>{b5c03ed0-02e7-4d5c-a35c-208689436b56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Keyboard">
+      <UniqueIdentifier>{1cb5479f-c0ad-4a5f-83f0-bdc51396237b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Time">
+      <UniqueIdentifier>{4b5d5d80-c33b-4140-bad2-4a464305e6e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses">
+      <UniqueIdentifier>{5657e3d2-dc53-4115-82ae-7c84a40aa9b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\1. MainClasses\System">
+      <UniqueIdentifier>{0290d4b2-f912-437c-805a-79ffa82157e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\1. MainClasses\Render">
+      <UniqueIdentifier>{325dd725-827a-4bdc-beed-03aa23a72409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnUsed">
+      <UniqueIdentifier>{fd3ddb0a-a34f-4c7e-a190-e47d8ba80bff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\D2D">
+      <UniqueIdentifier>{22d79c9f-43ca-4741-a627-f9879b7bac42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\singleton">
+      <UniqueIdentifier>{ad1fc3ad-6a44-4ac3-8968-102c83d88283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Text">
+      <UniqueIdentifier>{fc648b56-fb68-4b08-9035-2caa07471857}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Image">
+      <UniqueIdentifier>{38c41e1b-1c71-4cec-b766-bb5479245948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\0. Shader Files\ShaderManager">
+      <UniqueIdentifier>{78e91aeb-c061-45e8-b4c4-f6aa7c063964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\0. Shader Files\_files">
+      <UniqueIdentifier>{af064397-65f0-40f6-bc75-da7b6367711e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\Ohter_LIB">
+      <UniqueIdentifier>{d53934c9-3aa9-4f61-88d6-7925cc5f395d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\Ohter_LIB\SPINE">
+      <UniqueIdentifier>{087abcfc-d2b1-44a9-a1ae-62dba1c212ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll">
+      <UniqueIdentifier>{2f16521d-7ef9-4eb5-8566-480ba19b0a41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll\TaticDollBase">
+      <UniqueIdentifier>{ea08dce1-b582-461c-b68d-4851ca5e18dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll\IRB">
+      <UniqueIdentifier>{3be99eab-14f9-4e2c-84d2-59606361abe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll\GRF">
+      <UniqueIdentifier>{1fd2119b-73a5-4d36-b209-e4e89f303240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll\GRF\_AR">
+      <UniqueIdentifier>{ddf6bcc7-cebd-48ca-b858-a9c831e7ee32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll\GRF\_SMG">
+      <UniqueIdentifier>{e27c5ed1-71e5-458b-a7d5-a98887161a2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll\GRF\_SR">
+      <UniqueIdentifier>{d33747e3-060f-4c08-bf11-4e51afc2b0c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll\GRF\_MG">
+      <UniqueIdentifier>{a5c05141-977b-4e4e-b1e3-f8988d3cf49a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\Scene">
+      <UniqueIdentifier>{05db9142-b93d-456d-8261-11967770d59b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\spineMotion">
+      <UniqueIdentifier>{c24b7c71-5f08-4619-8d28-0812755ec9cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\BattleMap">
+      <UniqueIdentifier>{b352d8e6-e9ff-4563-8a6a-0a76d226365a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\util_header">
+      <UniqueIdentifier>{73a60f98-72a4-42df-a260-7c6ebb7af43f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll\Header">
+      <UniqueIdentifier>{3ecbf010-f5f4-4ef0-9cbc-976274b86611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Ellipse">
+      <UniqueIdentifier>{8ae123c6-e7c3-46a9-a82e-8b98cceb89ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\BattleData">
+      <UniqueIdentifier>{d6bd2747-eec1-47be-a788-75c9d0e8807a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\MapManage">
+      <UniqueIdentifier>{e7ca001f-bcb4-4b22-bd6b-162a74de0bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Scene">
+      <UniqueIdentifier>{fd5ba61f-165e-4ea4-bb1e-b3c69c656b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Panel">
+      <UniqueIdentifier>{35d9257f-7bdb-4c69-9985-7381841ffb98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll\Manager">
+      <UniqueIdentifier>{98f53588-50c2-4470-9ea1-a4a382ed2a3b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameNode.h">
+      <Filter>Dx2D Framework\1. MainClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>Dx2D Framework\1. MainClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>Dx2D Framework\2. Manager\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11_2D.h">
+      <Filter>Dx2D Framework\1. MainClasses\System</Filter>
+    </ClInclude>
+    <ClInclude Include="DXComponent.h">
+      <Filter>Dx2D Framework\1. MainClasses\System</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Dx2D Framework\1. MainClasses\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Dx2D Framework\1. MainClasses\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>UnUsed</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>UnUsed</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Dx2D Framework\3. GameClasses\util_header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponent.h">
+      <Filter>Dx2D Framework\3. GameClasses\util_header</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct2DManager.h">
+      <Filter>Dx2D Framework\2. Manager\D2D</Filter>
+    </ClInclude>
+    <ClInclude Include="SingletonBase.h">
+      <Filter>Dx2D Framework\2. Manager\singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.h">
+      <Filter>Dx2D Framework\2. Manager\singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBase.h">
+      <Filter>Dx2D Framework\2. Manager\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="TextManager.h">
+      <Filter>Dx2D Framework\2. Manager\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Dx2D Framework\2. Manager\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageManager.h">
+      <Filter>Dx2D Framework\2. Manager\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Dx2D Framework\0. Shader Files\ShaderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\src\spine\Json.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\Animation.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\AnimationState.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\AnimationStateData.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\Atlas.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\AtlasAttachmentLoader.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\Attachment.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\AttachmentLoader.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\Bone.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\BoneData.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\BoundingBoxAttachment.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\Event.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\EventData.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\extension.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\IkConstraint.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\IkConstraintData.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\MeshAttachment.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\RegionAttachment.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\Skeleton.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\SkeletonBounds.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\SkeletonData.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\SkeletonJson.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\Skin.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\SkinnedMeshAttachment.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\Slot.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\SlotData.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\_Libraries\Spine\include\spine\spine.h">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimer.h">
+      <Filter>Dx2D Framework\2. Manager\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="TaticDoll.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\TaticDollBase</Filter>
+    </ClInclude>
+    <ClInclude Include="AK12.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\GRF\_AR</Filter>
+    </ClInclude>
+    <ClInclude Include="GuA91.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\GRF\_AR</Filter>
+    </ClInclude>
+    <ClInclude Include="spineBase.h">
+      <Filter>Dx2D Framework\2. Manager\spineMotion</Filter>
+    </ClInclude>
+    <ClInclude Include="spineMotion.h">
+      <Filter>Dx2D Framework\2. Manager\spineMotion</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleMap.h">
+      <Filter>Dx2D Framework\2. Manager\BattleMap</Filter>
+    </ClInclude>
+    <ClInclude Include="BTM_Loader.h">
+      <Filter>Dx2D Framework\2. Manager\BattleMap</Filter>
+    </ClInclude>
+    <ClInclude Include="ARCHITECT.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\IRB</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleScene.h">
+      <Filter>Dx2D Framework\3. GameClasses\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GriffonDoll.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\TaticDollBase</Filter>
+    </ClInclude>
+    <ClInclude Include="SCM_DollType.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GRF_DollType.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="IRB_DollType.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PRD_DollType.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EllipseBase.h">
+      <Filter>Dx2D Framework\2. Manager\Ellipse</Filter>
+    </ClInclude>
+    <ClInclude Include="EllipseCol.h">
+      <Filter>Dx2D Framework\2. Manager\Ellipse</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleDataBse.h">
+      <Filter>Dx2D Framework\3. GameClasses\BattleData</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>Dx2D Framework\3. GameClasses\MapManage</Filter>
+    </ClInclude>
+    <ClInclude Include="AllScene.h">
+      <Filter>Dx2D Framework\3. GameClasses\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Dx2D Framework\2. Manager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Dx2D Framework\2. Manager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelManager.h">
+      <Filter>Dx2D Framework\2. Manager\Panel</Filter>
+    </ClInclude>
+    <ClInclude Include="Panel.h">
+      <Filter>Dx2D Framework\2. Manager\Panel</Filter>
+    </ClInclude>
+    <ClInclude Include="SquadManager.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerData.h">
+      <Filter>Dx2D Framework\3. GameClasses\BattleData</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadManager.h" />
+    <ClInclude Include="ThreadPool.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="MainLoadScene.h" />
+    <ClInclude Include="LoadScene.h" />
+    <ClInclude Include="LobbyScene.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletManager.h" />
+    <ClInclude Include="__vector.h">
+      <Filter>Dx2D Framework\3. GameClasses\util_header</Filter>
+    </ClInclude>
+    <ClInclude Include="memorypool.h">
+      <Filter>Dx2D Framework\3. GameClasses\util_header</Filter>
+    </ClInclude>
+    <ClInclude Include="pkp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>Dx2D Framework\1. MainClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>Dx2D Framework\2. Manager\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11_2D.cpp">
+      <Filter>Dx2D Framework\1. MainClasses\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Dx2D Framework\1. MainClasses\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>UnUsed</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct2DManager.cpp">
+      <Filter>Dx2D Framework\2. Manager\D2D</Filter>
+    </ClCompile>
+    <ClCompile Include="TextManager.cpp">
+      <Filter>Dx2D Framework\2. Manager\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBase.cpp">
+      <Filter>Dx2D Framework\2. Manager\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Dx2D Framework\2. Manager\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageManager.cpp">
+      <Filter>Dx2D Framework\2. Manager\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Dx2D Framework\0. Shader Files\ShaderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\Attachment.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\AttachmentLoader.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\Bone.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\BoneData.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\BoundingBoxAttachment.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\Event.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\EventData.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\extension.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\IkConstraint.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\IkConstraintData.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\Json.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\MeshAttachment.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\RegionAttachment.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\Skeleton.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\SkeletonBounds.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\SkeletonJson.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\Skin.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\SkinnedMeshAttachment.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\Slot.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\SlotData.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\Animation.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\AnimationState.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\AnimationStateData.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\Atlas.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\AtlasAttachmentLoader.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTimer.cpp">
+      <Filter>Dx2D Framework\2. Manager\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\_Libraries\Spine\src\spine\SkeletonData.c">
+      <Filter>Dx2D Framework\Ohter_LIB\SPINE</Filter>
+    </ClCompile>
+    <ClCompile Include="TaticDoll.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\TaticDollBase</Filter>
+    </ClCompile>
+    <ClCompile Include="AK12.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\GRF\_AR</Filter>
+    </ClCompile>
+    <ClCompile Include="GuA91.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\GRF\_AR</Filter>
+    </ClCompile>
+    <ClCompile Include="spineBase.cpp">
+      <Filter>Dx2D Framework\2. Manager\spineMotion</Filter>
+    </ClCompile>
+    <ClCompile Include="spineMotion.cpp">
+      <Filter>Dx2D Framework\2. Manager\spineMotion</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleMap.cpp">
+      <Filter>Dx2D Framework\2. Manager\BattleMap</Filter>
+    </ClCompile>
+    <ClCompile Include="BTM_Loader.cpp">
+      <Filter>Dx2D Framework\2. Manager\BattleMap</Filter>
+    </ClCompile>
+    <ClCompile Include="ARCHITECT.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\IRB</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleScene.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GriffonDoll.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\TaticDollBase</Filter>
+    </ClCompile>
+    <ClCompile Include="EllipseBase.cpp">
+      <Filter>Dx2D Framework\2. Manager\Ellipse</Filter>
+    </ClCompile>
+    <ClCompile Include="EllipseCol.cpp">
+      <Filter>Dx2D Framework\2. Manager\Ellipse</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleDataBse.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\BattleData</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\MapManage</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Dx2D Framework\2. Manager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Panel.cpp">
+      <Filter>Dx2D Framework\2. Manager\Panel</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelManager.cpp">
+      <Filter>Dx2D Framework\2. Manager\Panel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerData.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\BattleData</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadManager.cpp" />
+    <ClCompile Include="ThreadPool.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="MainLoadScene.cpp" />
+    <ClCompile Include="LoadScene.cpp" />
+    <ClCompile Include="LobbyScene.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="pkp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Dx11_2D.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Dx11_2D.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\_Shader\Circle_Shader.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\Effect.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\LoadCircle_Shader.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\NoiseTexture.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\Rect.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\Sprite.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\Sprite2_alpha.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\Texture.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\Light.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\Light2.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\TextureBase.hlsl">
+      <Filter>Dx2D Framework\0. Shader Files\_files</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd">
+      <Filter>UnUsed</Filter>
+    </None>
+    <None Include="__vector.inl">
+      <Filter>Dx2D Framework\3. GameClasses\util_header</Filter>
+    </None>
+    <None Include="memorypool.inl">
+      <Filter>Dx2D Framework\3. GameClasses\util_header</Filter>
+    </None>
+  </ItemGroup>
+</Project>

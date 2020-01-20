@@ -1,0 +1,23 @@
+bg.png
+size: 1024, 1024
+face: 2
+ground{
+	rotate: false
+	xy: 0, 384
+	size: 1024, 384
+	offset: 0, 0
+	draworder: 0
+	scl: 0.02, 0.022, 0
+	rot: 0, 0, 0
+	trn: 0, 0, 0
+},
+back1{
+	rotate: false
+	xy: 0, 0
+	size: 1024, 128
+	offset: 0, 0
+	draworder: 1
+	scl: 0.02, 0.025, 0
+	rot: 0, 0, 0
+	trn: 0, 10, 0
+}
