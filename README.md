@@ -1,27 +1,40 @@
-# [ 2019 - 11 - 30 ]  Updated Class & Algorithm
+# [ 2020 - 01 - 21 ]  Updated Project & Spine2D
 
-## Tactical Unit Class
-First, New add TacticalDoll class and explain the code flow
+## Added Tactical Unit Class
+ First, New add 'TacticalDoll' class and explain the code flow
 
-### - FNFAL
-IOPLines AttackRifle Model, Skill is fired 3 Grenade at the selected position.
+### 1. AK12
+ 'Aliance_Griffon' type of taticdoll.
 
-### - NTW20
-IOPLines SniperRifle Model, Skill is not implemented.
+### 2. PKP
+ 'Aliance_Griffon' type of taticdoll.
 
-### - ARCHITECT
-IOPLines NoneType Model, Skill is fire the missle which one has huge range & damage
-But, this missle got Long Cooldowntime and also used only third time in battle site.
-
-Also this model has a Special Active.
-When this Model shoot Normal Attack, Check the random value of Special Normal Attack.
-If the value was conformed the huddle, Changed the motion Special Normal Attack.
-
-### - JAEGER
-SNVLines SniperRifle Model, Skill is not implemented.
+### 3. GuA91
+ 'Aliance_Griffon' type of taticdoll.
 
 
-## Thread UnCiphing
-File .ab was Ciphing By Chain-Block-Ciphing.
+## Changed Class
+ Second, There are classes that change, delete, or create new classes as they are ported.
 
-. . .
+
+### 1. VisualBar Delete
+ That class can be replaced by one function.
+
+
+### 2. IOPtacDoll / SNVtacDoll Delete & Merge TaticDoll
+ I had a lot of trouble! I thought this inheritance was too complicated.
+So we transformed them into units with one parent class, and there were changes in the internal functions.
+
+
+### 3. spineBase / spineMotion Added instead of Motion / MotionManager Class
+ Now that we're able to use spine2D, we deleted the old class.
+ 
+
+### 4. MemoryPool Class Added
+ This newly created class is intended to prevent framedrops on frequent creation and deletion of memory.
+ 
+ 
+### 5. Player singleton delete
+ The Player class was originally a singleton, but with this task, it is bundled with the BattleData class.
+Also, by managing all the tactical dolls used in battle as a vector, it is not as cumbersome as before, 
+and there is no need to deepen the exception handling.
