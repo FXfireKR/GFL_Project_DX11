@@ -220,14 +220,48 @@ void TaticDoll::IsEnemy_at()
 	/*
 		기존 공격범위에 의한 공격
 	*/
+
 	iter_mCollision iter;
+
+	size_t EnemyLoopSize;		//	순회해야할 사이즈
+	
+	switch (alianceType)
+	{
+	case ALIANCE_NONE:
+		break;
+	case ALIANCE_GRIFFON:
+		EnemyLoopSize = BDATA->getCurrUnits().size();
+		break;
+
+	case ALIANCE_IRONBLOD:
+	case ALIANCE_SCCOM:
+	case ALIANCE_PEREDEUS:
+		EnemyLoopSize = PLAYER->getPlayerSquad(PLAYER->getCurrentSquad())->mSquad.size();	
+		break;
+	}
 
 	//	사정거리가 존재한다면,
 	if ((iter = mCollision.find("MAX_RANGE")) != mCollision.end())
 	{
-		for (size_t i = 0; i < BDATA->getCurrUnits().size(); ++i)
+		for (size_t i = 0; i < EnemyLoopSize; ++i)
 		{
-			TaticDoll* object = BDATA->getObject(i);
+			TaticDoll* object;
+			iter = mCollision.find("MAX_RANGE");
+
+			switch (alianceType)
+			{
+			case ALIANCE_NONE:
+				break;
+			case ALIANCE_GRIFFON:
+				object = BDATA->getObject(i);
+				break;
+
+			case ALIANCE_IRONBLOD:
+			case ALIANCE_SCCOM:
+			case ALIANCE_PEREDEUS:
+				object = PLAYER->getIOPdoll_crntSquad(i);
+				break;
+			}
 			
 			//	살아있지않으면 패스
 			if (!object->getAlive())
@@ -237,6 +271,10 @@ void TaticDoll::IsEnemy_at()
 				TargetID = -1;
 				continue;
 			}
+
+
+			if (iter == mCollision.end())
+				int a = 10;
 
 			//	이미 사거리 내에 있다면
 			else if (FindEnemy_ID(i))
@@ -252,9 +290,11 @@ void TaticDoll::IsEnemy_at()
 			}
 
 			//	적군의 SELF와 최대 사거리가 접하고있다면 , 살아있다면
+			if (iter == mCollision.end())
+				int a = 10;
+
 			else if (iter->second->EllipseCollision_Check(object->getCollision("SELF")))
 			{
-
 				if ((iter = mCollision.find("MIN_RANGE")) != mCollision.end())
 				{
 					if (!iter->second->PointCollision_Check(object->getCharacterPos().x, object->getCharacterPos().y))
@@ -313,7 +353,22 @@ void TaticDoll::Set_MinTargetting()
 		//사거리 내의 적으로 판단한다.
 		for (auto& it : vRange)
 		{
-			TaticDoll* object = BDATA->getObject(it);
+			TaticDoll* object;
+
+			switch (alianceType)
+			{
+			case ALIANCE_NONE:
+				break;
+			case ALIANCE_GRIFFON:
+				object = BDATA->getObject(it);
+				break;
+
+			case ALIANCE_IRONBLOD:
+			case ALIANCE_SCCOM:
+			case ALIANCE_PEREDEUS:
+				object = PLAYER->getIOPdoll_crntSquad(it);
+				break;
+			}
 
 			if (iter->second->PointCollision_Check(object->getCharacterPos().x, object->getCharacterPos().y))
 			{
@@ -336,7 +391,22 @@ void TaticDoll::Set_Targetting_Angle()
 
 	if (TargetID != -1 && !motion->isCurrent("move"))
 	{
-		TaticDoll* object = BDATA->getObject(TargetID);
+		TaticDoll* object;
+
+		switch (alianceType)
+		{
+		case ALIANCE_NONE:
+			break;
+		case ALIANCE_GRIFFON:
+			object = BDATA->getObject(TargetID);
+			break;
+
+		case ALIANCE_IRONBLOD:
+		case ALIANCE_SCCOM:
+		case ALIANCE_PEREDEUS:
+			object = PLAYER->getIOPdoll_crntSquad(TargetID);
+			break;
+		}
 
 		if (object != nullptr)
 			Angle = getAngle(Pos.x, Pos.y, object->getCharacterPos().x, object->getCharacterPos().y);
@@ -409,4 +479,16 @@ void TaticDoll::Character_GetDamage(const Status & st)
 	}
 	//else
 		//DAMAGELOG->Create_Damage(cPos.x, dPos.y, -1, 0);
+}
+
+void TaticDoll::Render_VisualBar(D3DXVECTOR2 _pos, int _curHp, int _maxHp, D3DXVECTOR2 _size, ColorF _frontColor, ColorF _backColor)
+{
+	D3DXVECTOR2 pos = _pos;
+
+	pos.x -= CameraPositionX;
+	pos.y += CameraPositionY;
+
+	D2DX->renderRect(pos.x, pos.y, _size.x, _size.y, _frontColor);
+	D2DX->renderRect(pos.x, pos.y, (static_cast<FLOAT>(_curHp)) / (static_cast<FLOAT>(_maxHp)) * _size.x, _size.y, _frontColor, true);
+	
 }

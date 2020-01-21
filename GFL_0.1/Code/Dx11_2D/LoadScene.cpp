@@ -64,10 +64,10 @@ void LoadScene::update()
 
 	if (!LOADMANAGER->getAutoInit())
 	{
-		if (LOADMANAGER->getLoadListSize() < 1)
-		{
-			SCENE->Change_Scene(LOADMANAGER->getNextScene());
-		}
+		//if (LOADMANAGER->getLoadListSize() < 1)
+		//{
+		//	SCENE->Change_Scene(LOADMANAGER->getNextScene());
+		//}
 	}
 }
 

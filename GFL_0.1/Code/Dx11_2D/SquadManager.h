@@ -12,7 +12,7 @@ struct tagSquad
 	UINT nowNodeID;
 	UINT nextNodeID;
 
-	UINT squadLeaderID;
+	SINT squadLeaderID;
 
 	float Angle;
 
@@ -43,7 +43,7 @@ public:
 		{
 			tagSquad<T>* temp = new tagSquad<T>;
 			temp->squadLeader = nullptr;
-			temp->squadLeaderID = 0;
+			temp->squadLeaderID = -1;
 			mManager.insert(make_pair(i + 1, temp));
 		}
 	};
@@ -83,12 +83,12 @@ public:
 
 				if (!sameID)
 				{
-					mManager.find(squadID)->second->mSquad.insert(make_pair(mManager.find(squadID)->second->mSquad.size() + 1, temp));
+					mManager.find(squadID)->second->mSquad.insert(make_pair(mManager.find(squadID)->second->mSquad.size(), temp));
 					temp->getID()->SquadMem_ID = mManager.find(squadID)->second->mSquad.size();
 					temp->getID()->Squad_ID = squadID;
 
 					if (mManager.find(squadID)->second->squadLeaderID == -1)
-						mManager.find(squadID)->second->squadLeaderID = 1;
+						mManager.find(squadID)->second->squadLeaderID = 0;
 				}
 			}
 		}

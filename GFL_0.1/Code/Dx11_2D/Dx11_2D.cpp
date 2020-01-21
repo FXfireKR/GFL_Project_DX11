@@ -67,7 +67,7 @@ struct ExitMemoryLeakChecker
 
 	~ExitMemoryLeakChecker()
 	{
-		//_CrtDumpMemoryLeaks();
+		_CrtDumpMemoryLeaks();
 	}
 } MemLeakChecker;
 

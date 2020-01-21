@@ -35,12 +35,6 @@
     <Filter Include="UnUsed">
       <UniqueIdentifier>{fd3ddb0a-a34f-4c7e-a190-e47d8ba80bff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Dx2D Framework\2. Manager\D2D">
-      <UniqueIdentifier>{22d79c9f-43ca-4741-a627-f9879b7bac42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Dx2D Framework\2. Manager\singleton">
-      <UniqueIdentifier>{ad1fc3ad-6a44-4ac3-8968-102c83d88283}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Dx2D Framework\2. Manager\Text">
       <UniqueIdentifier>{fc648b56-fb68-4b08-9035-2caa07471857}</UniqueIdentifier>
     </Filter>
@@ -86,9 +80,6 @@
     <Filter Include="Dx2D Framework\3. GameClasses\Scene">
       <UniqueIdentifier>{05db9142-b93d-456d-8261-11967770d59b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Dx2D Framework\2. Manager\spineMotion">
-      <UniqueIdentifier>{c24b7c71-5f08-4619-8d28-0812755ec9cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Dx2D Framework\2. Manager\BattleMap">
       <UniqueIdentifier>{b352d8e6-e9ff-4563-8a6a-0a76d226365a}</UniqueIdentifier>
     </Filter>
@@ -115,6 +106,24 @@
     </Filter>
     <Filter Include="Dx2D Framework\3. GameClasses\TaticDoll\Manager">
       <UniqueIdentifier>{98f53588-50c2-4470-9ea1-a4a382ed2a3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Bullet">
+      <UniqueIdentifier>{5eefbdff-dda1-4c46-9830-d8ac19023359}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Sound">
+      <UniqueIdentifier>{2df7defb-b5ee-4d10-882b-eda2660a9818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Direct2D">
+      <UniqueIdentifier>{22d79c9f-43ca-4741-a627-f9879b7bac42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\SpineMotion">
+      <UniqueIdentifier>{c24b7c71-5f08-4619-8d28-0812755ec9cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\Singleton">
+      <UniqueIdentifier>{ad1fc3ad-6a44-4ac3-8968-102c83d88283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\LoadResource">
+      <UniqueIdentifier>{3c8c2bc7-f31e-4c0b-ba54-5b99d190bfcc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -152,13 +161,13 @@
       <Filter>Dx2D Framework\3. GameClasses\util_header</Filter>
     </ClInclude>
     <ClInclude Include="Direct2DManager.h">
-      <Filter>Dx2D Framework\2. Manager\D2D</Filter>
+      <Filter>Dx2D Framework\2. Manager\Direct2D</Filter>
     </ClInclude>
     <ClInclude Include="SingletonBase.h">
-      <Filter>Dx2D Framework\2. Manager\singleton</Filter>
+      <Filter>Dx2D Framework\2. Manager\Singleton</Filter>
     </ClInclude>
     <ClInclude Include="singleton.h">
-      <Filter>Dx2D Framework\2. Manager\singleton</Filter>
+      <Filter>Dx2D Framework\2. Manager\Singleton</Filter>
     </ClInclude>
     <ClInclude Include="TextBase.h">
       <Filter>Dx2D Framework\2. Manager\Text</Filter>
@@ -269,10 +278,10 @@
       <Filter>Dx2D Framework\3. GameClasses\TaticDoll\GRF\_AR</Filter>
     </ClInclude>
     <ClInclude Include="spineBase.h">
-      <Filter>Dx2D Framework\2. Manager\spineMotion</Filter>
+      <Filter>Dx2D Framework\2. Manager\SpineMotion</Filter>
     </ClInclude>
     <ClInclude Include="spineMotion.h">
-      <Filter>Dx2D Framework\2. Manager\spineMotion</Filter>
+      <Filter>Dx2D Framework\2. Manager\SpineMotion</Filter>
     </ClInclude>
     <ClInclude Include="BattleMap.h">
       <Filter>Dx2D Framework\2. Manager\BattleMap</Filter>
@@ -334,21 +343,39 @@
     <ClInclude Include="PlayerData.h">
       <Filter>Dx2D Framework\3. GameClasses\BattleData</Filter>
     </ClInclude>
-    <ClInclude Include="LoadManager.h" />
-    <ClInclude Include="ThreadPool.h" />
-    <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="MainLoadScene.h" />
-    <ClInclude Include="LoadScene.h" />
-    <ClInclude Include="LobbyScene.h" />
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="BulletManager.h" />
     <ClInclude Include="__vector.h">
       <Filter>Dx2D Framework\3. GameClasses\util_header</Filter>
     </ClInclude>
     <ClInclude Include="memorypool.h">
       <Filter>Dx2D Framework\3. GameClasses\util_header</Filter>
     </ClInclude>
-    <ClInclude Include="pkp.h" />
+    <ClInclude Include="pkp.h">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\GRF\_MG</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManager.h">
+      <Filter>Dx2D Framework\2. Manager\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Dx2D Framework\2. Manager\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="MainLoadScene.h">
+      <Filter>Dx2D Framework\3. GameClasses\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadScene.h">
+      <Filter>Dx2D Framework\3. GameClasses\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyScene.h">
+      <Filter>Dx2D Framework\3. GameClasses\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Dx2D Framework\2. Manager\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>Dx2D Framework\2. Manager\LoadResource</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadManager.h">
+      <Filter>Dx2D Framework\2. Manager\LoadResource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainGame.cpp">
@@ -367,7 +394,7 @@
       <Filter>UnUsed</Filter>
     </ClCompile>
     <ClCompile Include="Direct2DManager.cpp">
-      <Filter>Dx2D Framework\2. Manager\D2D</Filter>
+      <Filter>Dx2D Framework\2. Manager\Direct2D</Filter>
     </ClCompile>
     <ClCompile Include="TextManager.cpp">
       <Filter>Dx2D Framework\2. Manager\Text</Filter>
@@ -475,10 +502,10 @@
       <Filter>Dx2D Framework\3. GameClasses\TaticDoll\GRF\_AR</Filter>
     </ClCompile>
     <ClCompile Include="spineBase.cpp">
-      <Filter>Dx2D Framework\2. Manager\spineMotion</Filter>
+      <Filter>Dx2D Framework\2. Manager\SpineMotion</Filter>
     </ClCompile>
     <ClCompile Include="spineMotion.cpp">
-      <Filter>Dx2D Framework\2. Manager\spineMotion</Filter>
+      <Filter>Dx2D Framework\2. Manager\SpineMotion</Filter>
     </ClCompile>
     <ClCompile Include="BattleMap.cpp">
       <Filter>Dx2D Framework\2. Manager\BattleMap</Filter>
@@ -519,15 +546,33 @@
     <ClCompile Include="PlayerData.cpp">
       <Filter>Dx2D Framework\3. GameClasses\BattleData</Filter>
     </ClCompile>
-    <ClCompile Include="LoadManager.cpp" />
-    <ClCompile Include="ThreadPool.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
-    <ClCompile Include="MainLoadScene.cpp" />
-    <ClCompile Include="LoadScene.cpp" />
-    <ClCompile Include="LobbyScene.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="BulletManager.cpp" />
-    <ClCompile Include="pkp.cpp" />
+    <ClCompile Include="pkp.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\TaticDoll\GRF\_MG</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Dx2D Framework\2. Manager\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>Dx2D Framework\2. Manager\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadScene.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyScene.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MainLoadScene.cpp">
+      <Filter>Dx2D Framework\3. GameClasses\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Dx2D Framework\2. Manager\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadManager.cpp">
+      <Filter>Dx2D Framework\2. Manager\LoadResource</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadPool.cpp">
+      <Filter>Dx2D Framework\2. Manager\LoadResource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx11_2D.rc">

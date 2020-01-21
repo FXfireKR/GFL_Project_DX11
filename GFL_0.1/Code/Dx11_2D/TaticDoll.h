@@ -145,6 +145,9 @@ public:
 
 	void Character_GetDamage(const Status& st);
 
+	void Render_VisualBar(D3DXVECTOR2 _pos, int _curHp, int _maxHp,
+		D3DXVECTOR2 _size, ColorF _frontColor, ColorF _backColor = { 0.0f, 0.0f, 0.0f, 0.0f });
+
 	void StopMoving();											//움직이는걸 멈춤
 	void SetMovePoint();										//클릭된 장소를 셋팅해줌
 	void MoveClickPoint();										//지정된 장소로 이동

@@ -31,6 +31,11 @@ HRESULT GuA91::init()
 			motion->setMotionAction("attack", GuA91_Attack_Action);
 			motion->setMotionObject(this);
 			motion->init();
+
+			motion->changeMotion("attack", true, true, 0.125f);
+			motion->changeMotion("die", true, true, 0.125f);
+			motion->changeMotion("move", true, true, 0.125f);
+			motion->changeMotion("wait", true, true, 0.125f);
 		}
 	}
 
@@ -96,21 +101,40 @@ void GuA91::Use_ActiveSkill()
 
 void GuA91::MotionUpdate()
 {
-	if (TargetID != -1)
+	if (curState.HitPoint.curr < 1)
 	{
-		if (motion->isCurrent("wait"))
-			motion->changeMotion("attack", true, true, 0.125f);
-
-		else if (motion->isCurrent("attack"))
+		if (!motion->isCurrent("die"))
 		{
-			// 0.075
-			if (atkColTime > 0.0)
-				motion->pause(-0.01);
+			motion->changeMotion("die", false, true);
+			isAlive = false;
 		}
 	}
 
-	if (!motion->isCurrent("attack"))
-		atkColTime = curState.AimDelay;
+	else
+	{
+		if (TargetID != -1)
+		{
+			if (motion->isCurrent("wait"))
+				motion->changeMotion("attack", true, true, 0.125f);
+
+			else if (motion->isCurrent("attack"))
+			{
+				// 0.075
+				if (atkColTime > 0.0)
+					motion->pause(-0.01);
+			}
+		}
+
+		else
+		{
+			if (motion->isCurrent("attack"))
+				motion->changeMotion("wait", false, true);
+		}
+
+
+		if (!motion->isCurrent("attack"))
+			atkColTime = curState.AimDelay;
+	}
 }
 
 void GuA91::Update_DrawPos()
@@ -129,6 +153,7 @@ void GuA91::Update_DrawPos()
 
 void GuA91::render_VisualBar()
 {
+	Render_VisualBar(DV2(Pos.x - 50.0f, Pos.y - 60.0f), curState.HitPoint.curr, curState.HitPoint.max, DV2(100, 5), ColorF(RGB(0, 200, 0)));
 }
 
 void GuA91::render_Motion()

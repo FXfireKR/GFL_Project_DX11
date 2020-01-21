@@ -9,6 +9,9 @@ private:
 	const float		GuA91_ACL_X = 0.8f;
 	const float		GuA91_ACL_Y = 0.8f;
 
+private:
+	
+
 public:
 	GuA91();
 	~GuA91();

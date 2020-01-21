@@ -101,15 +101,15 @@ void AK12::MotionUpdate()
 
 		else if (motion->isCurrent("attack"))
 		{
-			//static float val = 0.0f;
-			//ImGui::DragFloat("atk", &val, 0.01f);
-
-			if (atkColTime > 0.0)
-			{
-				//ImGui::Text("");
+			if (atkColTime > 0.0)		
 				motion->pause(-0.055);
-			}
 		}
+	}
+
+	else
+	{
+		if (motion->isCurrent("attack"))
+			motion->changeMotion("wait", false, true);
 	}
 
 	if (!motion->isCurrent("attack"))
