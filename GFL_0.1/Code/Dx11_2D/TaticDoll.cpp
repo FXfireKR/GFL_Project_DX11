@@ -56,6 +56,17 @@ HRESULT TaticDoll::init()
 
 void TaticDoll::release()
 {
+	SAFE_RELEASE(_colorBuffer);
+
+	for (auto& iter : mCollision)
+	{
+		if (iter.second != nullptr)
+		{
+			iter.second->Release_Ellipse();
+			SAFE_DELETE(iter.second);
+		}
+	}
+
 	SAFE_DELETE(motion);
 }
 

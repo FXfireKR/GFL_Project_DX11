@@ -90,6 +90,11 @@ void AK12::render()
 
 void AK12::Use_ActiveSkill()
 {
+	if (sklColTime < D3DX_16F_EPSILON)
+	{
+		motion->changeMotion("skill", false, true, 0.125f);
+		//	skillSound Export 
+	}
 }
 
 void AK12::MotionUpdate()
@@ -205,4 +210,18 @@ void AK12::AK12_Attack_Action(void * _this)
 	}
 
 
+}
+
+void AK12::AK12_Skill_Action(void * _this)
+{
+	AK12* object = (AK12*)_this;
+	spineMotion* motion = object->motion;
+	float curTime = motion->getCurTime();
+
+	if (motion->getCurTime() > motion->getEndTime())
+	{
+		object->atkColTime = object->curState.AttackDelay;
+		motion->changeMotion("wait", false, true, 0.15f);
+		object->moveAble = true;
+	}
 }

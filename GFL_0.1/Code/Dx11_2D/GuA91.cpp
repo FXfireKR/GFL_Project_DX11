@@ -48,7 +48,7 @@ HRESULT GuA91::init()
 	if (mCollision.count("MAX_RANGE") == 0)
 		mCollision.insert(make_pair("MAX_RANGE", new EllipseBase(&Pos.x, &Pos.y, axisMax_LongRad, axisMax_ShortRad)));
 
-	moveSpd = GuA91_SPEED;
+	moveSpd = GUA91_SPEED;
 
 	curState.HitPoint.max = curState.HitPoint.curr = 3000;
 	curState.Accuracy = 1.0;
@@ -139,8 +139,8 @@ void GuA91::MotionUpdate()
 
 void GuA91::Update_DrawPos()
 {
-	motion->p_getScale().x = GuA91_ACL_X;
-	motion->p_getScale().y = GuA91_ACL_Y;
+	motion->p_getScale().x = GUA91_ACL_X;
+	motion->p_getScale().y = GUA91_ACL_Y;
 
 	//	Flip시 각도 변환량
 	Flip = (Angle > HPI && Angle < TPI) ? true : false;
@@ -153,7 +153,11 @@ void GuA91::Update_DrawPos()
 
 void GuA91::render_VisualBar()
 {
-	Render_VisualBar(DV2(Pos.x - 50.0f, Pos.y - 60.0f), curState.HitPoint.curr, curState.HitPoint.max, DV2(100, 5), ColorF(RGB(0, 200, 0)));
+	if (motion->isCurrent("attack"))
+		Render_VisualBar(DV2(Pos.x - 50.0f, Pos.y - GUA91_DOWN_Y), curState.HitPoint.curr, curState.HitPoint.max, DV2(100, 5), ColorF(RGB(0, 200, 0)));
+
+	else
+		Render_VisualBar(DV2(Pos.x - 50.0f, Pos.y - GUA91_STAND_Y), curState.HitPoint.curr, curState.HitPoint.max, DV2(100, 5), ColorF(RGB(0, 200, 0)));
 }
 
 void GuA91::render_Motion()
@@ -171,9 +175,7 @@ void GuA91::render_Ellipse()
 void GuA91::GuA91_Attack_Action(void * _this)
 {
 	GuA91* object = (GuA91*)_this;
-	
-	//static float shotcount[3] = { 0.0f, };
-	//ImGui::DragFloat3("ShotTime", shotcount, 0.01f);
+
 
 
 	if (object->atkColTime < FLOAT_EPSILON)

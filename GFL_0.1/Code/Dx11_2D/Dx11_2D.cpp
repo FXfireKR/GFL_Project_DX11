@@ -1,7 +1,20 @@
 ﻿// Dx11_2D.cpp : 응용 프로그램에 대한 진입점을 정의합니다.
 //
 
+
+//	MemoryLeak Check
+#define CRTDBG_MAP_ALLOC 
+#include <crtdbg.h>
+
+//	Debug Flag
+#ifdef _DEBUG
+static int nFlag = _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+#endif
+
+
 #include "stdafx.h"
+
 #include "Dx11_2D.h"
 #include "MainGame.h"
 #include "GameTimer.h"
@@ -19,7 +32,6 @@ POINT		ptAdjWinSize;
 MainGame* pMainGame;
 
 bool		appPaused = false;
-
 
 float CameraPositionX = 0.0f;
 float CameraPositionY = 0.0f;
@@ -52,24 +64,6 @@ depthStencil	DepthEnable;
 
 mutex			locker;
 
-struct ExitMemoryLeakChecker
-{
-	ExitMemoryLeakChecker()
-	{
-		GAMETIME->Reset();
-
-		//_CrtSetBreakAlloc(1294);
-		//_CrtSetBreakAlloc(1296);
-		//_CrtSetBreakAlloc(1296);
-		//_CrtSetBreakAlloc(1297);
-		//_CrtSetBreakAlloc(1302);
-	}
-
-	~ExitMemoryLeakChecker()
-	{
-		_CrtDumpMemoryLeaks();
-	}
-} MemLeakChecker;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -82,6 +76,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+	GAMETIME->Reset();
+
     // 전역 문자열을 초기화합니다.
     MyRegisterClass(hInstance);
     // 응용 프로그램 초기화를 수행합니다:
@@ -123,26 +119,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				Sleep(100);
 		}
 	}
-
-	//	Old Code
-	/*
-	//while (true)
-	//{
-	//	if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-	//	{
-	//		if (msg.message == WM_QUIT)
-	//			break;
-
-	//		TranslateMessage(&msg);
-	//		DispatchMessage(&msg);
-	//	}
-	//	else
-	//	{
-	//		pMainGame->Update();
-	//		pMainGame->Render();
-	//	}
-	//}
-	*/
 
 	GAMETIME->delInstance();
 

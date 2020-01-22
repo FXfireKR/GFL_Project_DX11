@@ -120,6 +120,8 @@ MainGame::MainGame()
 	D2DX->init();
 	TEXT->DWInit();
 	SOUNDMANAGER->init();
+	SHADER->getInstance();
+	DRAW->init();
 
 	ThreadPool* beforeGame = new ThreadPool;
 	beforeGame->SetThread(8);
@@ -143,7 +145,6 @@ void MainGame::Init()
 {
 
 	SCENE->Create_Scene("BATTLE", new BattleScene);
-	SCENE->Create_Scene("FirstLoad", new MainLoadScene);
 	SCENE->Create_Scene("LOAD", new LoadScene);
 	SCENE->Create_Scene("LOBBY", new LobbyScene);
 	//SCENE->Create_Scene("STORY", new StoryScene);
@@ -155,8 +156,8 @@ void MainGame::Init()
 
 void MainGame::Update()
 {
-	const float Speed = 450.0f;
 
+	const float Speed = 450.0f;
 	{
 		if (KEYMANAGER->isKeyStayDown(VK_LEFT))
 			CameraPositionX -= GAMETIME->DeltaTime() * Speed;
@@ -202,8 +203,6 @@ void MainGame::Render()
 	DXGI_SWAP_CHAIN_DESC swapDesc;
 	HRESULT hr = SwapChain->GetDesc(&swapDesc);
 
-	//g_pTimeManager->Render();
-
 	if (SUCCEEDED(hr))
 		if (d2Rtg)
 		{
@@ -233,6 +232,9 @@ void MainGame::Render()
 
 void MainGame::Release()
 {
+	SAFE_RELEASE(DepthEnable.depthStencilState);
+	SAFE_RELEASE(DepthAble.depthStencilState);
+
 	ImGui::Delete(); // ImGui ÇØÁ¦
 
 	SAFE_DEL(vpMatrix);
@@ -242,6 +244,14 @@ void MainGame::Release()
 	TEXT->release();
 	TEXT->delInstance();
 	SHADER->delInstance();	
+	SCENE->delInstance();
+	IMAGEMAP->delInstance();
+	SOUNDMANAGER->delInstance();
+	MAP->delInstance();
+	LOADMANAGER->delInstance();
+	GAMETIME->delInstance();
+	DRAW->delInstance();
+	BULLET->delInstance();
 
 	KEYMANAGER->delInstance();
 }

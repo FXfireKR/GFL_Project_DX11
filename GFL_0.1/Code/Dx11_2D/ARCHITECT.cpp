@@ -136,8 +136,8 @@ void ARCHITECT::Update_DrawPos()
 
 	//	Flip시 각도 변환량
 	Flip = (Angle > HPI && Angle < TPI) ? true : false;
-	motion->p_getRotate().y = Flip ? (motion->getRotate().y < 180.0f ? motion->p_getRotate().y + (500.0 * DELTA) : 180.0f)
-		: (motion->getRotate().y > 0.0f ? motion->p_getRotate().y - (500.0 * DELTA) : 0.0f);
+	motion->p_getRotate().y = Flip ? (motion->getRotate().y > 0.0f ? motion->p_getRotate().y - (500.0 * DELTA) : 0.0f) :
+		(motion->getRotate().y < 180.0f ? motion->p_getRotate().y + (500.0 * DELTA) : 180.0f);
 
 	motion->p_getTrans().x = Pos.x;
 	motion->p_getTrans().y = Pos.y;

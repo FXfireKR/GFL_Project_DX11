@@ -28,4 +28,5 @@ public:
 
 public:
 	static void AK12_Attack_Action(void* _this);
+	static void AK12_Skill_Action(void* _this);
 };

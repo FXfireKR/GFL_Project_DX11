@@ -4,10 +4,13 @@
 class GuA91 : public TaticDoll
 {
 private:
-	const double	GuA91_SPEED = 125.0;
+	const double	GUA91_SPEED = 125.0;
+
+	const float		GUA91_STAND_Y = 120.0f;
+	const float		GUA91_DOWN_Y  =	80.0f;
 					
-	const float		GuA91_ACL_X = 0.8f;
-	const float		GuA91_ACL_Y = 0.8f;
+	const float		GUA91_ACL_X = 0.8f;
+	const float		GUA91_ACL_Y = 0.8f;
 
 private:
 	
