@@ -25,6 +25,7 @@ private:
 
 private:
 	map<string, ImageResource*> mResourece;
+	map<string, ImageResource*>::iterator miResourece;
 
 public:
 	ImageManager();
@@ -41,16 +42,16 @@ public:
 public:
 	ID3D11ShaderResourceView* getTexture(__in string key)
 	{
-		if (mResourece.count(key))
-			return mResourece.find(key)->second->texture;
-		else
-			return nullptr;
+		if ((miResourece = mResourece.find(key)) != mResourece.end())
+			return miResourece->second->texture;
+		return nullptr;
 	}
 
 	ImageResource* getImageInfo(__in string key)
 	{
-		if (mResourece.count(key))
-			return mResourece.find(key)->second;
+		if ((miResourece = mResourece.find(key)) != mResourece.end())
+			return miResourece->second;
+		return nullptr;
 	}
 
 	inline bool isValidKey(__in string key)

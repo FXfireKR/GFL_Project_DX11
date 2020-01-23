@@ -57,13 +57,13 @@ void BattleScene::render()
 		{
 			PLAYER->getIOPdoll_crntSquad(it.y)->render();
 			PLAYER->getIOPdoll_crntSquad(it.y)->render_Motion();
-			PLAYER->getIOPdoll_crntSquad(it.y)->render_VisualBar();
+			//PLAYER->getIOPdoll_crntSquad(it.y)->render_VisualBar();
 		}
 		else
 		{
 			BDATA->getObject(it.y)->render();
 			BDATA->getObject(it.y)->render_Motion();
-			BDATA->getObject(it.y)->render_VisualBar();
+			//BDATA->getObject(it.y)->render_VisualBar();
 		}
 	}
 

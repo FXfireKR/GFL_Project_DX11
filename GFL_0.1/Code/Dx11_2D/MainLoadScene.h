@@ -1,11 +1,9 @@
 #pragma once
 #include "Scene.h"
-#include "Image.h"
 
 class MainLoadScene : public Scene
 {
 private:
-	Image* image;
 	mutex locker;
 
 public:

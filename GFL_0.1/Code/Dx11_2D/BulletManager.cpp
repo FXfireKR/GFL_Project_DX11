@@ -16,6 +16,11 @@ HRESULT BulletManager::init()
 	if (Bullets == nullptr)
 		Bullets = new memorypool<Bullet>(80);
 
+	//DRAW->LoadImage_d2d("RF_BLT", L"../RemakeResource/EFFECT/riflebullet.png");
+	//DRAW->LoadImage_d2d("MG_BLT", L"../RemakeResource/EFFECT/machinegunbullet.png");
+
+	//EFFECT->Create_Sprite("FireFrame", 50, 48);
+
 	return S_OK;
 }
 
@@ -36,6 +41,17 @@ void BulletManager::update()
 		if (Iter->getArrive())
 			Bullets->release(i - 1);
 	}
+
+	//for (Bullet* Iter : Bullets->getUsage())
+	//{
+	//	if (!Iter->getFire()) continue;
+
+	//	Iter->update();
+
+	//	//	메모리 반환
+	//	if (Iter->getArrive())
+	//		Bullets->release(Iter);
+	//}
 }
  
 void BulletManager::render()

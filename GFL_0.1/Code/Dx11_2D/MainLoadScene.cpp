@@ -35,7 +35,6 @@ void MainLoadScene::update()
 {
 	{
 		LOADMANAGER->update();
-		image->update();
 
 		if (!LOADMANAGER->getAutoInit())
 		{

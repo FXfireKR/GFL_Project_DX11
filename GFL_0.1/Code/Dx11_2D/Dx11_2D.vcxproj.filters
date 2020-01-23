@@ -95,9 +95,6 @@
     <Filter Include="Dx2D Framework\3. GameClasses\BattleData">
       <UniqueIdentifier>{d6bd2747-eec1-47be-a788-75c9d0e8807a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Dx2D Framework\3. GameClasses\MapManage">
-      <UniqueIdentifier>{e7ca001f-bcb4-4b22-bd6b-162a74de0bb7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Dx2D Framework\2. Manager\Scene">
       <UniqueIdentifier>{fd5ba61f-165e-4ea4-bb1e-b3c69c656b9f}</UniqueIdentifier>
     </Filter>
@@ -124,6 +121,9 @@
     </Filter>
     <Filter Include="Dx2D Framework\2. Manager\LoadResource">
       <UniqueIdentifier>{3c8c2bc7-f31e-4c0b-ba54-5b99d190bfcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dx2D Framework\2. Manager\MapManage">
+      <UniqueIdentifier>{e7ca001f-bcb4-4b22-bd6b-162a74de0bb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -320,7 +320,7 @@
       <Filter>Dx2D Framework\3. GameClasses\BattleData</Filter>
     </ClInclude>
     <ClInclude Include="MapManager.h">
-      <Filter>Dx2D Framework\3. GameClasses\MapManage</Filter>
+      <Filter>Dx2D Framework\2. Manager\MapManage</Filter>
     </ClInclude>
     <ClInclude Include="AllScene.h">
       <Filter>Dx2D Framework\3. GameClasses\Scene</Filter>
@@ -376,6 +376,9 @@
     <ClInclude Include="LoadManager.h">
       <Filter>Dx2D Framework\2. Manager\LoadResource</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectManager.h" />
+    <ClInclude Include="FrameImage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainGame.cpp">
@@ -532,7 +535,7 @@
       <Filter>Dx2D Framework\3. GameClasses\BattleData</Filter>
     </ClCompile>
     <ClCompile Include="MapManager.cpp">
-      <Filter>Dx2D Framework\3. GameClasses\MapManage</Filter>
+      <Filter>Dx2D Framework\2. Manager\MapManage</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Dx2D Framework\2. Manager\Scene</Filter>
@@ -573,6 +576,9 @@
     <ClCompile Include="ThreadPool.cpp">
       <Filter>Dx2D Framework\2. Manager\LoadResource</Filter>
     </ClCompile>
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
+    <ClCompile Include="FrameImage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx11_2D.rc">

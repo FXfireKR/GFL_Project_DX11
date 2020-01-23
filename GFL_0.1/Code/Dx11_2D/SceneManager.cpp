@@ -11,7 +11,6 @@ SceneManager::~SceneManager()
 {
 	this->release();
 	iterCurScene = mScene.end();
-	SCENE->delInstance();
 }
 
 void SceneManager::release()

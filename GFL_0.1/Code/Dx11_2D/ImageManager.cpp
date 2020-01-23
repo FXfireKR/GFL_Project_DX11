@@ -7,6 +7,7 @@ ImageManager::ImageManager()
 
 ImageManager::~ImageManager()
 {
+	this->release();
 }
 
 void ImageManager::release()

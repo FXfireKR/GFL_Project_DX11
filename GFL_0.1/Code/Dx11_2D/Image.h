@@ -42,21 +42,6 @@ public:		// Define Fnc
 	Image();
 	Image(const Image& other) = delete;						// disable copy construction
 	Image &operator = (const  Image &  other) = delete;		// disable assignment
-	/*Image &operator = (const  Image &  other) 
-	//{
-	//	if (this != &other)
-	//	{
-	//		//1. Allocate memory
-	//		Image* new_Image = new Image;
-
-	//		//2. Release Memory of Old
-	//		
-	//		//3. Object
-
-	//		// Return This Object Follow the RULE
-	//		return *this;
-	//	}
-	}*/
 	~Image();
 
 	void init() ;

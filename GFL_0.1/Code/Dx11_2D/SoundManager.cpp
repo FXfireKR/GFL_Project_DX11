@@ -7,6 +7,7 @@ SoundManager::SoundManager()
 
 SoundManager::~SoundManager()
 {
+	this->release();
 }
 
 void SoundManager::init()

@@ -13,11 +13,12 @@ MapManager::MapManager()
 	//	require 
 	//IMAGEMAP->InsertImage_FromeFile("bg2", "../../_Assets/bg2.png");
 
-	delete loader;
+	SAFE_DELETE(loader);
 }
 
 MapManager::~MapManager()
 {
+	this->release();
 }
 
 HRESULT MapManager::init()
@@ -56,6 +57,8 @@ void MapManager::release()
 		pManager->Release_Panel();
 		SAFE_DEL(pManager);
 	}
+
+	SAFE_DELETE(battleMap);
 }
 
 void MapManager::update()

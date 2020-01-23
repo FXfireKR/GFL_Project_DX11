@@ -173,10 +173,10 @@ void LoadManager::update()
 					SAFE_DEL(loadThreadPool);
 				}
 
-				//SCENE->Change_Scene(this->getNextScene());
+				SCENE->Change_Scene(this->getNextScene());
 
-				//if (autoInit)
-				//	SCENE->Init_Scene();
+				if (autoInit)
+					SCENE->Init_Scene();
 
 				ListPointer = 0;
 				threadLock = false;

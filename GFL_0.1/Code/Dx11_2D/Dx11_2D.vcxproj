@@ -250,8 +250,11 @@
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="Direct2DManager.h" />
     <ClInclude Include="DXComponent.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectManager.h" />
     <ClInclude Include="EllipseBase.h" />
     <ClInclude Include="EllipseCol.h" />
+    <ClInclude Include="FrameImage.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="Dx11_2D.h" />
     <ClInclude Include="GameTimer.h" />
@@ -385,8 +388,11 @@
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Direct2DManager.cpp" />
     <ClCompile Include="Dx11_2D.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="EllipseBase.cpp" />
     <ClCompile Include="EllipseCol.cpp" />
+    <ClCompile Include="FrameImage.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="GriffonDoll.cpp" />
     <ClCompile Include="GuA91.cpp" />

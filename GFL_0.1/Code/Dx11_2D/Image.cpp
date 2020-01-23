@@ -44,6 +44,7 @@ Image::Image() : worldBuffer(nullptr), vertexBuffer(nullptr), vertexLayout(nullp
 
 Image::~Image()
 {
+	this->release();
 }
 
 void Image::init()

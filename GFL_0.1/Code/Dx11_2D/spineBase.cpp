@@ -40,7 +40,22 @@ spineBase::spineBase(spSkeletonData * skeletonData, spAnimationStateData * state
 
 spineBase::~spineBase()
 {
-	
+	delete[] worldVertices;
+	spAnimationStateData_dispose(stateData);
+	spAnimationState_dispose(state);
+	spSkeleton_dispose(skeleton);
+
+	for (auto& iter : SlotNode)
+	{
+		if (iter.second != nullptr)
+		{
+			SAFE_RELEASE(iter.second->colorBuffer);
+			SAFE_RELEASE(iter.second->vertexBuffer);
+			SAFE_DELETE(iter.second);
+		}
+	}
+
+	SAFE_RELEASE(worldBuffer);
 }
 
 void spineBase::setShaderResourceView(string _key)
