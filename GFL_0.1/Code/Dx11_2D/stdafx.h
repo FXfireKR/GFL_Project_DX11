@@ -98,6 +98,7 @@ extern float		CameraPositionY;
 #include "SoundManager.h"
 #include "LoadManager.h"
 #include "BulletManager.h"
+#include "EffectManager.h"
 
 #define D2DX				Direct2DManager::getInstance()
 #define TEXT				TextManager::getInstance()
@@ -115,3 +116,4 @@ extern float		CameraPositionY;
 #define SOUNDMANAGER		SoundManager::getInstance()
 #define LOADMANAGER			LoadManager::getInstance()
 #define BULLET				BulletManager::getInstance()
+#define EFFECT				EffectManager::getInstance()

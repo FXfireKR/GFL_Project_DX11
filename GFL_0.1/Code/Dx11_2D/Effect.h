@@ -11,15 +11,15 @@ private:
 	int FrameX, FrameY;
 	int maxFrameX, maxFrameY;
 
-	FLOAT posX, posY;
-	FLOAT ACL, OPC;
+	FLOAT OPC;
 
 	D3DXVECTOR2 Scale;
 	D3DXVECTOR3 Rotate;
 	D3DXVECTOR2 Trans;
 
 	D3DXVECTOR2	perSize;
-	D3DXVECTOR2	perSize_2;
+	D3DXVECTOR2	minTexCoord;
+	D3DXVECTOR2	maxTexCoord;
 
 	bool EffectEnd;
 	bool render;
@@ -29,13 +29,12 @@ public:
 	Effect();
 	~Effect();
 
-	HRESULT Init_Effect();
-	void Release_Effect();
-
-
-	HRESULT Create_Effect(string k, int maxX, int maxY, float _fps, FLOAT acl = 1.0F, FLOAT opc = 1.0F);
-	HRESULT Get_Rendorder(FLOAT x, FLOAT y);
-	void Update_Effect();
+	HRESULT Create_Effect(string _key, D3DXVECTOR2 _pos, D3DXVECTOR2 _perSize, POINT _maxFrame, float _fps, float _scl = 1.0f, float _opc = 1.0f);
+	void update();
+	
+private:
+	void resetEffect();
+	void updateEffect();
 
 public:
 	inline string getKey() { return key; }
@@ -54,13 +53,14 @@ public:
 	inline int getFrameMaxX() { return maxFrameX; }
 	inline int getFrameMaxY() { return maxFrameY; }
 
-	inline FLOAT getEffectAcl() { return ACL; }
-	inline FLOAT getEffectOpc() { return OPC; }
+	inline D3DXVECTOR2 getEffectScale() { return Scale; }
+	inline D3DXVECTOR3 getEffectRotate() { return Rotate; }
+	inline D3DXVECTOR2 getEffectTrans() { return Trans; }
 
-	inline FLOAT getEffectPositionX() { return posX; }
-	inline FLOAT getEffectPositionY() { return posY; }
-	inline void setEffectPositionX(float x) { posX = x; }
-	inline void setEffectPositionY(float y) { posY = y; }
+	inline D3DXVECTOR2 getMinTexcoord() { return minTexCoord; }
+	inline D3DXVECTOR2 getMaxTexcoord() { return maxTexCoord; }
+
+	inline FLOAT getEffectOpc() { return OPC; }
 
 	inline int getCounter() { return count; }
 

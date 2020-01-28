@@ -108,7 +108,7 @@ void ImageManager::InsertImageFile(string key, const char * _path)
 	}
 }
 
-void ImageManager::InsertImageBinary(string key, string _path)
+void ImageManager::InsertImageBinary(string key, string _path, SINT _frameX, SINT _frameY)
 {
 	if (!mResourece.count(key))
 	{
@@ -247,6 +247,17 @@ void ImageManager::InsertImageBinary(string key, string _path)
 			}
 		}
 
+
+		//	ImageInfo Checker
+		info->fileName = fileName;
+		info->Frame.x = _frameX;
+		info->Frame.y = _frameY;
+
+		if (_frameX != 0)
+			info->perImageSize.x = static_cast<FLOAT>(1.0f / static_cast<FLOAT>(info->Frame.x));
+
+		if (_frameY != 0)
+			info->perImageSize.y = static_cast<FLOAT>(1.0f / static_cast<FLOAT>(info->Frame.y));
 
 		HRESULT hr;
 		D3DX11_IMAGE_LOAD_INFO LoadInfo;

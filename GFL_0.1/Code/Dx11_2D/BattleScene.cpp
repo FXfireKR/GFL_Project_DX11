@@ -33,41 +33,48 @@ void BattleScene::update()
 		iter->update();
 	
 	ZOrder_Sort();
+
+	if (KEYMANAGER->isKeyDown(VK_SPACE))
+		EFFECT->createEffect("shellEffect", DV2(150, 150), 1.0f, 100.0f);
+
+	EFFECT->update();
 }
 
 void BattleScene::render()
 {
-	BTLMAP->testRender(vRendList);
+	//BTLMAP->testRender(vRendList);
 
-	BULLET->render();
+	//BULLET->render();
 
-	for (auto& it : vRendList)
-	{
-		//Ã¶Ç÷ ºĞ´ëÀÎ°¡
-		if (it.x < 100)
-			PLAYER->getIOPdoll_crntSquad(it.y)->render_Ellipse();
-		else
-			BDATA->getObject(it.y)->render_Ellipse();
-	}
+	//for (auto& it : vRendList)
+	//{
+	//	//Ã¶Ç÷ ºĞ´ëÀÎ°¡
+	//	if (it.x < 100)
+	//		PLAYER->getIOPdoll_crntSquad(it.y)->render_Ellipse();
+	//	else
+	//		BDATA->getObject(it.y)->render_Ellipse();
+	//}
 
-	for (auto& it : vRendList)
-	{
-		//Ã¶Ç÷ ºĞ´ëÀÎ°¡
-		if (it.x < 100)
-		{
-			PLAYER->getIOPdoll_crntSquad(it.y)->render();
-			PLAYER->getIOPdoll_crntSquad(it.y)->render_Motion();
-			//PLAYER->getIOPdoll_crntSquad(it.y)->render_VisualBar();
-		}
-		else
-		{
-			BDATA->getObject(it.y)->render();
-			BDATA->getObject(it.y)->render_Motion();
-			//BDATA->getObject(it.y)->render_VisualBar();
-		}
-	}
+	//for (auto& it : vRendList)
+	//{
+	//	//Ã¶Ç÷ ºĞ´ëÀÎ°¡
+	//	if (it.x < 100)
+	//	{
+	//		PLAYER->getIOPdoll_crntSquad(it.y)->render();
+	//		PLAYER->getIOPdoll_crntSquad(it.y)->render_Motion();
+	//		//PLAYER->getIOPdoll_crntSquad(it.y)->render_VisualBar();
+	//	}
+	//	else
+	//	{
+	//		BDATA->getObject(it.y)->render();
+	//		BDATA->getObject(it.y)->render_Motion();
+	//		//BDATA->getObject(it.y)->render_VisualBar();
+	//	}
+	//}
 
-	PLAYER->render();
+	//PLAYER->render();
+
+	EFFECT->render();
 }
 
 void BattleScene::ZOrder_Sort()

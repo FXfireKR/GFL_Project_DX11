@@ -10,19 +10,20 @@ enum IMAGE_TYPE
 	BMP
 };
 
+struct ImageResource
+{
+	IMAGE_TYPE type;
+	string fileName;
+	LPVOID memory;
+	SIZE_T fileSize;
+	ID3D11ShaderResourceView* texture;
+	UINT Width, Height;
+	D3DXVECTOR2 perImageSize;				//	프레임 이미지 X, Y 칸당 사이즈
+	POINT Frame;							//	프레임 이미지 X, Y 총 프레임 갯수
+};
+
 class ImageManager : public singleton<ImageManager>
 {
-private:
-	struct ImageResource
-	{
-		IMAGE_TYPE type;
-		string fileName;
-		LPVOID memory;
-		SIZE_T fileSize;
-		ID3D11ShaderResourceView* texture;
-		UINT Width, Height;
-	};
-
 private:
 	map<string, ImageResource*> mResourece;
 	map<string, ImageResource*>::iterator miResourece;
@@ -34,7 +35,7 @@ public:
 	void release();
 
 	void InsertImageFile(__in string key, __in const char* _path);
-	void InsertImageBinary(__in string key, __in string _path);
+	void InsertImageBinary(__in string key, __in string _path, __in SINT _frameX = 0, __in SINT _frameY = 0);
 	void InsertImageBinary(__in ThreadPool* _trdPol , __in string key, __in string _path);
 
 	void ReleaseMemory(__in string key);

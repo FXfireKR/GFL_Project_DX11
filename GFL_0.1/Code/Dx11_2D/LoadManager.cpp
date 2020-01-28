@@ -39,6 +39,8 @@ void LoadManager::Add_LoadTray(string _key, const char * _path, __in LOADRESOURC
 			info->key = _key;
 			info->path = _path;
 			info->type = type;
+			info->frameX = 0;
+			info->frameY = 0;
 
 			LoadList.push_back(info);
 		}
@@ -48,7 +50,7 @@ void LoadManager::Add_LoadTray(string _key, const char * _path, __in LOADRESOURC
 
 }
 
-void LoadManager::Add_LoadTray(string _key, string _path, LOADRESOURCE_TYPE type)
+void LoadManager::Add_LoadTray(string _key, string _path, LOADRESOURCE_TYPE type, SINT _frameX, SINT _frameY)
 {
 	// is there same Key?
 
@@ -89,6 +91,8 @@ void LoadManager::Add_LoadTray(string _key, string _path, LOADRESOURCE_TYPE type
 				info->key = _key;
 				info->path = _path;
 				info->type = type;
+				info->frameX = _frameX;
+				info->frameY = _frameY;
 
 				LoadList.push_back(info);
 			}
@@ -132,7 +136,8 @@ void LoadManager::update()
 							break;
 
 						case RESOURCE_IMAGE:
-							IMAGEMAP->InsertImageBinary(LoadList[ListPointer]->key, LoadList[ListPointer]->path);
+							IMAGEMAP->InsertImageBinary(LoadList[ListPointer]->key, LoadList[ListPointer]->path, 
+								LoadList[ListPointer]->frameX, LoadList[ListPointer]->frameY);
 							break;
 
 						case RESOURCE_MAP:

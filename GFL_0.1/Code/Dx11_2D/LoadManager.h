@@ -10,6 +10,7 @@ private:
 		string key;
 		string path;
 		LOADRESOURCE_TYPE type;
+		UINT frameX, frameY;
 	};
 
 private:
@@ -34,7 +35,7 @@ public:
 	~LoadManager();
 
 	void Add_LoadTray(__in string _key, __in const char* _path, __in LOADRESOURCE_TYPE type);
-	void Add_LoadTray(__in string _key, __in string _path, __in LOADRESOURCE_TYPE type);
+	void Add_LoadTray(__in string _key, __in string _path, __in LOADRESOURCE_TYPE type, __in SINT _frameX = 0, __in SINT _frameY = 0);
 	void release();
 	void update();
 
