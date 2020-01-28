@@ -47,81 +47,6 @@ void SoundManager::release()
 		SoundEngine->drop();
 }
 
-
-void SoundManager::AddLoadTray(IN string key, IN const char * _path, IN bool readBinary)
-{
-	/*if (SoundEngine)
-	{
-		if (!mSoundRes.count(key))
-		{
-			SoundResource_LoadList TrayInfo;
-
-			TrayInfo.binary = readBinary;
-			TrayInfo.key = key;
-			TrayInfo.path = _path;
-
-			loadList.push_back(TrayInfo);
-
-			thread trd([&]()
-			{
-
-			});
-
-		}
-	}*/
-}
-
-void SoundManager::InsertSoundFile(IN string key, IN const char * _path)
-{
-	if (SoundEngine)
-	{
-		if (!mSoundRes.count(key))
-		{
-			SoundResource* add = new SoundResource();
-			//add->resource = SoundEngine->addSoundSourceFromFile(_path, ESM_NO_STREAMING);
-
-			ifstream file;
-			file.open(_path, ios::in | ios::binary);
-			vector<char> vBuffer;
-
-			if (file.is_open()) {
-
-				file.seekg(0, ios::end);
-				streampos length = file.tellg();
-				file.seekg(0, ios::beg);
-
-				vBuffer.resize(length);
-				file.read(&vBuffer[0], length);
-				file.close();
-
-				add->memory = &vBuffer[0];
-				add->fileSize = vBuffer.size();
-
-				add->resource = SoundEngine->addSoundSourceFromMemory(add->memory, add->fileSize, key.c_str());
-			}
-
-
-			// 1 .Tokenize Sound Resource Type
-			string path = _path;
-			if (path.find_last_of(".") != string::npos)
-			{
-				path.erase(0, path.find_last_of(".") + 1);
-
-				if (path.find("mp3") != string::npos)
-					add->type = SOUND_MP3;
-
-				else if (path.find("wav") != string::npos)
-					add->type = SOUND_WAV;
-
-				else if (path.find("flac") != string::npos)
-					add->type = SOUND_FLAC;
-			}
-
-			mSoundRes.insert(make_pair(key, add));
-		}
-	}
-}
-
 void SoundManager::InsertSoundBianry(string key, string _path)
 {
 	if (SoundEngine)
@@ -374,6 +299,7 @@ void SoundManager::InsertSoundBianry(string key, string _path)
 
 void SoundManager::setVolum()
 {
+
 	if (KEYMANAGER->isKeyStayDown(VK_UP))
 	{
 		float curVol = SoundEngine->getSoundVolume();
@@ -391,6 +317,18 @@ void SoundManager::setVolum()
 
 		//mSoundRes.begin()->second->resInfo->setVolume(curVol);
 	}
+}
+
+void SoundManager::setVolume(SOUND_CHANNEL ch, float volume)
+{
+	mChannel[ch]->engine->setSoundVolume(volume);
+
+}
+
+void SoundManager::setVolume(string key, float volume)
+{
+	if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())
+		miSoundRes->second->resource->setDefaultVolume(volume);
 }
 
 void SoundManager::Play_Effect(SOUND_CHANNEL ch, string key, float volume)
@@ -430,7 +368,9 @@ void SoundManager::Play_Sound(SOUND_CHANNEL ch, string key, float volume)
 		miSoundRes->second->resource->setDefaultVolume(volume);
 
 		if (!mChannel[ch]->engine->isCurrentlyPlaying(key.c_str()))
+		{
 			mChannel[ch]->engine->play2D(miSoundRes->second->resource);
+		}
 
 		/*miSoundRes->second->resource->setDefaultVolume(volume);
 		mChannel[ch]->playList.push_back(mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true));
@@ -449,4 +389,11 @@ void SoundManager::Stop_Sound(SOUND_CHANNEL ch, string key)
 		if (mChannel[ch]->engine->isCurrentlyPlaying(key.c_str()))
 			mChannel[ch]->engine->stopAllSounds();
 	}
+}
+
+bool SoundManager::isPlay(SOUND_CHANNEL ch, string key)
+{
+	if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())
+		return mChannel[ch]->engine->isCurrentlyPlaying(key.c_str());	
+	return false;
 }

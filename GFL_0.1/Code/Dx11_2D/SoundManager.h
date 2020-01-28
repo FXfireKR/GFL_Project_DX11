@@ -68,15 +68,20 @@ public:
 	void init();
 	void release();
 
-	void AddLoadTray(__in string key, __in const char* _path, __in bool readBinary = true);
-	void InsertSoundFile(__in string key, __in const char* _path);
 	void InsertSoundBianry(__in string key, __in string _path);
 	void setVolum();
+	void setVolume(__in SOUND_CHANNEL ch, __in float volume);
+	void setVolume(__in string key, __in float volume);
 
 	void Play_Effect(__in SOUND_CHANNEL ch, __in string key, __in float volume = 0.5f);
 	void Play_Effect(__in SOUND_CHANNEL ch, __in string key, __in float volume, float playSpeed);
 	void Play_Sound(__in SOUND_CHANNEL ch, __in string key, __in float volume = 0.5f);
 	void Stop_Sound(__in SOUND_CHANNEL ch, __in string key);
 
-	bool isValidKey(__in string key) { return !mSoundRes.count(key); }
+
+	bool isPlay(__in SOUND_CHANNEL ch, __in string key);
+	inline bool isValidKey(__in string key) 
+	{ 
+		return !mSoundRes.count(key);
+	}
 };

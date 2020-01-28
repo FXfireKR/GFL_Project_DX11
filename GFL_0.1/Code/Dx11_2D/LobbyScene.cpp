@@ -23,20 +23,23 @@ void LobbyScene::init()
 
 
 	//LOADMANAGER->Add_LoadTray("bk_1", "../../_Textures/bk_Streat.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
-	LOADMANAGER->Add_LoadTray("LoadBk_InEquip", "../../_Assets/CG/19wintercg7-1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
-	LOADMANAGER->Add_LoadTray("LobbyBk", "../../_Assets/CG/17xhcg4-2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
-	LOADMANAGER->Add_LoadTray("LoadBK_Test", "../../_Assets/CG/17xh-shootingrange.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
+	//LOADMANAGER->Add_LoadTray("LoadBk_InEquip", "../../_Assets/CG/19wintercg7-1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
+	//LOADMANAGER->Add_LoadTray("LobbyBk", "../../_Assets/CG/17xhcg4-2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
+	//LOADMANAGER->Add_LoadTray("LoadBK_Test", "../../_Assets/CG/17xh-shootingrange.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
+
+
+	//LOADMANAGER->Add_LoadTray("shellEffect", "../../_Assets/Texture2D/fire1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 5, 1);		// test
 
 	//PLAYER->testFuc();
 	//EFFECT->Init_EffectManager();
 
-	for (auto& it : PLAYER->getPlayerTaticDoll().getAllTacDoll())		//	get List of Player's TacticalDoll
-		it.second->LoadTray_List();										//	Add All Player's LoadTrayList
+	//for (auto& it : PLAYER->getPlayerTaticDoll().getAllTacDoll())		//	get List of Player's TacticalDoll
+	//	it.second->LoadTray_List();										//	Add All Player's LoadTrayList
 
-	LOADMANAGER->setAutoInit(false);
-	LOADMANAGER->setNextScene("LOBBY");
-	LOADMANAGER->setLoadImageKey("LoadBK");
-	SCENE->Change_Scene("LOAD");
+	//LOADMANAGER->setAutoInit(false);
+	//LOADMANAGER->setNextScene("LOBBY");
+	//LOADMANAGER->setLoadImageKey("LoadBK");
+	//SCENE->Change_Scene("LOAD");
 
 }
 
@@ -94,7 +97,7 @@ void LobbyScene::WorldMapButton(void * obj)
 	SCENE->Change_Scene("LOAD");
 }
 
-void LobbyScene::StoryButton(void * obj)
+void LobbyScene::StoryButton(void* obj)
 {
 	LOADMANAGER->setAutoInit(true);
 	LOADMANAGER->setStoryScriptPath("TestScript3");
@@ -103,7 +106,7 @@ void LobbyScene::StoryButton(void * obj)
 	SCENE->Change_Scene("LOAD");
 }
 
-void LobbyScene::WorldButton(void * obj)
+void LobbyScene::WorldButton(void* obj)
 {
 	//LOADMANAGER->setAutoInit(true);
 	//LOADMANAGER->setNextScene("WORLD");

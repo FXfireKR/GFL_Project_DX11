@@ -147,10 +147,10 @@ void MainGame::Init()
 	SCENE->Create_Scene("BATTLE", new BattleScene);
 	SCENE->Create_Scene("LOAD", new LoadScene);
 	SCENE->Create_Scene("LOBBY", new LobbyScene);
-	//SCENE->Create_Scene("STORY", new StoryScene);
+	SCENE->Create_Scene("LOGO", new MainLoadScene);
 	//SCENE->Create_Scene("WORLD", new WorldScene);
 
-	SCENE->Change_Scene("LOBBY");
+	SCENE->Change_Scene("LOGO");
 	SCENE->Init_Scene();
 }
 
