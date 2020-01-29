@@ -26,7 +26,8 @@ private:	// Define Value Ref
 	D3DXVECTOR3				Rotate;
 	D3DXVECTOR2				Trans;
 	
-	PTVertex				arrVertex[5];
+	PTVertex				arrVertex[4];
+	PTVertex				mutableVertex[4];
 	D3DXCOLOR				color;
 	tagNoiseBuffer			NoiseStruct;
 	
@@ -34,8 +35,6 @@ private:	// Define Value Ref
 	ID3D11Buffer*			colorBuffer;
 	ID3D11Buffer*			vertexBuffer;
 	ID3D11Buffer*			NoiseBuffer;
-
-	ID3D11InputLayout*		vertexLayout;
 
 
 public:		// Define Fnc
@@ -51,4 +50,5 @@ public:		// Define Fnc
 	void NoiseRender(string srvKey, DV2 _scale, DV2 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 	void render(string srvKey, DV2 _scale, DV3 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 	void render(string srvKey, const D3DXMATRIX& worldMatrix, ID3D11Buffer*const* vertexBuffer);
+	void render(string normalKey, string alphaKey, DV2 _scale, DV2 _trans, DV2 minTexCord, DV2 maxTexCord, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 };

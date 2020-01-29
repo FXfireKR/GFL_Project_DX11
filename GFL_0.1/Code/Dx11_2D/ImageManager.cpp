@@ -2,7 +2,9 @@
 #include "ImageManager.h"
 
 ImageManager::ImageManager()
+	: mUiAtlas(nullptr)
 {
+	mUiAtlas = new map<string, uiAtlas>;
 }
 
 ImageManager::~ImageManager()

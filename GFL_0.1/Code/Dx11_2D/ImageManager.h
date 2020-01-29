@@ -3,6 +3,15 @@
 
 class ThreadPool;
 
+struct uiAtlas
+{
+	string name;
+	string textureKey;
+	string alphaTexKey;
+	D3DXVECTOR2 mixTexCoord;
+	D3DXVECTOR2 maxTexCoord;
+};
+
 enum IMAGE_TYPE
 {
 	JPG = 0,
@@ -28,6 +37,8 @@ private:
 	map<string, ImageResource*> mResourece;
 	map<string, ImageResource*>::iterator miResourece;
 
+	map<string, uiAtlas>* mUiAtlas;
+
 public:
 	ImageManager();
 	~ImageManager();
@@ -41,18 +52,29 @@ public:
 	void ReleaseMemory(__in string key);
 
 public:
-	ID3D11ShaderResourceView* getTexture(__in string key)
+	inline ID3D11ShaderResourceView* getTexture(__in string key)
 	{
 		if ((miResourece = mResourece.find(key)) != mResourece.end())
 			return miResourece->second->texture;
 		return nullptr;
 	}
 
-	ImageResource* getImageInfo(__in string key)
+	inline ImageResource* getImageInfo(__in string key)
 	{
 		if ((miResourece = mResourece.find(key)) != mResourece.end())
 			return miResourece->second;
 		return nullptr;
+	}
+
+	inline map<string, uiAtlas>* getUiAtlas()
+	{
+		return mUiAtlas;
+	}
+
+	inline uiAtlas getUiAtlas(string key)
+	{
+		map<string, uiAtlas>::iterator mIter;
+		return (mIter = mUiAtlas->find(key)) != mUiAtlas->end() ? mIter->second : uiAtlas();
 	}
 
 	inline bool isValidKey(__in string key)

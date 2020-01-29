@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "Image.h"
 
-Image::Image() : worldBuffer(nullptr), vertexBuffer(nullptr), vertexLayout(nullptr), NoiseBuffer(nullptr)
+Image::Image() : worldBuffer(nullptr), vertexBuffer(nullptr), NoiseBuffer(nullptr)
 {
 	SHADER->CreateShader("PTBase", PTElementDesc, PTElementCount, PT_BaseShaderFile);
 	SHADER->CreateShader("PT_Noise", PTElementDesc, PTElementCount, PT_NoiseShaderFile);
+	SHADER->CreateShader("PT_Alpha", PTElementDesc, PTElementCount, PT_AlphaShaderFile);
+	//
 
 	//	Create WorldMatrix Buffer
 	D3DXMatrixIdentity(&worldMatrix);
@@ -23,7 +25,6 @@ Image::Image() : worldBuffer(nullptr), vertexBuffer(nullptr), vertexLayout(nullp
 	arrVertex[1] = PTVertex(DV3(-1.0, 1.0, 0.0f),		DV2(0, 0));
 	arrVertex[2] = PTVertex(DV3(1.0, 1.0, 0.0f),		DV2(1, 0));
 	arrVertex[3] = PTVertex(DV3(1.0, -1.0, 0.0f),		DV2(1, 1));
-	arrVertex[4] = PTVertex(DV3(-1.0, -1.0, 0.0f),		DV2(0, 1));
 
 	PTVertex vertices[6] =
 	{
@@ -35,7 +36,7 @@ Image::Image() : worldBuffer(nullptr), vertexBuffer(nullptr), vertexLayout(nullp
 		arrVertex[3],
 	};
 
-	CreateVertexBuffer(&vertexBuffer, sizeof(PTVertex) * 6, vertices);
+	CreateVertexBuffer(&vertexBuffer, sizeof(PTVertex) * 6, vertices, D3D11_USAGE_DEFAULT);
 
 	Scale = D3DXVECTOR3(1, 1, 1);
 	Trans = D3DXVECTOR2(0, 0);
@@ -56,7 +57,6 @@ void Image::release()
 	SAFE_REL(worldBuffer);
 	SAFE_REL(vertexBuffer);
 	SAFE_REL(NoiseBuffer);
-	SAFE_REL(vertexLayout);
 }
 
 void Image::update()
@@ -109,6 +109,17 @@ void Image::render(string srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 _rotat
 
 		color = _color;
 		DeviceContext->UpdateSubresource(colorBuffer, 0, NULL, color, 0, 0);
+
+		PTVertex vertices[6] =
+		{
+			arrVertex[0],
+			arrVertex[1],
+			arrVertex[2],
+			arrVertex[0],
+			arrVertex[2],
+			arrVertex[3],
+		};
+		DeviceContext->UpdateSubresource(vertexBuffer, 0, NULL, vertices, 0, 0);
 	}
 	
 	//	Render
@@ -233,6 +244,17 @@ void Image::render(string srvKey, DV2 _scale, DV3 _trans, DCR _color, DV3 _rotat
 
 		color = _color;
 		DeviceContext->UpdateSubresource(colorBuffer, 0, NULL, color, 0, 0);
+
+		PTVertex vertices[6] =
+		{
+			arrVertex[0],
+			arrVertex[1],
+			arrVertex[2],
+			arrVertex[0],
+			arrVertex[2],
+			arrVertex[3],
+		};
+		DeviceContext->UpdateSubresource(vertexBuffer, 0, NULL, vertices, 0, 0);
 	}
 
 	//	Render
@@ -275,6 +297,69 @@ void Image::render(string srvKey, const D3DXMATRIX & worldMatrix, ID3D11Buffer*c
 		DeviceContext->PSSetShaderResources(0, 1, &srv);
 
 		DeviceContext->IASetVertexBuffers(0, 1, vertexBuffer, &stride, &offset);
+		DeviceContext->Draw(6, 0);
+	}
+}
+
+void Image::render(string normalKey, string alphaKey, DV2 _scale, DV2 _trans, DV2 minTexCord, DV2 maxTexCord, DCR _color, DV3 _rotate)
+{
+	//	Vertex Buffer Update
+	{
+		D3DXMATRIX s, rx, ry, rz, t;
+
+		D3DXMatrixIdentity(&worldMatrix);
+
+		D3DXMatrixScaling(&s, _scale.x, _scale.y, 1);
+
+		D3DXMatrixRotationX(&rx, RAD(_rotate.x));
+		D3DXMatrixRotationY(&ry, RAD(_rotate.y));
+		D3DXMatrixRotationZ(&rz, RAD(_rotate.z));
+
+		D3DXMatrixTranslation(&t, _trans.x, _trans.y, 0);
+
+		worldMatrix = s * rx * ry * rz * t;
+		D3DXMatrixTranspose(&worldMatrix, &worldMatrix);
+		DeviceContext->UpdateSubresource(worldBuffer, 0, NULL, worldMatrix, 0, 0);
+
+		color = _color;
+		DeviceContext->UpdateSubresource(colorBuffer, 0, NULL, color, 0, 0);
+
+		mutableVertex[0] = PTVertex(DV3(-1.0f, -1.0f, 0.0f), DV2(minTexCord.x, maxTexCord.y));
+		mutableVertex[1] = PTVertex(DV3(-1.0, 1.0, 0.0f), DV2(minTexCord.x, minTexCord.y));
+		mutableVertex[2] = PTVertex(DV3(1.0, 1.0, 0.0f), DV2(maxTexCord.x, minTexCord.y));
+		mutableVertex[3] = PTVertex(DV3(1.0, -1.0, 0.0f), DV2(maxTexCord.x, maxTexCord.y));
+
+		PTVertex vertices[6] =
+		{
+			mutableVertex[0],
+			mutableVertex[1],
+			mutableVertex[2],
+			mutableVertex[0],
+			mutableVertex[2],
+			mutableVertex[3],
+		};
+		DeviceContext->UpdateSubresource(vertexBuffer, 0, NULL, vertices, 0, 0);
+
+	}
+
+	//	Render
+	{
+		SHADER->setShader("PT_Alpha");
+
+		UINT stride = sizeof(PTVertex);
+		UINT offset = 0;
+
+		DeviceContext->VSSetConstantBuffers(1, 1, &worldBuffer);
+		DeviceContext->PSSetConstantBuffers(0, 1, &colorBuffer);
+		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		ID3D11ShaderResourceView* srv = IMAGEMAP->getTexture(normalKey);
+		ID3D11ShaderResourceView* alphaSrv = IMAGEMAP->getTexture(alphaKey);
+
+		DeviceContext->PSSetShaderResources(0, 1, &srv);
+		DeviceContext->PSSetShaderResources(1, 1, &alphaSrv);
+
+		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 		DeviceContext->Draw(6, 0);
 	}
 }
