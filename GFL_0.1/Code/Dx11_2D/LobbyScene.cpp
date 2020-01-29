@@ -61,7 +61,23 @@ void LobbyScene::update()
 
 void LobbyScene::render()
 {
-	DRAW->render("LobbyBk", DV2(WINSIZEX, WINSIZEY), DV2(WINSIZEX*0.5f, WINSIZEY*0.5f));
+	DRAW->render("LobbyBackGround", DV2(WINSIZEX*0.5f, WINSIZEY*0.5f), DV2(WINSIZEX*0.5f, WINSIZEY*0.5f));
+
+	uiAtlas atlas = IMAGEMAP->getUiAtlas("Factory");
+	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(100, 50), DV2(mButton["EQUIP"].box.left, mButton["EQUIP"].box.top), 
+		atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, 1));
+
+	atlas = IMAGEMAP->getUiAtlas("Combat");
+	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(110, 60), DV2(mButton["WORLD"].box.left, mButton["WORLD"].box.top),
+		atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, 1));
+
+	atlas = IMAGEMAP->getUiAtlas("Research");
+	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(100, 50), DV2(mButton["STORY"].box.left, mButton["STORY"].box.top),
+		atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, 1));
+
+	atlas = IMAGEMAP->getUiAtlas("Formation");
+	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(110, 60), DV2(mButton["WORLD2"].box.left, mButton["WORLD2"].box.top),
+		atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, 1));
 
 	D2DX->renderRect(mButton["EQUIP"].box, ColorF(0, 0.8, 0.0), true);
 	D2DX->renderRect(mButton["WORLD"].box, ColorF(0, 0.8, 0.0), true);

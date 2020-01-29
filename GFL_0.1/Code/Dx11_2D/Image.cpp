@@ -230,7 +230,7 @@ void Image::render(string srvKey, DV2 _scale, DV3 _trans, DCR _color, DV3 _rotat
 
 		D3DXMatrixIdentity(&worldMatrix);
 
-		D3DXMatrixScaling(&s, 1024 * _scale.x, 1024 * _scale.y, 1);
+		D3DXMatrixScaling(&s, _scale.x, _scale.y, 1);
 
 		D3DXMatrixRotationX(&rx, RAD(_rotate.x));
 		D3DXMatrixRotationY(&ry, RAD(_rotate.y));

@@ -14,6 +14,7 @@ MainLoadScene::MainLoadScene()
 
 	uiAtlasLoader* loader = new uiAtlasLoader;
 	loader->LoaduiAtlasData("../../_TextTable/LoginUi.atlas");
+	loader->LoaduiAtlasData("../../_TextTable/LobbyUi.atlas");
 	delete loader;
 }
 
@@ -24,8 +25,9 @@ MainLoadScene::~MainLoadScene()
 void MainLoadScene::init()
 {
 	LOADMANAGER->Add_LoadTray("LoadBk_InEquip", "../../_Assets/CG/19wintercg7-1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
-	LOADMANAGER->Add_LoadTray("LobbyBk", "../../_Assets/CG/17xhcg4-2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
+	LOADMANAGER->Add_LoadTray("LobbyBk", "../../_Assets/CG/17xhcg4-2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 23
 	LOADMANAGER->Add_LoadTray("LoadBK_Test", "../../_Assets/CG/17xh-shootingrange.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
+	LOADMANAGER->Add_LoadTray("LobbyBackGround", "../../_Assets/Texture2D/LobbyBG.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
 
 	LOADMANAGER->Add_LoadTray("LobbyLoop", "../../_SoundSource/LobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 	LOADMANAGER->Add_LoadTray("TitleLoop", "../../_SoundSource/TitleLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
@@ -105,7 +107,7 @@ void MainLoadScene::update()
 		{
 			if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop"))
 			{
-				SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+				SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.15f);
 				SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);
 			}
 		}
