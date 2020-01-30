@@ -38,6 +38,8 @@ void MainLoadScene::init()
 
 	LOADMANAGER->Add_LoadTray("LobbyLoop", "../../_SoundSource/LobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);				//	LobbyTheme
 	LOADMANAGER->Add_LoadTray("TitleLoop", "../../_SoundSource/TitleLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);				//	TitleTheme
+	LOADMANAGER->Add_LoadTray("ChapterLoop", "../../_SoundSource/ChapterLobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	ChapterTheme
+	
 
 	LOADMANAGER->setAutoInit(false);
 	LOADMANAGER->setNextScene("LOGO");
@@ -134,7 +136,7 @@ void MainLoadScene::update()
 			{
 				if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop"))
 				{
-					SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.15f);
+					SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
 					SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);
 				}
 			}

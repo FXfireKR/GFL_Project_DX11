@@ -17,6 +17,9 @@ protected:
 	float		ConvAlpha;
 	bool		isConvers;
 
+	string		SceneKey;
+	bool		isSceneChanged;
+
 	map<string, Button>		mButton;
 
 public:

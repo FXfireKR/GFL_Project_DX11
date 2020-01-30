@@ -13,6 +13,7 @@ LobbyScene::LobbyScene()
 
 	aideDoll = nullptr;
 	isConvers = false;
+	isSceneChanged = false;
 }
 
 LobbyScene::~LobbyScene()
@@ -28,6 +29,9 @@ void LobbyScene::init()
 	mButton["AideConv"].box = D2D_RectMakeCenter(AXIS_AIDECOV_BUTTON.x, AXIS_AIDECOV_BUTTON.y, 210, 450);
 
 	aideDoll = ((PLAYER->getPlayerTaticDoll()).getAllTacDoll()).begin()->second;
+
+	isConvers = false;
+	isSceneChanged = false;
 
 	{
 		//PLAYER->testFuc();
@@ -49,30 +53,59 @@ void LobbyScene::release()
 
 void LobbyScene::update()
 {
-	if (worldColor.a < 1.0f)
-		worldColor.a += DELTA;
+	if (isSceneChanged)
+	{
+		if (worldColor.a > 0.0f)
+		{
+			worldColor.a -= DELTA;
+			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a > 0.15f ? 0.15f : worldColor.a);
+		}
+
+		else
+		{
+			worldColor.a = 0.0f;
+
+			SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_VOICE, curConvKey);
+			SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop");
+			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+			SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "ChapterLoop", 0.5f);
+
+			SCENE->Change_Scene(SceneKey);
+			SCENE->Init_Scene();
+		}
+	}
+
 	else
 	{
-		worldColor.a = 1.0f;
-
-		if (KEYMANAGER->isKeyDown(VK_LBUTTON))
+		if (worldColor.a < 1.0f)
 		{
-			for (auto& it : mButton)
-			{
-				if (ptInRect(it.second.box, g_ptMouse))
-					it.second.ClickAction(this);
-			}
+			worldColor.a += DELTA;
+			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a < 0.15f ? worldColor.a : 0.15f);
 		}
 
-		if (isConvers)
-		{
-			ConvAlpha = ConvAlpha < 1.0f ? ConvAlpha + DELTA * 5.0f : 1.0f;
-
-			if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_VOICE, curConvKey))
-				isConvers = false;
-		}
 		else
-			ConvAlpha = ConvAlpha > 0.0f ? ConvAlpha - DELTA * 10.0f : 0.0f;	
+		{
+			worldColor.a = 1.0f;
+
+			if (KEYMANAGER->isKeyDown(VK_LBUTTON))
+			{
+				for (auto& it : mButton)
+				{
+					if (ptInRect(it.second.box, g_ptMouse))
+						it.second.ClickAction(this);
+				}
+			}
+
+			if (isConvers)
+			{
+				ConvAlpha = ConvAlpha < 1.0f ? ConvAlpha + DELTA * 5.0f : 1.0f;
+
+				if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_VOICE, curConvKey))
+					isConvers = false;
+			}
+			else
+				ConvAlpha = ConvAlpha > 0.0f ? ConvAlpha - DELTA * 10.0f : 0.0f;
+		}
 	}
 }
 
@@ -153,11 +186,22 @@ void LobbyScene::render()
 	//SCENE->Change_Scene("LOAD");
 */
 
+/*
+worldColor = 0.0f;
+SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_VOICE, object->curConvKey);
+SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop");
+
+SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.15f);
+SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "ChapterLoop", 0.5f);
+*/
+
 
 void LobbyScene::CombatButton(void * obj)
 {
-	SCENE->Change_Scene("CHAPTER");
-	SCENE->Init_Scene();
+	LobbyScene* object = (LobbyScene*)obj;
+
+	object->SceneKey = "CHAPTER";
+	object->isSceneChanged = true;
 }
 
 void LobbyScene::FactoryButton(void * obj)

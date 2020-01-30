@@ -4,3 +4,4 @@
 #include "LoadScene.h"
 #include "MainLoadScene.h"
 #include "LobbyScene.h"
+#include "ChapterScene.h"
