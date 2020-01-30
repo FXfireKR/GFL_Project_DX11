@@ -37,6 +37,8 @@ float CameraPositionX = 0.0f;
 float CameraPositionY = 0.0f;
 int whlCount;
 
+D3DXCOLOR worldColor;
+
 // Dx11 전역 변수:
 
 IDXGIFactory* dxgiFactory;

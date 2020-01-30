@@ -98,6 +98,8 @@ const D3D11_INPUT_ELEMENT_DESC PTElementDesc[PTElementCount] =
 const wstring PTShaderFile = L"../../_Shader/Texture.hlsl";
 const wstring PT_BaseShaderFile = L"../../_Shader/TextureBase.hlsl";
 const wstring PT_NoiseShaderFile = L"../../_Shader/NoiseTexture.hlsl";
+const wstring PT_AlphaShaderFile = L"../../_Shader/AlphaChannel.hlsl";
+const wstring PT_Alpha2ShaderFile = L"../../_Shader/AlphaChannel2.hlsl";
 /* --------------------------------------------------------------------------- */
 const struct PNTVertex
 {

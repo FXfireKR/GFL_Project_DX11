@@ -4,6 +4,7 @@
 class pkp : public TaticDoll
 {
 private:
+
 	const double	PKP_SPEED = 125.0;
 
 	const float		PKP_ACL_X = 0.8f;
@@ -18,7 +19,8 @@ public:
 	pkp();
 	~pkp();
 
-	void LoadTray_List()override;
+	void LoadTray_SoundList()override;
+	void LoadTray_ImageList()override;
 	HRESULT init()override;
 	void release()override;
 	void update()override;

@@ -3,24 +3,60 @@
 
 GuA91::GuA91()
 {
+	SOUND_ATTACK = "9A91_ATTACK_JP";
+	SOUND_BREAK = "9A91_BREAK_JP";
+	SOUND_DEFENSE = "9A91_DEFENSE_JP";
+	SOUND_DIALOGUE1 = "9A91_DIALOGUE1_JP";
+	SOUND_DIALOGUE2 = "9A91_DIALOGUE2_JP";
+	SOUND_DIALOGUE3 = "9A91_DIALOGUE3_JP";
+	SOUND_FORMATION = "9A91_FORMATION_JP";
+	SOUND_GOATTACK = "9A91_GOATTACK_JP";
+	SOUND_MEET = "9A91_MEET_JP";
+	SOUND_SKILL1 = "9A91_SKILL1_JP";
+	SOUND_SKILL2 = "9A91_SKILL2_JP";
+	SOUND_SKILL3 = "9A91_SKILL3_JP";
+	SOUND_TITLECALL = "9A91_TITLECALL_JP";
+	SOUND_WIN = "9A91_WIN_JP";
+
+	vecDialogue.push_back("AS VAL과 74는 여기서 뭘 하는 걸까?");
+	vecDialogue.push_back("지휘관, 제 시선에서 벗어날 때에는 제대로 알려주세요?");
+	vecDialogue.push_back("당신에게 인정받지 못한 채였다면… 저는…");
 }
 
 GuA91::~GuA91()
 {
 }
 
-void GuA91::LoadTray_List()
+void GuA91::LoadTray_SoundList()
 {
-	this->init();
+	//	Character Voice Upload
+	LOADMANAGER->Add_LoadTray(SOUND_ATTACK, "../../_Assets/Characters/9a91/9A91_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_BREAK, "../../_Assets/Characters/9a91/9A91_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_DEFENSE, "../../_Assets/Characters/9a91/9A91_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_DIALOGUE1, "../../_Assets/Characters/9a91/9A91_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_DIALOGUE2, "../../_Assets/Characters/9a91/9A91_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_DIALOGUE3, "../../_Assets/Characters/9a91/9A91_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_FORMATION, "../../_Assets/Characters/9a91/9A91_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_GOATTACK, "../../_Assets/Characters/9a91/9A91_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_MEET, "../../_Assets/Characters/9a91/9A91_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_SKILL1, "../../_Assets/Characters/9a91/9A91_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_SKILL2, "../../_Assets/Characters/9a91/9A91_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_SKILL3, "../../_Assets/Characters/9a91/9A91_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_TITLECALL, "../../_Assets/Characters/9a91/9A91_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_WIN, "../../_Assets/Characters/9a91/9A91_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+
+	//	Fortrait Image Load
+	LOADMANAGER->Add_LoadTray("pic_9A91", "../../_Assets/Characters/9a91/pic_9A91.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("pic_9A91_alpha", "../../_Assets/Characters/9a91/pic_9A91_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("pic_9A91_D", "../../_Assets/Characters/9a91/pic_9A91_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("pic_9A91_D_alpha", "../../_Assets/Characters/9a91/pic_9A91_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+
+	original_key = "pic_9A91";
+	original_D_key = "pic_9A91_D";
 }
 
-HRESULT GuA91::init()
+void GuA91::LoadTray_ImageList()
 {
-	TaticDoll::init();
-
-	axisMax_LongRad = 400.0f;
-	axisMax_ShortRad = 150.0f;
-
 	if (motion == nullptr)
 	{
 		motion = new spineMotion;
@@ -38,6 +74,14 @@ HRESULT GuA91::init()
 			motion->changeMotion("wait", true, true, 0.125f);
 		}
 	}
+}
+
+HRESULT GuA91::init()
+{
+	TaticDoll::init();
+
+	axisMax_LongRad = 400.0f;
+	axisMax_ShortRad = 150.0f;
 
 	Pos.x = 450.0f;
 	Pos.y = 200.0f;

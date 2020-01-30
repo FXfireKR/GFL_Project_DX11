@@ -3,7 +3,20 @@
 
 class LobbyScene : public Scene
 {
+private:
+	const D3DXVECTOR2 AXIS_COMBAT_BUTTON =		D3DXVECTOR2(950, 500);
+	const D3DXVECTOR2 AXIS_FACTORY_BUTTON =		D3DXVECTOR2(1150, 400);
+	const D3DXVECTOR2 AXIS_RESEARCH_BUTTON =	D3DXVECTOR2(950, 400);
+	const D3DXVECTOR2 AXIS_FORMATION_BUTTON =	D3DXVECTOR2(1150, 500);
+	const D3DXVECTOR2 AXIS_AIDECOV_BUTTON =		D3DXVECTOR2(WINSIZEX*0.4f, WINSIZEY*0.8f);
+
 protected:
+	TaticDoll*	aideDoll;
+
+	string		curConvKey;
+	float		ConvAlpha;
+	bool		isConvers;
+
 	map<string, Button>		mButton;
 
 public:
@@ -17,8 +30,9 @@ public:
 	void render() override;
 
 private:
-	static void EquipButton(void* obj);				//	Goto EquipScene
-	static void WorldMapButton(void* obj);			//	Goto [Unknown]Scene
-	static void StoryButton(void* obj);
-	static void WorldButton(void* obj);
+	static void CombatButton(void* obj);
+	static void FactoryButton(void* obj);
+	static void FormationButton(void* obj);
+	static void ReserchButton(void* obj);
+	static void AideConverButton(void* obj);
 };

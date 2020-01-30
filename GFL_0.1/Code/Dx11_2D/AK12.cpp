@@ -3,13 +3,59 @@
 
 AK12::AK12()
 {
+	SOUND_ATTACK = "AK12_ATTACK_JP";
+	SOUND_BREAK = "AK12_BREAK_JP";
+	SOUND_DEFENSE = "AK12_DEFENSE_JP";
+	SOUND_DIALOGUE1 = "AK12_DIALOGUE1_JP";
+	SOUND_DIALOGUE2 = "AK12_DIALOGUE2_JP";
+	SOUND_DIALOGUE3 = "AK12_DIALOGUE3_JP";
+	SOUND_FORMATION = "AK12_FORMATION_JP";
+	SOUND_GOATTACK = "AK12_GOATTACK_JP";
+	SOUND_MEET = "AK12_MEET_JP";
+	SOUND_SKILL1 = "AK12_SKILL1_JP";
+	SOUND_SKILL2 = "AK12_SKILL2_JP";
+	SOUND_SKILL3 = "AK12_SKILL3_JP";
+	SOUND_TITLECALL = "AK12_TITLECALL_JP";
+	SOUND_WIN = "AK12_WIN_JP";
+
+	vecDialogue.push_back("연산량을 절약하기 위해, 평소엔 눈을 \"감고\" 있어. 시야나 판단능력에 영향을 주진 않으니까 안심해.");
+	vecDialogue.push_back("다들 그렇게 무리할 필요 없어. 누구나 사명을 가지고 태어나는 건 아니니까.");
+	vecDialogue.push_back("어라? 지휘관 지금 꼼지락거리면서 뭐해? 무슨 재밌는 일이라도 있어?");
 }
 
 AK12::~AK12()
 {
 }
 
-void AK12::LoadTray_List()
+void AK12::LoadTray_SoundList()
+{
+	//	Character Voice Upload
+	LOADMANAGER->Add_LoadTray(SOUND_ATTACK, "../../_Assets/Characters/ak12/AK12_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_BREAK, "../../_Assets/Characters/ak12/AK12_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_DEFENSE, "../../_Assets/Characters/ak12/AK12_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_DIALOGUE1, "../../_Assets/Characters/ak12/AK12_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_DIALOGUE2, "../../_Assets/Characters/ak12/AK12_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_DIALOGUE3, "../../_Assets/Characters/ak12/AK12_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_FORMATION, "../../_Assets/Characters/ak12/AK12_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_GOATTACK, "../../_Assets/Characters/ak12/AK12_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_MEET, "../../_Assets/Characters/ak12/AK12_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_SKILL1, "../../_Assets/Characters/ak12/AK12_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_SKILL2, "../../_Assets/Characters/ak12/AK12_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_SKILL3, "../../_Assets/Characters/ak12/AK12_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_TITLECALL, "../../_Assets/Characters/ak12/AK12_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray(SOUND_WIN, "../../_Assets/Characters/ak12/AK12_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+
+	//	Fortrait Image Load
+	LOADMANAGER->Add_LoadTray("pic_AK12", "../../_Assets/Characters/ak12/pic_AK12.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("pic_AK12_alpha", "../../_Assets/Characters/ak12/pic_AK12_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("pic_AK12_D", "../../_Assets/Characters/ak12/pic_AK12_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("pic_AK12_D_alpha", "../../_Assets/Characters/ak12/pic_AK12_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+
+	original_key = "pic_AK12";
+	original_D_key = "pic_AK12_D";
+}
+
+void AK12::LoadTray_ImageList()
 {
 	this->init();
 }

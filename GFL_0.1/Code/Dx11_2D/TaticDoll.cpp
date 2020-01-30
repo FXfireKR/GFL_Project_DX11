@@ -14,7 +14,12 @@ TaticDoll::TaticDoll()
 
 }
 TaticDoll::~TaticDoll(){}
-void TaticDoll::LoadTray_List() {}
+void TaticDoll::LoadTray_SoundList()
+{
+}
+void TaticDoll::LoadTray_ImageList()
+{
+}
 void TaticDoll::render() {}
 void TaticDoll::render_VisualBar() {}
 void TaticDoll::render_Motion() 

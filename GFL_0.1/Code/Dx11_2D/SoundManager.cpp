@@ -322,13 +322,12 @@ void SoundManager::setVolum()
 void SoundManager::setVolume(SOUND_CHANNEL ch, float volume)
 {
 	mChannel[ch]->engine->setSoundVolume(volume);
-
 }
 
-void SoundManager::setVolume(string key, float volume)
+void SoundManager::setVolume(string key, SOUND_CHANNEL ch, float volume)
 {
 	if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())
-		miSoundRes->second->resource->setDefaultVolume(volume);
+		mChannel[ch]->playList[key]->setVolume(volume);
 }
 
 void SoundManager::Play_Effect(SOUND_CHANNEL ch, string key, float volume)
@@ -336,9 +335,9 @@ void SoundManager::Play_Effect(SOUND_CHANNEL ch, string key, float volume)
 	if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())
 	{
 		miSoundRes->second->resource->setDefaultVolume(volume);
-		mChannel[ch]->playList.push_back(mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true));
+		mChannel[ch]->playList.insert(make_pair(key, mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true)));
 
-		auto& cur = mChannel[ch]->playList[mChannel[ch]->playList.size() - 1];
+		auto& cur = mChannel[ch]->playList[key];
 
 		cur->setVolume(volume);
 		cur->setPlaybackSpeed(1.0f);
@@ -351,16 +350,16 @@ void SoundManager::Play_Effect(SOUND_CHANNEL ch, string key, float volume, float
 	if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())
 	{
 		miSoundRes->second->resource->setDefaultVolume(volume);
-		mChannel[ch]->playList.push_back(mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true));
+		mChannel[ch]->playList.insert(make_pair(key, mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true)));
 
-		auto& cur = mChannel[ch]->playList[mChannel[ch]->playList.size() - 1];
+		auto& cur = mChannel[ch]->playList[key];
 
 		cur->setVolume(volume);
 		cur->setPlaybackSpeed(playSpeed);
 		cur->setIsPaused(false);
 	}
 }
-
+ 
 void SoundManager::Play_Sound(SOUND_CHANNEL ch, string key, float volume)
 {
 	if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())

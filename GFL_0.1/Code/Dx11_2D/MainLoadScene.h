@@ -17,7 +17,9 @@ private:
 	float		bgmVolume;
 	float		bgImageAlpha;
 	float		LogoAlpha;
+
 	bool		increase;
+	bool		beenClicked;
 
 public:
 	MainLoadScene();

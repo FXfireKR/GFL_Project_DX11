@@ -7,6 +7,7 @@ MainGame::MainGame()
 	srand((UINT)GetTickCount64());
 
 	whlCount = 0;
+	worldColor = D3DXCOLOR(1, 1, 1, 1);
 
 	// Create VPBuffer
 	{
@@ -126,8 +127,8 @@ MainGame::MainGame()
 	ThreadPool* beforeGame = new ThreadPool;
 	beforeGame->SetThread(8);
 	IMAGEMAP->InsertImageBinary(beforeGame, "LoadBK", "../../_Assets/Texture2D/LoadImg_First.ab");
-	IMAGEMAP->InsertImageBinary(beforeGame, "Logo", "../../_Assets/Texture2D/Logo.ab");
-	IMAGEMAP->InsertImageBinary(beforeGame, "LogoFont", "../../_Assets/Texture2D/Logo_font.ab");
+	//IMAGEMAP->InsertImageBinary(beforeGame, "Logo", "../../_Assets/Texture2D/Logo.ab");
+	//IMAGEMAP->InsertImageBinary(beforeGame, "LogoFont", "../../_Assets/Texture2D/Logo_font.ab");
 	IMAGEMAP->InsertImageBinary(beforeGame, "AR_BLT", "../../_Assets/Texture2D/arbullet.ab");
 	IMAGEMAP->InsertImageBinary(beforeGame, "MG_BLT", "../../_Assets/Texture2D/mgBullet.ab");
 	//IMAGEMAP->InsertImageBinary(beforeGame, "LogoFont", "../../_Assets/Texture2D/Logo_font.ab");
@@ -186,14 +187,12 @@ void MainGame::Update()
 
 	if (m_pDirLightBuffer)
 	{
-		static D3DXCOLOR color = D3DXCOLOR(1, 1, 1, 1);
+		ImGui::DragFloat("worldColor_R", &worldColor.r, 0.01F, 0.0F, 1.0F);
+		ImGui::DragFloat("worldColor_G", &worldColor.g, 0.01F, 0.0F, 1.0F);
+		ImGui::DragFloat("worldColor_B", &worldColor.b, 0.01F, 0.0F, 1.0F);
+		ImGui::DragFloat("worldColor_A", &worldColor.a, 0.01F, 0.0F, 1.0F);
 
-		ImGui::DragFloat("worldColor_R", &color.r, 0.01F, 0.0F, 1.0F);
-		ImGui::DragFloat("worldColor_G", &color.g, 0.01F, 0.0F, 1.0F);
-		ImGui::DragFloat("worldColor_B", &color.b, 0.01F, 0.0F, 1.0F);
-		ImGui::DragFloat("worldColor_A", &color.a, 0.01F, 0.0F, 1.0F);
-
-		DeviceContext->UpdateSubresource(m_pDirLightBuffer, 0, 0, &color, 0, 0);
+		DeviceContext->UpdateSubresource(m_pDirLightBuffer, 0, 0, &worldColor, 0, 0);
 	}
 
 }

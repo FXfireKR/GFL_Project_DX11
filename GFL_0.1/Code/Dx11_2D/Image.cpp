@@ -6,6 +6,8 @@ Image::Image() : worldBuffer(nullptr), vertexBuffer(nullptr), NoiseBuffer(nullpt
 	SHADER->CreateShader("PTBase", PTElementDesc, PTElementCount, PT_BaseShaderFile);
 	SHADER->CreateShader("PT_Noise", PTElementDesc, PTElementCount, PT_NoiseShaderFile);
 	SHADER->CreateShader("PT_Alpha", PTElementDesc, PTElementCount, PT_AlphaShaderFile);
+	SHADER->CreateShader("PT_Alpha2", PTElementDesc, PTElementCount, PT_Alpha2ShaderFile);
+	//
 	//
 
 	//	Create WorldMatrix Buffer
@@ -301,6 +303,68 @@ void Image::render(string srvKey, const D3DXMATRIX & worldMatrix, ID3D11Buffer*c
 	}
 }
 
+void Image::render(string normalKey, string alphaKey, DV2 _scale, DV2 _trans, DCR _color, DV3 _rotate)
+{
+	//	Vertex Buffer Update
+	{
+		D3DXMATRIX s, rx, ry, rz, t;
+
+		D3DXMatrixIdentity(&worldMatrix);
+
+		D3DXMatrixScaling(&s, _scale.x, _scale.y, 1);
+
+		D3DXMatrixRotationX(&rx, RAD(_rotate.x));
+		D3DXMatrixRotationY(&ry, RAD(_rotate.y));
+		D3DXMatrixRotationZ(&rz, RAD(_rotate.z));
+
+		D3DXMatrixTranslation(&t, _trans.x, WINSIZEY - _trans.y, 0);
+
+		worldMatrix = s * rx * ry * rz * t;
+		D3DXMatrixTranspose(&worldMatrix, &worldMatrix);
+		DeviceContext->UpdateSubresource(worldBuffer, 0, NULL, worldMatrix, 0, 0);
+
+		color = _color;
+		DeviceContext->UpdateSubresource(colorBuffer, 0, NULL, color, 0, 0);
+
+		PTVertex vertices[6] =
+		{
+			arrVertex[0],
+			arrVertex[1],
+			arrVertex[2],
+			arrVertex[0],
+			arrVertex[2],
+			arrVertex[3],
+		};
+		DeviceContext->UpdateSubresource(vertexBuffer, 0, NULL, vertices, 0, 0);
+
+	}
+
+	//	Render
+	{
+		SHADER->setShader("PT_Alpha2");
+
+		UINT stride = sizeof(PTVertex);
+		UINT offset = 0;
+
+		DeviceContext->VSSetConstantBuffers(1, 1, &worldBuffer);
+		DeviceContext->PSSetConstantBuffers(0, 1, &colorBuffer);
+		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		ID3D11ShaderResourceView* srv = IMAGEMAP->getTexture(normalKey);
+
+		alphaKey.clear();
+		alphaKey = normalKey;
+		alphaKey.append("_alpha");
+		ID3D11ShaderResourceView* alphaSrv = IMAGEMAP->getTexture(alphaKey);
+
+		DeviceContext->PSSetShaderResources(0, 1, &srv);
+		DeviceContext->PSSetShaderResources(1, 1, &alphaSrv);
+
+		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+		DeviceContext->Draw(6, 0);
+	}
+}
+
 void Image::render(string normalKey, string alphaKey, DV2 _scale, DV2 _trans, DV2 minTexCord, DV2 maxTexCord, DCR _color, DV3 _rotate)
 {
 	//	Vertex Buffer Update
@@ -315,7 +379,7 @@ void Image::render(string normalKey, string alphaKey, DV2 _scale, DV2 _trans, DV
 		D3DXMatrixRotationY(&ry, RAD(_rotate.y));
 		D3DXMatrixRotationZ(&rz, RAD(_rotate.z));
 
-		D3DXMatrixTranslation(&t, _trans.x, _trans.y, 0);
+		D3DXMatrixTranslation(&t, _trans.x, WINSIZEY - _trans.y, 0);
 
 		worldMatrix = s * rx * ry * rz * t;
 		D3DXMatrixTranspose(&worldMatrix, &worldMatrix);

@@ -9,7 +9,12 @@ pkp::~pkp()
 {
 }
 
-void pkp::LoadTray_List()
+void pkp::LoadTray_SoundList()
+{
+	//LOADMANAGER->Add_LoadTray("");
+}
+
+void pkp::LoadTray_ImageList()
 {
 	this->init();
 }

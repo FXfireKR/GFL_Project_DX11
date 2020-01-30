@@ -8,6 +8,7 @@ MainLoadScene::MainLoadScene()
 	LogoAlpha = 0.0f;
 
 	increase = true;
+	beenClicked = false;
 
 	BGM_VOLUME_SPEED = DELTA * 0.1f;
 	ALPHA_SPEED = DELTA * 0.8f;
@@ -15,7 +16,10 @@ MainLoadScene::MainLoadScene()
 	uiAtlasLoader* loader = new uiAtlasLoader;
 	loader->LoaduiAtlasData("../../_TextTable/LoginUi.atlas");
 	loader->LoaduiAtlasData("../../_TextTable/LobbyUi.atlas");
+	loader->LoaduiAtlasData("../../_TextTable/GuidUi.atlas");
 	delete loader;
+
+	PLAYER->test_create();
 }
 
 MainLoadScene::~MainLoadScene()
@@ -24,13 +28,16 @@ MainLoadScene::~MainLoadScene()
 
 void MainLoadScene::init()
 {
-	LOADMANAGER->Add_LoadTray("LoadBk_InEquip", "../../_Assets/CG/19wintercg7-1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
-	LOADMANAGER->Add_LoadTray("LobbyBk", "../../_Assets/CG/17xhcg4-2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 23
-	LOADMANAGER->Add_LoadTray("LoadBK_Test", "../../_Assets/CG/17xh-shootingrange.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
-	LOADMANAGER->Add_LoadTray("LobbyBackGround", "../../_Assets/Texture2D/LobbyBG.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 23
+	//	캐릭터들의 사운드 리스트 받아오기
+	for (auto& it : PLAYER->getPlayerTaticDoll().getAllTacDoll())
+		it.second->LoadTray_SoundList();
+	
 
-	LOADMANAGER->Add_LoadTray("LobbyLoop", "../../_SoundSource/LobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOADMANAGER->Add_LoadTray("TitleLoop", "../../_SoundSource/TitleLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray("ShootRange", "../../_Assets/CG/17xh-shootingrange.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 사격장, 배치 로드 이미지
+	LOADMANAGER->Add_LoadTray("LobbyBackGround", "../../_Assets/Texture2D/LobbyBG.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+
+	LOADMANAGER->Add_LoadTray("LobbyLoop", "../../_SoundSource/LobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);				//	LobbyTheme
+	LOADMANAGER->Add_LoadTray("TitleLoop", "../../_SoundSource/TitleLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);				//	TitleTheme
 
 	LOADMANAGER->setAutoInit(false);
 	LOADMANAGER->setNextScene("LOGO");
@@ -50,6 +57,10 @@ void MainLoadScene::update()
 		{
 			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
 			SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "TitleLoop", 0.5f);
+
+			SINT randomUint = rand() % PLAYER->getPlayerTaticDoll().getAllTacDoll().size();
+
+			SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, (PLAYER->getPlayerTaticDoll().getAllTacDoll().at(randomUint))->SOUND_TITLECALL, 0.2f);
 
 			bgmVolume = BGM_VOLUME_START;
 		}
@@ -98,17 +109,34 @@ void MainLoadScene::update()
 
 	if (KEYMANAGER->isKeyUp(VK_LBUTTON))
 	{
-		SCENE->Change_Scene("LOBBY");
-		SCENE->Init_Scene();
+		if (!beenClicked)
+			beenClicked = true;		
+	}
 
-		SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "TitleLoop");
-
-		if (!SOUNDMANAGER->isValidKey("LobbyLoop"))
+	if (beenClicked)
+	{
+		if (worldColor.a > 0.0f)
 		{
-			if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop"))
+			worldColor.a -= DELTA;
+			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a > bgmVolume ? bgmVolume : worldColor.a);
+		}
+
+		else
+		{
+			worldColor.a = 0.0f;
+
+			SCENE->Change_Scene("LOBBY");
+			SCENE->Init_Scene();
+
+			SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "TitleLoop");
+
+			if (!SOUNDMANAGER->isValidKey("LobbyLoop"))
 			{
-				SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.15f);
-				SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);
+				if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop"))
+				{
+					SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.15f);
+					SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);
+				}
 			}
 		}
 	}
@@ -119,8 +147,8 @@ void MainLoadScene::render()
 	DRAW->render("LoadBK", DV2(WINSIZEX*0.5f, WINSIZEY*0.5f), DV2(WINSIZEX*0.5f, WINSIZEY*0.5f));
 
 	uiAtlas atlas = IMAGEMAP->getUiAtlas("GameStart");
-	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(200, 50), DV2(WINSIZEX*0.5f, 100), atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, bgImageAlpha));
+	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(200, 50), DV2(WINSIZEX*0.5f, 620), atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, bgImageAlpha));
 
 	atlas = IMAGEMAP->getUiAtlas("LogoImage");
-	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(150, 60), DV2(150, WINSIZEY - 60), atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, LogoAlpha));
+	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(150, 60), DV2(150, 60), atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, LogoAlpha));
 }

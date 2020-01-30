@@ -82,11 +82,6 @@ protected:
 	float					axisMin_LongRad;		//	기준이 되는 최소 공격 장반경
 	float					axisMin_ShortRad;		//	기준이 되는 최소 공격 단반경
 
-	string					name;
-	string					original_key;			//캐릭터의 메인 일러스트 path입니다.
-	string					cardNormalKey;			//캐릭터 뒷배경있는 정상 일러스트의 KEY값 입니다.
-	string					cardHurtKey;			//캐릭터 뒷배경있는 부상 일러스트의 KEY값 입니다.
-
 	double					sklColTime;
 	double					atkColTime;
 	double					moveSpd;
@@ -120,12 +115,39 @@ protected:
 	typedef map<string, EllipseBase*>::iterator iter_mCollision;
 
 public:
+	//	Illust Key
+	string					name;
+	string					original_key;			//캐릭터의 메인 일러스트 Key입니다.
+	string					original_D_key;			//캐릭터의 메인 부상 일러스트 Key입니다.
+	string					cardNormalKey;			//캐릭터 뒷배경있는 정상 일러스트의 KEY값 입니다.
+	string					cardHurtKey;			//캐릭터 뒷배경있는 부상 일러스트의 KEY값 입니다.
+
+	//	Sound Key
+	string					SOUND_ATTACK;
+	string					SOUND_BREAK;
+	string					SOUND_DEFENSE;
+	string					SOUND_DIALOGUE1;
+	string					SOUND_DIALOGUE2;
+	string					SOUND_DIALOGUE3;
+	string					SOUND_FORMATION;
+	string					SOUND_GOATTACK;
+	string					SOUND_MEET;
+	string					SOUND_SKILL1;
+	string					SOUND_SKILL2;
+	string					SOUND_SKILL3;
+	string					SOUND_TITLECALL;
+	string					SOUND_WIN;
+
+	vector<string>			vecDialogue;
+
+public:
 	TaticDoll();
 	TaticDoll(const TaticDoll& other) = delete;
 	TaticDoll operator=(const TaticDoll& other) = delete;
 	virtual ~TaticDoll();
 
-	virtual void LoadTray_List();
+	virtual void LoadTray_SoundList();
+	virtual void LoadTray_ImageList();
 	virtual HRESULT init();
 	virtual void release();
 	virtual void update();

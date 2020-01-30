@@ -73,8 +73,11 @@ extern int			whlCount;
 extern float		CameraPositionX;
 extern float		CameraPositionY;
 
+
 #include "DXComponent.h"
 #include "GameComponent.h"
+
+extern D3DXCOLOR	worldColor;
 
 // 매니져 클래스
 #include "KeyManager.h"

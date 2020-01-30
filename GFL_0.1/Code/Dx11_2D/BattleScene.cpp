@@ -4,7 +4,6 @@
 BattleScene::BattleScene()
 {
 	BDATA->init();
-	PLAYER->test_create();
 	PLAYER->test_setting();
 }
 

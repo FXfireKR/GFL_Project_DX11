@@ -13,7 +13,8 @@ public:
 	AK12();
 	~AK12();
 
-	void LoadTray_List()override;
+	void LoadTray_SoundList()override;
+	void LoadTray_ImageList()override;
 	HRESULT init()override;
 	void release()override;
 	void update()override;

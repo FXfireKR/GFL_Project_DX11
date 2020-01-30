@@ -9,7 +9,11 @@ ARCHITECT::~ARCHITECT()
 {
 }
 
-void ARCHITECT::LoadTray_List()
+void ARCHITECT::LoadTray_SoundList()
+{
+}
+
+void ARCHITECT::LoadTray_ImageList()
 {
 }
 

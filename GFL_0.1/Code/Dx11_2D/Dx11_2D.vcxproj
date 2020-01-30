@@ -248,6 +248,7 @@
     <ClInclude Include="BTM_Loader.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletManager.h" />
+    <ClInclude Include="ChapterScene.h" />
     <ClInclude Include="Direct2DManager.h" />
     <ClInclude Include="DXComponent.h" />
     <ClInclude Include="Effect.h" />
@@ -296,6 +297,7 @@
     <ClInclude Include="TextBase.h" />
     <ClInclude Include="TextManager.h" />
     <ClInclude Include="ThreadPool.h" />
+    <ClInclude Include="uiAtlasLoader.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="__vector.h" />
   </ItemGroup>
@@ -386,6 +388,7 @@
     <ClCompile Include="BTM_Loader.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="ChapterScene.cpp" />
     <ClCompile Include="Direct2DManager.cpp" />
     <ClCompile Include="Dx11_2D.cpp" />
     <ClCompile Include="Effect.cpp" />
@@ -425,6 +428,7 @@
     <ClCompile Include="TextBase.cpp" />
     <ClCompile Include="TextManager.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
+    <ClCompile Include="uiAtlasLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx11_2D.rc" />
@@ -439,6 +443,13 @@
     <None Include="__vector.inl" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\_Shader\AlphaChannel.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\_Shader\AlphaChannel2.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="..\..\_Shader\Circle_Shader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

@@ -36,25 +36,17 @@ private:
 	struct SoundChannel
 	{
 		ISoundEngine* engine;
-		vector<ISound*> playList;
+		//vector<ISound*> playList;
+		map<string, ISound*> playList;
 
 		SoundChannel() {
 			engine = createIrrKlangDevice();
 		}
 	};
 
-	struct SoundResource_LoadList
-	{
-		const char* path;
-		string key;
-		bool binary;
-	};
-
 private:
 	map<string, SoundResource*> mSoundRes;
 	map<string, SoundResource*>::iterator miSoundRes;
-
-	vector<SoundResource_LoadList> loadList;
 
 	map<SOUND_CHANNEL, SoundChannel*> mChannel;
 
@@ -71,7 +63,7 @@ public:
 	void InsertSoundBianry(__in string key, __in string _path);
 	void setVolum();
 	void setVolume(__in SOUND_CHANNEL ch, __in float volume);
-	void setVolume(__in string key, __in float volume);
+	void setVolume(__in string key, __in SOUND_CHANNEL ch, __in float volume);
 
 	void Play_Effect(__in SOUND_CHANNEL ch, __in string key, __in float volume = 0.5f);
 	void Play_Effect(__in SOUND_CHANNEL ch, __in string key, __in float volume, float playSpeed);

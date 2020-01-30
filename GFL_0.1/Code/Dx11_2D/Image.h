@@ -50,5 +50,6 @@ public:		// Define Fnc
 	void NoiseRender(string srvKey, DV2 _scale, DV2 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 	void render(string srvKey, DV2 _scale, DV3 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 	void render(string srvKey, const D3DXMATRIX& worldMatrix, ID3D11Buffer*const* vertexBuffer);
+	void render(string normalKey, string alphaKey, DV2 _scale, DV2 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 	void render(string normalKey, string alphaKey, DV2 _scale, DV2 _trans, DV2 minTexCord, DV2 maxTexCord, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 };
