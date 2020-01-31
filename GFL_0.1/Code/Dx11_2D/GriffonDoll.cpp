@@ -56,7 +56,15 @@ HRESULT GriffonDoll::Create_IOPtacDoll(GRFDOLL_NAME name)
 		_new->getID()->All_ID = seed;
 		mAlltacDoll.insert(make_pair(_new->getID()->All_ID, _new));
 	}
-	break;
+		break;
+
+	case GRF_AR15:
+	{
+		AR15* _new = new AR15;
+		_new->getID()->All_ID = seed;
+		mAlltacDoll.insert(make_pair(_new->getID()->All_ID, _new));
+	}
+		break;
 
 	default:
 		break;

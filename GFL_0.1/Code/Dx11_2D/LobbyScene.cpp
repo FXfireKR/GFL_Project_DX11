@@ -22,6 +22,9 @@ LobbyScene::~LobbyScene()
 
 void LobbyScene::init()
 {
+	for (auto& it : mButton)
+		it.second.boxImgColor = D3DXCOLOR(1, 1, 1, 1);
+
 	mButton["Combat"].box = D2D_RectMakeCenter(950, 500, 90, 50);
 	mButton["Formation"].box = D2D_RectMakeCenter(1150, 500, 90, 50);
 	mButton["Research"].box = D2D_RectMakeCenter(950, 400, 80, 40);
@@ -32,6 +35,7 @@ void LobbyScene::init()
 
 	isConvers = false;
 	isSceneChanged = false;
+	ConvAlpha = 0.0f;
 
 	{
 		//PLAYER->testFuc();
@@ -59,6 +63,8 @@ void LobbyScene::update()
 		{
 			worldColor.a -= DELTA;
 			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a > 0.15f ? 0.15f : worldColor.a);
+
+			ConvAlpha = worldColor.a > ConvAlpha ? ConvAlpha : worldColor.a;
 		}
 
 		else
@@ -96,6 +102,17 @@ void LobbyScene::update()
 				}
 			}
 
+			else
+			{
+				for (auto& it : mButton)
+				{
+					if (ptInRect(it.second.box, g_ptMouse))
+						it.second.boxImgColor.r = it.second.boxImgColor.g = it.second.boxImgColor.b = it.second.boxImgColor.a = 0.5f;
+					else
+						it.second.boxImgColor.r = it.second.boxImgColor.g = it.second.boxImgColor.b = it.second.boxImgColor.a = 1.0f;
+				}
+			}
+
 			if (isConvers)
 			{
 				ConvAlpha = ConvAlpha < 1.0f ? ConvAlpha + DELTA * 5.0f : 1.0f;
@@ -114,26 +131,22 @@ void LobbyScene::render()
 	DRAW->render("LobbyBackGround", DV2(WINSIZEX*0.5f, WINSIZEY*0.5f), DV2(WINSIZEX*0.5f, WINSIZEY*0.5f));
 
 	DRAW->render(aideDoll->original_key, "alpha", DV2(512, 512), DV2(WINSIZEX*0.4f, WINSIZEY*0.8f));
-	
-	static float DebugX = 850.0f, DebugY = 350.0f;
-	ImGui::DragFloat("DebugX", &DebugX, 0.1f, 0, WINSIZEX);
-	ImGui::DragFloat("DebugY", &DebugY, 0.1f, 0, WINSIZEX);
 
 	uiAtlas atlas = IMAGEMAP->getUiAtlas("Research");
 	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(80, 40), DV2(mButton["Research"].box.left + 80, mButton["Research"].box.top + 40),
-		atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, 1));
+		atlas.mixTexCoord, atlas.maxTexCoord, mButton["Research"].boxImgColor);
 
 	atlas = IMAGEMAP->getUiAtlas("Combat");
 	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(90, 50), DV2(mButton["Combat"].box.left + 90, mButton["Combat"].box.top + 50),
-		atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, 1));
+		atlas.mixTexCoord, atlas.maxTexCoord, mButton["Combat"].boxImgColor);
 
 	atlas = IMAGEMAP->getUiAtlas("Factory");
 	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(80, 40), DV2(mButton["Factory"].box.left + 80, mButton["Factory"].box.top + 40),
-		atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, 1));
+		atlas.mixTexCoord, atlas.maxTexCoord, mButton["Factory"].boxImgColor);
 
 	atlas = IMAGEMAP->getUiAtlas("Formation");
 	DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(90, 50), DV2(mButton["Formation"].box.left + 90, mButton["Formation"].box.top + 50),
-		atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, 1));
+		atlas.mixTexCoord, atlas.maxTexCoord, mButton["Formation"].boxImgColor);
 
 	//	Conversation With AideDoll
 	{
@@ -141,8 +154,6 @@ void LobbyScene::render()
 		DRAW->render(atlas.textureKey, atlas.alphaTexKey, DV2(180, 100), DV2(WINSIZEX*0.6f, 200), atlas.mixTexCoord, atlas.maxTexCoord, DCR(1, 1, 1, ConvAlpha));
 		TEXT->TextRender("Conversation", (WINSIZEX*0.6f) - 160, 160, 330, 200, ColorF(1, 1, 0, ConvAlpha));
 	}
-
-
 
 	//for (auto& it : mButton)
 	//	D2DX->renderRect(it.second.box, ColorF(0, 0.8, 0.0));	
@@ -184,15 +195,6 @@ void LobbyScene::render()
 	//LOADMANAGER->setNextScene("BATTLE");
 	//LOADMANAGER->setLoadImageKey("LoadBK_Test");
 	//SCENE->Change_Scene("LOAD");
-*/
-
-/*
-worldColor = 0.0f;
-SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_VOICE, object->curConvKey);
-SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop");
-
-SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.15f);
-SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "ChapterLoop", 0.5f);
 */
 
 

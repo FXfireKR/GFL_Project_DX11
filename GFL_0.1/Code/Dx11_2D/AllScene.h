@@ -5,3 +5,4 @@
 #include "MainLoadScene.h"
 #include "LobbyScene.h"
 #include "ChapterScene.h"
+#include "StoryScene.h"

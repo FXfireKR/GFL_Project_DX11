@@ -36,6 +36,13 @@ void MainLoadScene::init()
 	LOADMANAGER->Add_LoadTray("ShootRange", "../../_Assets/CG/17xh-shootingrange.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 사격장, 배치 로드 이미지
 	LOADMANAGER->Add_LoadTray("LobbyBackGround", "../../_Assets/Texture2D/LobbyBG.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
 
+	LOADMANAGER->Add_LoadTray("ChapterImage_1", "../../_Assets/Texture2D/ChapterImage_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+	LOADMANAGER->Add_LoadTray("ChapterImage_2", "../../_Assets/Texture2D/ChapterImage_2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+	LOADMANAGER->Add_LoadTray("ChapterImage_3", "../../_Assets/Texture2D/ChapterImage_3.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+	LOADMANAGER->Add_LoadTray("ChapterImage_4", "../../_Assets/Texture2D/ChapterImage_4.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+	LOADMANAGER->Add_LoadTray("ChapterImage_5", "../../_Assets/Texture2D/ChapterImage_5.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+
+
 	LOADMANAGER->Add_LoadTray("LobbyLoop", "../../_SoundSource/LobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);				//	LobbyTheme
 	LOADMANAGER->Add_LoadTray("TitleLoop", "../../_SoundSource/TitleLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);				//	TitleTheme
 	LOADMANAGER->Add_LoadTray("ChapterLoop", "../../_SoundSource/ChapterLobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	ChapterTheme

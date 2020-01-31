@@ -411,7 +411,7 @@ void ImageManager::InsertImageBinary(ThreadPool * _trdPol, string key, string _p
 
 				case BMP:
 				{
-					info->Width = ((BYTE)vBuffer[19] * 256) + (BYTE)vBuffer[18];
+					info->Width = ((BYTE)vBuffer[19] * 256) +  (BYTE)vBuffer[18];
 					info->Height = ((BYTE)vBuffer[23] * 256) + (BYTE)vBuffer[22];
 
 					info->Height = info->Height < 0 ? -1 * info->Height : info->Height;

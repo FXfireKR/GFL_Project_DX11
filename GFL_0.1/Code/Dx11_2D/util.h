@@ -58,6 +58,7 @@ struct tagButton
 {
 	D2D_RECT_F			box;				//버튼 크기
 	ButtonPointer		ClickAction;		//클릭했을때의 함수포인터
+	D3DXCOLOR			boxImgColor;		
 
 	tagButton() {}
 	tagButton(D2D_RECT_F pt, void* adr) : box(pt), ClickAction((ButtonPointer)adr) {}
@@ -67,6 +68,7 @@ struct tagButton
 		box.right = x + w;
 		box.top = y;
 		box.bottom = y + h;
+		boxImgColor = D3DXCOLOR(1, 1, 1, 1);
 	}
 
 }; typedef tagButton Button;

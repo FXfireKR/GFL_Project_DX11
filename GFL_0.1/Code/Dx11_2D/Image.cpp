@@ -352,9 +352,14 @@ void Image::render(string normalKey, string alphaKey, DV2 _scale, DV2 _trans, DC
 
 		ID3D11ShaderResourceView* srv = IMAGEMAP->getTexture(normalKey);
 
-		alphaKey.clear();
-		alphaKey = normalKey;
-		alphaKey.append("_alpha");
+		//	alpha일경우, 자동으로 탐색
+		//	그렇지 않을경우, 해당 KEY
+		if (!alphaKey.compare("alpha"))
+		{
+			alphaKey.clear();
+			alphaKey = normalKey;
+			alphaKey.append("_alpha");
+		}
 		ID3D11ShaderResourceView* alphaSrv = IMAGEMAP->getTexture(alphaKey);
 
 		DeviceContext->PSSetShaderResources(0, 1, &srv);
