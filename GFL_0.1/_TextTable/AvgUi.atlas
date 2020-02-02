@@ -1,0 +1,11 @@
+normal:Avg_Atlas
+alpha:Avg_Atlas_alpha
+size:512, 512
+key:ConvBackImage{
+	startpos : 5, 360
+	endpos : 505, 505
+},
+key:SkipButton{
+	startpos : 110, 95
+	endpos : 222, 133
+}

@@ -1,0 +1,22 @@
+()<Speaker>지휘관</Speaker>||:왜 안왔나했더니, 자율 연습장에 있었구나 SOP
+
+M4SOPMOD(1)<Speaker>SOPMODⅡ</Speaker>||:그럼 그럼~ 지휘관이 왔는데 이몸이 빠질수 없지!
+
+()<Speaker>지휘관</Speaker>||:그럼 이제 새로운 콘솔이 어떻게 변경된건지 설명해줄래?
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:예. 이전의 콘솔에서는 제한된 이동을 지원하는 형태였지만+이번에 통신효율이 크게 개선된 덕분에 유닛의 이동이 자유롭게 컨트롤이 가능합니다.
+
+()<Speaker>지휘관</Speaker>||:뭘로 움직이면 되는거야?
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:마우스로 클릭하면 아군 통신에 해당 지점이 포인트로 찍히게 됩니다.
+
+M4SOPMOD(1)<Speaker>SOPMODⅡ</Speaker>||:오! 보여보여! 저기로 움직이면 되는거야? 그치?
+
+()<Speaker>지휘관</Speaker>||:통신 효율이 개선된게 진짜 실감날 정도로 정확하네
+
+M4SOPMOD(1)<Speaker>SOPMODⅡ</Speaker>||:지휘관~ 도착했어!
+
+《scene_STORY
+《script_ChapterScript_0_1
+
+ConvEND

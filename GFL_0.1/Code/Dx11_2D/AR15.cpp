@@ -47,13 +47,13 @@ void AR15::LoadTray_SoundList()
 	LOADMANAGER->Add_LoadTray(SOUND_WIN, "../../_Assets/Characters/ar15mod/AR15Mod_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
 	//	Fortrait Image Load
-	LOADMANAGER->Add_LoadTray("pic_AR15Mod", "../../_Assets/Characters/ar15mod/pic_AR15MOD.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOADMANAGER->Add_LoadTray("pic_AR15Mod_alpha", "../../_Assets/Characters/ar15mod/pic_AR15MOD_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOADMANAGER->Add_LoadTray("pic_AR15Mod_D", "../../_Assets/Characters/ar15mod/pic_AR15MOD_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOADMANAGER->Add_LoadTray("pic_AR15Mod_D_alpha", "../../_Assets/Characters/ar15mod/pic_AR15MOD_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("pic_AR15MOD", "../../_Assets/Characters/ar15mod/pic_AR15MOD.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("pic_AR15MOD_alpha", "../../_Assets/Characters/ar15mod/pic_AR15MOD_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("pic_AR15MOD_D", "../../_Assets/Characters/ar15mod/pic_AR15MOD_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("pic_AR15MOD_D_alpha", "../../_Assets/Characters/ar15mod/pic_AR15MOD_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
-	original_key = "pic_AR15Mod";
-	original_D_key = "pic_AR15Mod_D";
+	original_key = "pic_AR15MOD";
+	original_D_key = "pic_AR15MOD_D";
 }
 
 void AR15::LoadTray_ImageList()

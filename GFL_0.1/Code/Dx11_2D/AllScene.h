@@ -6,3 +6,4 @@
 #include "LobbyScene.h"
 #include "ChapterScene.h"
 #include "StoryScene.h"
+#include "TutorialScene.h"

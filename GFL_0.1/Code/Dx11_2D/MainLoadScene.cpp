@@ -17,6 +17,7 @@ MainLoadScene::MainLoadScene()
 	loader->LoaduiAtlasData("../../_TextTable/LoginUi.atlas");
 	loader->LoaduiAtlasData("../../_TextTable/LobbyUi.atlas");
 	loader->LoaduiAtlasData("../../_TextTable/GuidUi.atlas");
+	loader->LoaduiAtlasData("../../_TextTable/AvgUi.atlas");
 	delete loader;
 
 	PLAYER->test_create();

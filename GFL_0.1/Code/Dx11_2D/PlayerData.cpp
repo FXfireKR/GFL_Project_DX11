@@ -511,7 +511,7 @@ void PlayerData::test_create()
 {
 	tacDoll->Create_IOPtacDoll(GRF_AR15);
 	tacDoll->Create_IOPtacDoll(GRF_AK12);
-	
+	tacDoll->Create_IOPtacDoll(GRF_M4SOP);
 	
 	//tacDoll->Create_IOPtacDoll(GRF_PKP);
 
@@ -519,9 +519,9 @@ void PlayerData::test_create()
 
 void PlayerData::test_setting()
 {
-	//tacDoll->getAllTacDoll().at(0)->init();
-	tacDoll->InsertSquad_IOPtacDoll(1, 0);
+	tacDoll->getAllTacDoll().at(2)->init();
+	tacDoll->InsertSquad_IOPtacDoll(1, 2);
 
 	//tacDoll->getAllTacDoll().at(1)->init();
-	tacDoll->InsertSquad_IOPtacDoll(1, 1);
+	//tacDoll->InsertSquad_IOPtacDoll(1, 1);
 }

@@ -4,7 +4,7 @@
 BattleScene::BattleScene()
 {
 	BDATA->init();
-	PLAYER->test_setting();
+	//PLAYER->test_setting();
 }
 
 BattleScene::~BattleScene()

@@ -66,6 +66,14 @@ HRESULT GriffonDoll::Create_IOPtacDoll(GRFDOLL_NAME name)
 	}
 		break;
 
+	case GRF_M4SOP:
+	{
+		M4SopMod* _new = new M4SopMod;
+		_new->getID()->All_ID = seed;
+		mAlltacDoll.insert(make_pair(_new->getID()->All_ID, _new));
+	}
+	break;
+
 	default:
 		break;
 	}

@@ -1,0 +1,25 @@
+()<Speaker>???</Speaker><BIN>19wintercg7</BIN><BGM>STOP</BGM>||:나쁘지않은 거래잖아, 어차피 너희도 필요한 실정이고 그렇지?
+
+()<Speaker>M4A1</Speaker><BIN>19wintercg7-1</BIN>||:...+'목적'을 이루는 '수단', 그 이상은 기대지 않을거에요.
+
+()<Speaker>???</Speaker>||:물론이지, 내게도 '목적'을 달성하기위해서 너라는존재는...+【수단】 에 지나지않아.
+
+()<BIN>cg1</BIN><BGM>GF_EV6_G&K_pt3</BGM>||:[ 그리폰 임시 지휘부 작전통제실 ]< 11 : 14 >+지휘관 복귀후, 몇주뒤...
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:일동 차렷. 지시한 총원 3명 소집...
+
+()<Speaker>지휘관</Speaker>||:아냐 그런거 생략하고 본론 얘기하자.
+
+()<Speaker>지휘관</Speaker>||:현 상황에서 많은 병력을 할당 할 수는 없지만 좋은 작전같아.+그런데 이렇게 정교한 작전을 갑자기 내비치는 이유는 뭐야?
+
+AR15MOD(2)<Speaker>AR15</Speaker>||:...
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:...
+
+()<Speaker>지휘관</Speaker>||:뭐 좋아. 내가 보기엔 좋은 작전이야. 다만 구성인원이 너무 부실한감이 있었어.
+
+M4A1MOD(1)<Speaker>M4A1</Speaker>||:RO도 SOP도, 전부 중요한...
+
+《scene_CHAPTER
+
+ConvEND

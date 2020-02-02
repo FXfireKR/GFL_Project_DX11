@@ -22,6 +22,7 @@ ChapterScene::~ChapterScene()
 
 void ChapterScene::init()
 {
+	worldColor.a = 0.0f;
 	mButton["Return"].box = D2D_RectMakeCenter(100, 60, 80, 40);
 
 	mButton["Chapter1"].box = D2D_RectMakeCenter(400, 200, 300, 50);
@@ -34,6 +35,10 @@ void ChapterScene::init()
 	bkAlpha = 0.0f;
 	moveAngle = 0.0f;
 	position = D3DXVECTOR2(0, 0);
+
+	SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "ChapterLoop");
+	SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+	worldColor.a = 0.0f;
 
 	isSceneChanged = false;
 }
@@ -62,7 +67,9 @@ void ChapterScene::update()
 
 			SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "ChapterLoop");
 			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
-			SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);
+
+			if (SceneKey.compare("LOBBY") == 0)
+				SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);
 
 			SCENE->Change_Scene(SceneKey);
 			SCENE->Init_Scene();
@@ -185,23 +192,26 @@ void ChapterScene::ReturnLobbyButton(void * obj)
 void ChapterScene::Chapter1Button(void * obj)
 {
 	ChapterScene* object = (ChapterScene*)obj;
-	object->SceneKey = "LOAD";
+	object->SceneKey = "STORY";
 	object->isSceneChanged = true;
 
 	LOADMANAGER->setAutoInit(true);
-	LOADMANAGER->setStoryScriptPath("TestScript2");
+	LOADMANAGER->setStoryScriptPath("ChapterScript_0_0");
 	LOADMANAGER->setNextScene("STORY");
-	LOADMANAGER->setLoadImageKey("LoadBK_Test");
+	//LOADMANAGER->setLoadImageKey("LoadBK_Test");
 }
 
 void ChapterScene::Chapter2Button(void * obj)
 {
+
 }
 
 void ChapterScene::Chapter3Button(void * obj)
 {
+
 }
 
 void ChapterScene::Chapter4Button(void * obj)
 {
+
 }

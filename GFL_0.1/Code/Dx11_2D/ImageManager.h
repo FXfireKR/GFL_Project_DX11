@@ -80,6 +80,6 @@ public:
 	inline bool isValidKey(__in string key)
 	{
 		//if key was already Exist, return false
-		return !mResourece.count(key);
+ 		return !mResourece.count(key);
 	}
 };

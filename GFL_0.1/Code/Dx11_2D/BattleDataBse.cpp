@@ -4,6 +4,12 @@
 BattleDataBse::BattleDataBse()
 	: player(nullptr)
 {
+	player = new PlayerData;
+	player->init();
+
+	EngageEnemySquad = 1;
+
+	squadSNV = new SquadManager<TaticDoll*>;
 }
 
 BattleDataBse::~BattleDataBse()
@@ -13,17 +19,10 @@ BattleDataBse::~BattleDataBse()
 
 HRESULT BattleDataBse::init()
 {
-	player = new PlayerData;
-	player->init();
 
-
-	EngageEnemySquad = 1;
-
-	squadSNV = new SquadManager<TaticDoll*>;
-
-	ARCHITECT* _new = new ARCHITECT;
-	_new->init();
-	vecBattleObjects.push_back(_new);
+	//ARCHITECT* _new = new ARCHITECT;
+	//_new->init();
+	//vecBattleObjects.push_back(_new);
 
 	return S_OK;
 }

@@ -53,6 +53,18 @@ enum EQUIPTOTAL_TYPE
 	EPC_EXTBAR = 36			//연장총열
 };
 
+//대화문 출력시 필요한 것들을 저장해둠
+struct Convers
+{
+	string text, SpeakName;		//	대화내용, 화자이름
+	string bgmKey;				//	배경음악 파일이름
+	string bkKey;				//	배경이미지 파일이름
+	string curSound;			//	현재 재생되는 BGM
+
+	int Speaker;				//	화자
+	vector<string> vImageKey;	//	화자 이미지키
+};
+
 typedef void(*ButtonPointer)(void* obj);
 struct tagButton
 {

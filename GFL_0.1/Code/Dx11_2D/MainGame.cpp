@@ -151,6 +151,7 @@ void MainGame::Init()
 	SCENE->Create_Scene("LOGO", new MainLoadScene);
 	SCENE->Create_Scene("CHAPTER", new ChapterScene);
 	SCENE->Create_Scene("STORY", new StoryScene);
+	SCENE->Create_Scene("TUTORIAL", new TutorialScene);
 
 	SCENE->Change_Scene("LOGO");
 	SCENE->Init_Scene();
