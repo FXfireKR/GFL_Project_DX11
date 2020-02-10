@@ -1,18 +1,5 @@
 ()<BIN>cg1</BIN><BGM>GF_EV6_G&K_pt3</BGM>||:[ 그리폰 임시 지휘부 작전통제실 ]< 11 : 14 >+지휘관 복귀후, 몇주뒤...
 
-
-
-M4A1MOD(0)<Speaker>M4A1</Speaker>||:이번에 새로 지급된 지휘 콘솔입니다.+훨씬 좋아진 환경으로 적응 훈련하는것도 일정으로 잡혔습니다.
-
-
-()<Speaker>지휘관</Speaker>||:자세한 얘기는 카리나한테 들었어.+근데 부관은 어디가고 너랑 AR15가 있는거야?
-
-AR15MOD(1)<Speaker>AR15</Speaker>||:........
-
-()<Speaker>지휘관</Speaker>||:소대가 왔다기에는 RO랑 SOP는 없는데, 무슨 일있는거야?
-
-M4A1MOD(0)<Speaker>M4A1</Speaker>||:차기 작전 설명겸 부관한테 얘기해서 시간을 좀 할애 해봤습니다.
-
 《scene_TUTORIAL
 《script_TutorialScript
 
