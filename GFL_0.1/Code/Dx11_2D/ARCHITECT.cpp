@@ -47,7 +47,7 @@ HRESULT ARCHITECT::init()
 
 	moveSpd = ARCHITECT_SPEED;
 
-	curState.HitPoint.max = curState.HitPoint.curr = 3000;
+	curState.HitPoint.max = curState.HitPoint.curr = 33000;
 	curState.Accuracy = 1.0;
 	curState.CriticPoint = 25.5;
 	curState.CriticAcl = 50;

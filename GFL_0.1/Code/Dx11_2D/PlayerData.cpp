@@ -16,15 +16,12 @@ HRESULT PlayerData::init()
 	tacDoll = new GriffonDoll;
 	tacDoll->init();
 
-	////부착물 최대 40개 보유제한
-	//for (int i = 0; i < 40; ++i)
-	//{
-	//	EquipBase temp;
-	//	mPlayerEquip.insert(make_pair(temp.getWeaponID(), temp));
-	//}
+	//	부착물 로드
+	for (auto& it : EQUIP->getEquipInfoBase())
+		mPlayerEquip.insert(make_pair(it.second->getString().name, EquipContainer(it.second)));
+	
 
-	//EquipIter = mPlayerEquip.begin();
-
+	EquipIter = mPlayerEquip.begin();
 
 	//전체 할당
 	//tacDoll->Create_IOPtacDoll(IOP_AA12);
@@ -530,8 +527,8 @@ bool PlayerData::Targetting_Other()
 
 void PlayerData::test_create()
 {
-	tacDoll->Create_IOPtacDoll(GRF_NTW20);
-	tacDoll->Create_IOPtacDoll(GRF_AK12);
+	tacDoll->Create_IOPtacDoll(GRF_AN94);
+	//tacDoll->Create_IOPtacDoll(GRF_AK12);
 	tacDoll->Create_IOPtacDoll(GRF_M4SOP);
 	
 	//tacDoll->Create_IOPtacDoll(GRF_PKP);

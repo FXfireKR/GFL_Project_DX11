@@ -46,6 +46,7 @@ public:		// Define Fnc
 	void init() ;
 	void release();
 	void update();
+	void render(const char* srvKey, DV2 _scale, DV2 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 	void render(string srvKey, DV2 _scale, DV2 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 	void NoiseRender(string srvKey, DV2 _scale, DV2 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 	void render(string srvKey, DV2 _scale, DV3 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));

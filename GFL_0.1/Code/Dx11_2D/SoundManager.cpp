@@ -24,6 +24,8 @@ void SoundManager::init()
 	for (auto& it : mChannel)
 		it.second->engine = createIrrKlangDevice();
 
+	effectChannel.reserve(100);
+
 }
 
 void SoundManager::release()
@@ -45,6 +47,34 @@ void SoundManager::release()
 
 	if (SoundEngine)
 		SoundEngine->drop();
+}
+
+void SoundManager::update()
+{
+	for (auto& channel : mChannel)
+	{
+		if (channel.first == CH_VOICE)continue;
+
+		else if (channel.first == CH_EFFECT)
+		{
+			for (size_t i = effectChannel.size() - 1; i < -1; --i)
+			{
+				if (effectChannel[i]->isFinished())
+					effectChannel.erase(effectChannel.begin() + i);
+				else
+				{
+					auto& soundPlay = effectChannel[i];
+					soundPlay->setPlaybackSpeed(DeltaAcl);
+				}
+			}
+		}
+
+		else
+		{
+			for (auto& soundPlay : channel.second->playList)
+				soundPlay.second->setPlaybackSpeed(DeltaAcl);
+		}
+	}
 }
 
 void SoundManager::InsertSoundBianry(string key, string _path)
@@ -336,24 +366,52 @@ void SoundManager::Play_Effect(SOUND_CHANNEL ch, string key, float volume)
 	{
 		miSoundRes->second->resource->setDefaultVolume(volume);
 
-		if (mChannel[ch]->playList.count(key))
-			mChannel[ch]->playList.erase(key);
+		ISound* _new = mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true);
 
-		mChannel[ch]->playList.insert(make_pair(key, mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true)));
-		
+		_new->setVolume(volume);
+		_new->setIsPaused(false);
+		_new->setPlaybackSpeed();
 
-		auto& cur = mChannel[ch]->playList[key];
-
-		cur->setVolume(volume);
-		cur->setPlaybackSpeed(1.0f);
-		//int i = cur->getPlayPosition();
-		cur->setIsPaused(false);
+		if (ch != CH_VOICE)
+			effectChannel.push_back(_new);
 	}
+
+	//if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())
+	//{
+	//	miSoundRes->second->resource->setDefaultVolume(volume);
+
+	//	//if (mChannel[ch]->playList.count(key))
+	//	//	mChannel[ch]->playList.erase(key);
+
+	//	mChannel[ch]->playList.insert(make_pair(key, mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true)));
+	//	
+
+	//	auto& cur = mChannel[ch]->playList[key];
+
+	//	cur->setVolume(volume);
+	//	cur->setPlaybackSpeed(1.0f);
+	//	//int i = cur->getPlayPosition();
+	//	cur->setIsPaused(false);
+	//}
 }
 
 void SoundManager::Play_Effect(SOUND_CHANNEL ch, string key, float volume, float playSpeed)
 {
 	if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())
+	{
+		miSoundRes->second->resource->setDefaultVolume(volume);
+
+		ISound* _new = mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true);
+
+		_new->setVolume(volume);
+		_new->setIsPaused(false);
+		_new->setPlaybackSpeed();
+
+		if (ch != CH_VOICE)
+			effectChannel.push_back(_new);
+	}
+
+	/*if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())
 	{
 		miSoundRes->second->resource->setDefaultVolume(volume);
 		mChannel[ch]->playList.insert(make_pair(key, mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true)));
@@ -363,7 +421,24 @@ void SoundManager::Play_Effect(SOUND_CHANNEL ch, string key, float volume, float
 		cur->setVolume(volume);
 		cur->setPlaybackSpeed(playSpeed);
 		cur->setIsPaused(false);
-	}
+	}*/
+}
+
+void SoundManager::Play_Effect2(SOUND_CHANNEL ch, string key, float volume)
+{
+	if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())
+	{
+		miSoundRes->second->resource->setDefaultVolume(volume);
+
+		ISound* _new = mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true);
+
+		_new->setVolume(volume);
+		_new->setIsPaused(false);
+		_new->setPlaybackSpeed();
+
+		if (ch != CH_VOICE)
+			effectChannel.push_back(_new);
+	} 
 }
  
 void SoundManager::Play_Sound(SOUND_CHANNEL ch, string key, float volume)
@@ -372,10 +447,42 @@ void SoundManager::Play_Sound(SOUND_CHANNEL ch, string key, float volume)
 	{
 		miSoundRes->second->resource->setDefaultVolume(volume);
 
-		if (!mChannel[ch]->engine->isCurrentlyPlaying(key.c_str()))
+		if (mChannel[ch]->playList.count(key))
+		{
+			if (mChannel[ch]->playList[key]->isFinished())
+			{
+				mChannel[ch]->playList[key] = mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true);
+				auto& cur = mChannel[ch]->playList[key];
+
+				cur->setVolume(volume);
+				cur->setIsPaused(false);
+			}
+
+		}
+
+		else
+		{
+			miSoundRes->second->resource->setDefaultVolume(volume);
+			mChannel[ch]->playList.insert(make_pair(key, mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true)));
+
+			auto& cur = mChannel[ch]->playList[key];
+
+			cur->setVolume(volume);
+			cur->setIsPaused(false);
+		}
+
+		/*if (!mChannel[ch]->engine->isCurrentlyPlaying(key.c_str()))
 		{
 			mChannel[ch]->engine->play2D(miSoundRes->second->resource);
-		}
+
+			miSoundRes->second->resource->setDefaultVolume(volume);
+			mChannel[ch]->playList.insert(make_pair(key, mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true)));
+
+			auto& cur = mChannel[ch]->playList[key];
+
+			cur->setVolume(volume);
+			cur->setIsPaused(false);
+		}*/
 
 		/*miSoundRes->second->resource->setDefaultVolume(volume);
 		mChannel[ch]->playList.push_back(mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true));

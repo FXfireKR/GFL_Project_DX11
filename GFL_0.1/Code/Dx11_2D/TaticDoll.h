@@ -1,12 +1,8 @@
 #pragma once
+#include "EquipBase.h"
 #include "EllipseBase.h"
 #include "spineMotion.h"
 #include "UtanBase.h"
-
-template <typename T>
-struct STATE {
-	T max, curr;
-};
 
 //	전술인형의 소속 상태
 enum TATICDOLL_ALIANCE_TYPE
@@ -29,32 +25,6 @@ enum TATICDOLL_WEAPON_TYPE
 	TWT_SG,
 	TWT_HG,
 	TWT_SMG
-};
-
-//	전술인형의 능력치
-struct Status
-{
-	STATE<int> HitPoint;		//	체력
-	STATE<int> ArmorPoint;		//	방패 수치	[ SG 한정 ]
-
-	int Armor;					//	자체 방어력
-	int ArmorPierce;			//	방어력 파쇄수치		[존재하지않을경우, 역장을 가진 유닛에게 딜을 줄수없다.]
-	double ArmorIgnore;			//	방어력 무시 정도		[ 0 ~ 1.0 ]
-	
-	STATE<int> ShieldPoint;		//	역장 값
-	int ShieldPierce;			//	역장 파쇄수치			[존재하지않을경우, 역장을 가진 유닛에게 딜을 줄수없다.]
-	double ShieldIgnore;		//	역장 무시 확률		[ 0 ~ 1.0 ]
-
-	int AttackPoint;			//	공격력
-
-	double Accuracy;			//	명중률		[ 0 ~ 1.0 ]
-	double Avoid;				//	회피율		[ 0 ~ 1.0 ]
-
-	double CriticPoint;			//	치명타율		[ 0 ~ 1.0 ]
-	double CriticAcl;			//	치명배율		[ 1 ~ INF ]
-
-	double AttackDelay;			//	공격직후 ~ 재 공격까지의 대기시간
-	double AimDelay;			//	대기 ~ 사격전까지의 조준시간
 };
 
 //	전술인형의 ID
@@ -110,7 +80,7 @@ protected:
 	TATICDOLL_WEAPON_TYPE	weaponType;
 	TATICDOLL_ALIANCE_TYPE	alianceType;
 
-	//map<EQUIPTYPE, EquipBase*> mEquip;
+	map<EQUIPTYPE, EquipBase*> mEquip;
 
 	map<string, EllipseBase*> mCollision;
 	typedef map<string, EllipseBase*>::iterator iter_mCollision;
@@ -163,6 +133,8 @@ public:
 	virtual void MotionUpdate();
 	virtual void Update_DrawPos();
 	virtual void Unit_CollitionCheck();		//유닛간의 SELF구역 충돌체크
+
+	void AttachEquipment();
 
 	void update_Coltime();
 
@@ -233,5 +205,7 @@ public:
 
 	inline double& pGetAtkColTime() { return atkColTime; }
 	inline double& pGetSklColTime() { return sklColTime; }
+
+	inline map<EQUIPTYPE, EquipBase*>& p_getEquip() { return mEquip; }
 
 };

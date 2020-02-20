@@ -83,7 +83,7 @@ void Drone::update()
 
 	update_Coltime();
 	this->Update_DrawPos();
-	motion->update(DELTA);
+	motion->update(DELTA * DeltaAcl);
 	this->MotionUpdate();
 }
 

@@ -4,8 +4,23 @@
 class PlayerData
 {
 private:
+	struct EquipContainer
+	{
+		BYTE				num;			//	갯수
+		EquipBase*			equip;			//	장비
+		EQUIPTYPE			equipType;		//	
+		EQUIPTOTAL_TYPE		allEquipType;	//	
 
-	int							OwnEquipNumber;
+		EquipContainer(EquipBase* _equip, BYTE _num = 1) : equip(_equip) , num(_num)
+		{
+			allEquipType = equip->getItemType();
+			equipType = equip->getEquipType();
+		}
+	};
+
+private:
+
+	int							OwnEquipNumber;			//	보유한 장비 갯수
 
 	bool						multiSelectMod;
 	bool						cameraFocus;			//	카메라가 포커싱인가?
@@ -25,9 +40,10 @@ private:
 
 	vector<TATICDOLL_ALIANCE_TYPE> vAlianceList;		//	현재 동맹중인 소속 유닛들
 
-	//IOP_SUPPORTDOLL_TYPE curntSuportDoll;	//현재 전투에 보조하고있는 화력소대 이름
-	//map<UINT, EquipBase> mPlayerEquip;		//플레이어가 보유하고있는 부착물
-	//map<UINT, EquipBase>::iterator EquipIter;
+	//IOP_SUPPORTDOLL_TYPE curntSuportDoll;				//	현재 전투에 보조하고있는 화력소대 이름
+
+	map<string, EquipContainer> mPlayerEquip;			//	플레이어가 보유하고있는 부착물
+	map<string, EquipContainer>::iterator EquipIter;		//	상위 값의 Iterator
 
 public:
 	FLOAT						playerHighLight;
@@ -76,7 +92,7 @@ public:
 	inline TaticDoll* getIOPdoll_crntSquadFocus() { return curFocusDol; }
 
 	inline const TaticDoll* getCurFocusDoll() { return curFocusDol; }
-	inline void setCurFocusDoll(TaticDoll* _focus) { curFocusDol = _focus; }
+	inline void setCurFocusDoll(TaticDoll* _focus) { curFocusDol = _focus; if (_focus == nullptr) cameraFocus = false; }
 
 	//지정된 분대를 불러옵니다.
 	inline tagSquad<TaticDoll*>* getPlayerSquad(UINT squadID) { return tacDoll->getSquad(squadID) != nullptr ? tacDoll->getSquad(squadID) : nullptr; }
@@ -88,8 +104,8 @@ public:
 
 	inline SINT& getCurrentSquad() { return currentSquad; }
 
-	//inline map<UINT, EquipBase>& getPlayerEquip() { return mPlayerEquip; }
-	//inline map<UINT, EquipBase>::iterator& getEquipIterator() { return EquipIter; }
+	inline const map<string, EquipContainer>& getPlayerEquip() { return mPlayerEquip; }
+	inline map<string, EquipContainer>& pGetPlayerEquip() { return mPlayerEquip; }
 
 	inline int getOwnEquipNumber() const { return OwnEquipNumber; }
 

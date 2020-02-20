@@ -72,6 +72,7 @@ extern POINT		g_ptMouse;
 extern int			whlCount;
 extern float		CameraPositionX;
 extern float		CameraPositionY;
+extern float		DeltaAcl;
 
 
 #include "DXComponent.h"
@@ -104,6 +105,7 @@ extern D3DXCOLOR	worldColor;
 #include "BulletManager.h"
 #include "EffectManager.h"
 #include "DamageManager.h"
+#include "EquipLoader.h"
 
 #define CAMERA				Camera::getInstance()
 #define D2DX				Direct2DManager::getInstance()
@@ -124,3 +126,6 @@ extern D3DXCOLOR	worldColor;
 #define BULLET				BulletManager::getInstance()
 #define EFFECT				EffectManager::getInstance()
 #define DAMAGE				DamageManager::getInstance()
+#define EQUIP				EquipLoader::getInstance()
+
+#define ACLDELTA			DELTA * DeltaAcl

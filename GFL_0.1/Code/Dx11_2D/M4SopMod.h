@@ -17,11 +17,13 @@ private:
 	const float		M4SOP_SKILL_RENDSCALE = 20.0f;
 
 	BYTE			safeTirgger;
+	bool			sklPreShow;
 
 	UtanBase*		sklBullet;
 	D3DXVECTOR2		sklCenter;
 	vector<UINT>	vSklRange;
 	EllipseBase*	sklRange;
+
 
 public:
 	M4SopMod();
@@ -44,6 +46,7 @@ public:
 private:
 	void utanUpdate();
 	void utanRender();
+	void skilUpdate();
 
 public:
 	static void M4SopMod_Attack_Action(void* _this);

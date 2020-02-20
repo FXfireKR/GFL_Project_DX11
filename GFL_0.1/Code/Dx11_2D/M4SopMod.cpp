@@ -25,6 +25,9 @@ M4SopMod::M4SopMod()
 	vecDialogue.push_back("감정조절이라는 게 무슨 말인지는 잘 모르겠지만, 그냥 모두 마음껏 즐거워하면 충분하잖아?");
 	vecDialogue.push_back("꺄하하~ 같이 놀고 싶어? 그럼 봐주지 않을 거야!");
 
+	mEquip.insert(make_pair(EPT_ACESORY, nullptr));		// 사이트
+	mEquip.insert(make_pair(EPT_BULLET, nullptr));		// 탄환
+	mEquip.insert(make_pair(EPT_ACESORY2, nullptr));	// 외골격
 }
 
 M4SopMod::~M4SopMod()
@@ -56,8 +59,14 @@ void M4SopMod::LoadTray_SoundList()
 	LOADMANAGER->Add_LoadTray("pic_M4SOPMOD_D_alpha", "../../_Assets/Characters/m4sopmod/pic_M4SOPMOD_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOADMANAGER->Add_LoadTray("M4SOPMOD(1)_alpha", "../../_Assets/Characters/m4sopmod/M4SOPMOD(1)_alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
+	LOADMANAGER->Add_LoadTray("M4SOPMOD_N0", "../../_Assets/Characters/m4sopmod/pic_m4sopmod_n_0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("M4SOPMOD_N1", "../../_Assets/Characters/m4sopmod/pic_m4sopmod_n_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+
 	original_key = "pic_M4SOPMOD";
 	original_D_key = "pic_M4SOPMOD_D";
+
+	cardNormalKey = "M4SOPMOD_N0";
+	cardHurtKey = "M4SOPMOD_N1";
 }
 
 void M4SopMod::LoadTray_ImageList()
@@ -73,11 +82,13 @@ HRESULT M4SopMod::init()
 
 	axisMax_LongRad = 400.0f;
 	axisMax_ShortRad = 150.0f;
+	axisMin_LongRad = axisMax_LongRad * 0.45f;
+	axisMin_ShortRad = axisMax_ShortRad * 0.45f;
 
 	if (motion == nullptr)
 	{
 		motion = new spineMotion;
-
+		 
 		if (motion != nullptr)
 		{
 			motion->loadSpine_FromJsonFile("M4SOPMOD");
@@ -107,7 +118,7 @@ HRESULT M4SopMod::init()
 		sklRange = new EllipseBase(&sklCenter.x, &sklCenter.y, M4SOP_SKILL_RANGE_X, M4SOP_SKILL_RANGE_Y);
 	}
 
-	Pos.x = 150.0f;
+	Pos.x = 220.0f;
 	Pos.y = 200.0f;
 
 	if (mCollision.count("SELF") == 0)
@@ -136,6 +147,7 @@ HRESULT M4SopMod::init()
 	isAlive = true;
 	Select = false;
 	moveAble = true;
+	sklPreShow = false;
 
 	safeTirgger = 0;
 
@@ -167,9 +179,10 @@ void M4SopMod::update()
 
 	update_Coltime();
 	this->Update_DrawPos();
-	motion->update(DELTA);
+	motion->update(DELTA * DeltaAcl);
 	this->MotionUpdate();
 	utanUpdate();
+	skilUpdate();
 }
 
 void M4SopMod::render()
@@ -180,37 +193,7 @@ void M4SopMod::Use_ActiveSkill()
 {
 	if (sklColTime > 0.0) {}
 	else
-	{
-		D3DXVECTOR2 mousePos = D3DXVECTOR2(g_ptMouse.x + CameraPositionX, g_ptMouse.y - CameraPositionY);
-
-		if (mCollision["MAX_RANGE"]->PointCollision_Check(mousePos.x, mousePos.y))
-		{
-			sklCenter.x = mousePos.x;
-			sklCenter.y = mousePos.y;
-
-			Angle = Pos.x < sklCenter.x ? 0.0f : PI;
-
-			if (!motion->isCurrent("s"))
-			{
-				switch (rand() % 3)
-				{
-				case 0:
-					SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, SOUND_SKILL1, 0.25f);
-					break;
-
-				case 1:
-					SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, SOUND_SKILL2, 0.25f);
-					break;
-
-				case 2:
-					SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, SOUND_SKILL2, 0.25f);
-					break;
-				}
-
-				motion->changeMotion("s", false, true);
-			}
-		}
-	}
+		sklPreShow = !sklPreShow;
 }
 
 void M4SopMod::MotionUpdate()
@@ -285,6 +268,19 @@ void M4SopMod::render_Ellipse()
 
 void M4SopMod::utanUpdate()
 {
+	if (sklPreShow)
+	{
+		sklCenter.x = g_ptMouse.x + CameraPositionX;
+		sklCenter.y = g_ptMouse.y - CameraPositionY;
+
+		sklRange->Update_Ellipse();
+
+		DeltaAcl = DeltaAcl > 0.2f ? DeltaAcl -= DELTA : 0.2f;
+	}
+
+	else
+		DeltaAcl = DeltaAcl < 1.0f ? DeltaAcl += DELTA : 1.0f;
+
 	if (sklBullet->getFired())
 	{
 		sklBullet->update();
@@ -304,6 +300,7 @@ void M4SopMod::utanUpdate()
 					}
 				}
 			}
+
 			sklBullet->reset();
 		}
 	}
@@ -311,11 +308,56 @@ void M4SopMod::utanUpdate()
 
 void M4SopMod::utanRender()
 {
+	if (sklPreShow)
+		sklRange->Rend_Ellipse(D3DXCOLOR(0.1, 0.8, 0.1, 0.7f));
+
 	if (sklBullet->getFired())
 	{
 		sklRange->Rend_Ellipse(D3DXCOLOR(0.1, 0.8, 0.1, 0.7f));
 		sklBullet->render(M4SOP_SKILL_RENDSCALE);
 	}
+}
+
+void M4SopMod::skilUpdate()
+{
+	if (sklPreShow && Select)
+	{
+		if (KEYMANAGER->isKeyStayDown(VK_RBUTTON))
+		{
+			if (mCollision["MAX_RANGE"]->PointCollision_Check(sklCenter.x, sklCenter.y))
+			{
+				sklPreShow = false;
+
+				Angle = Pos.x < sklCenter.x ? 0.0f : PI;
+
+				if (!motion->isCurrent("s"))
+				{
+					switch (rand() % 3)
+					{
+					case 0:
+						SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_VOICE, SOUND_SKILL1, 0.25f);
+						break;
+
+					case 1:
+						SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_VOICE, SOUND_SKILL2, 0.25f);
+						break;
+
+					case 2:
+						SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_VOICE, SOUND_SKILL2, 0.25f);
+						break;
+					}
+
+					motion->changeMotion("s", false, true);
+				}
+			}
+		}
+	}
+
+	else if (!Select)
+	{
+		sklPreShow = false;
+	}
+
 }
 
 void M4SopMod::M4SopMod_Attack_Action(void * _this)

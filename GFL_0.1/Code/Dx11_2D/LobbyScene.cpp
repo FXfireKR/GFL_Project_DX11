@@ -22,6 +22,11 @@ LobbyScene::~LobbyScene()
 
 void LobbyScene::init()
 {
+	worldColor.a = 0.0f;
+	
+	SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+	SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);
+
 	for (auto& it : mButton)
 		it.second.boxImgColor = D3DXCOLOR(1, 1, 1, 1);
 
@@ -77,7 +82,6 @@ void LobbyScene::update()
 			SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_VOICE, curConvKey);
 			SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop");
 			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
-			SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "ChapterLoop", 0.5f);
 
 			SCENE->Change_Scene(SceneKey);
 			SCENE->Init_Scene();
@@ -211,12 +215,18 @@ void LobbyScene::CombatButton(void * obj)
 
 void LobbyScene::FactoryButton(void * obj)
 {
-	SCENE->Change_Scene("EQUIP");
-	SCENE->Init_Scene();
+	LobbyScene* object = (LobbyScene*)obj;
+
+	object->SceneKey = "EQUIP";
+	object->isSceneChanged = true;
 }
 
 void LobbyScene::FormationButton(void * obj)
 {
+	LobbyScene* object = (LobbyScene*)obj;
+
+	object->SceneKey = "SQUAD";
+	object->isSceneChanged = true;
 }
 
 void LobbyScene::ReserchButton(void * obj)

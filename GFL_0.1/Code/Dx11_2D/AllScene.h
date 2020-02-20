@@ -7,3 +7,5 @@
 #include "ChapterScene.h"
 #include "StoryScene.h"
 #include "TutorialScene.h"
+#include "EquipScene.h"
+#include "SquadEdditScene.h"

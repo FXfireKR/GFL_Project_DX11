@@ -23,6 +23,10 @@ Ntw20::Ntw20()
 	vecDialogue.push_back("내 뒤에 서 있지 말아 주겠어?");
 	vecDialogue.push_back("누구냐! ...뭐야, 지휘관인가. 부주의하게 만지지 마라. 상처를 입을 테니까.");
 	vecDialogue.push_back("저격 임무라면 나한테 맡겨줘. 초원을 질주하는 표범일지라도, 일격에 끝내줄 테니까.");
+
+	mEquip.insert(make_pair(EPT_ACESORY, nullptr));		// 사이트
+	mEquip.insert(make_pair(EPT_BULLET, nullptr));		// 탄환
+	mEquip.insert(make_pair(EPT_ACESORY2, nullptr));	// 외골격
 }
 
 
@@ -53,9 +57,14 @@ void Ntw20::LoadTray_SoundList()
 	LOADMANAGER->Add_LoadTray("pic_NTW20MOD_alpha", "../../_Assets/Characters/ntw20mod/pic_NTW20Mod_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOADMANAGER->Add_LoadTray("pic_NTW20MOD_D", "../../_Assets/Characters/ntw20mod/pic_NTW20Mod_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOADMANAGER->Add_LoadTray("pic_NTW20MOD_D_alpha", "../../_Assets/Characters/ntw20mod/pic_NTW20Mod_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("NTW20MOD_N0", "../../_Assets/Characters/ntw20mod/pic_ntw20mod_n_0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("NTW20MOD_N1", "../../_Assets/Characters/ntw20mod/pic_ntw20mod_n_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	original_key = "pic_NTW20MOD";
 	original_D_key = "pic_NTW20MOD_D";
+
+	cardNormalKey = "NTW20MOD_N0";
+	cardHurtKey = "NTW20MOD_N1";
 }
 
 void Ntw20::LoadTray_ImageList()
@@ -116,6 +125,9 @@ HRESULT Ntw20::init()
 	sklColTime = 0.0;
 	TargetAngle = Angle = 0.0f;
 
+	safeTirgger = 0;
+	sklPreShow = false;
+
 	isAlive = true;
 	Select = false;
 	moveAble = true;
@@ -136,7 +148,7 @@ void Ntw20::update()
 
 	update_Coltime();
 	this->Update_DrawPos();
-	motion->update(DELTA);
+	motion->update(DELTA * DeltaAcl);
 	this->MotionUpdate();
 }
 
@@ -193,6 +205,12 @@ void Ntw20::Update_DrawPos()
 
 void Ntw20::render_VisualBar()
 {
+	if (isAlive)
+	{
+		//	HP - hit point
+		Render_VisualBar(DV2(Pos.x - 50.0f, Pos.y - 150.0f), curState.HitPoint.curr,
+			curState.HitPoint.max, DV2(100, 5), ColorF(0, 0.8, 0, 0.5f));
+	}
 }
 
 void Ntw20::render_Motion()
@@ -204,11 +222,45 @@ void Ntw20::render_Motion()
 void Ntw20::render_Ellipse()
 {
 	for (auto& iterCollition : mCollision)
-		iterCollition.second->Rend_Ellipse(D3DXCOLOR(0.1, 0.8, 0.1, 0.9f));
+		iterCollition.second->Rend_Ellipse(D3DXCOLOR(0.1, 0.8, 0.1, Select ? 0.8f : 0.1f));
 }
 
 void Ntw20::NTW20_Attack_Action(void * _this)
 {
+	Ntw20* object = (Ntw20*)_this;
+
+	if (object->atkColTime < FLOAT_EPSILON)
+	{
+		object->moveAble = false;
+
+		spineMotion* motion = object->motion;
+		float curTime = motion->getCurTime();
+
+		//	1
+		if (curTime < 0.14f && curTime > 0.14f - DELTA)
+		{
+			if (object->safeTirgger == 0)
+			{
+				BULLET->CreateBullet("AR_BLT", object->Pos.x, object->Pos.y - 20, object->TargetID, object->curState, object->alianceType, 1100.0f);
+				SOUNDMANAGER->Play_Effect2(SOUND_CHANNEL::CH_EFFECT, "srSound1", 0.15f);
+				++object->safeTirgger;
+			}
+		}
+
+		else if (motion->getCurTime() > motion->getEndTime())
+		{
+			object->atkColTime = object->curState.AttackDelay;
+
+			if (object->TargetID != -1)
+				motion->changeMotion("attack", false, true);
+			else
+				motion->changeMotion("wait", true, true);
+
+			object->safeTirgger = 0;
+			object->moveAble = true;
+		}
+
+	}
 }
 
 void Ntw20::NTW20_Skill_Action(void * _this)

@@ -1,4 +1,4 @@
-()<Speaker>지휘관</Speaker>||:왜 안왔나했더니, 자율 연습장에 있었구나 SOP
+()<Speaker>지휘관</Speaker><BGM>GF_EV6_G&K_pt3</BGM>||:왜 안왔나했더니, 자율 연습장에 있었구나 SOP
 
 M4SOPMOD(1)<Speaker>SOPMODⅡ</Speaker>||:그럼 그럼~ 지휘관이 왔는데 이몸이 빠질수 없지!
 
@@ -33,7 +33,7 @@ M4SOPMOD(0)<Speaker>SOPMODⅡ</Speaker>||:기본 공격은 나한테 맡겨 지휘관!
 
 M4SOPMOD(0)<Speaker>SOPMODⅡ</Speaker>||:아하하! 완전 박살나버렸네~
 
-M4A1MOD(0)<Speaker>M4A1</Speaker>||:잘하셨습니다.+이제 스킬 사용 훈련을 해보겠습니다.+스킬은 E 버튼을 누르면 시전 가능합니다.
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:잘하셨습니다.+이제 스킬 사용 훈련을 해보겠습니다.+스킬은 E 버튼을 누르면 시전 가능합니다.+좌표지정후 우클릭시 발동합니다.
 
 》add : 2, 1100, 400, 1100, 450
 

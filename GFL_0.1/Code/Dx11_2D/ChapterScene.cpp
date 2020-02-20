@@ -68,8 +68,8 @@ void ChapterScene::update()
 			SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "ChapterLoop");
 			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
 
-			if (SceneKey.compare("LOBBY") == 0)
-				SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);
+			/*if (SceneKey.compare("LOBBY") == 0)
+				SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);*/
 
 			SCENE->Change_Scene(SceneKey);
 			SCENE->Init_Scene();

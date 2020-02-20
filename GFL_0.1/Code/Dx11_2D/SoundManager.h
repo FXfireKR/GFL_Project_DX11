@@ -50,6 +50,8 @@ private:
 
 	map<SOUND_CHANNEL, SoundChannel*> mChannel;
 
+	vector<ISound*> effectChannel;
+
 private:
 	ISoundEngine* SoundEngine;
 
@@ -60,6 +62,8 @@ public:
 	void init();
 	void release();
 
+	void update();
+
 	void InsertSoundBianry(__in string key, __in string _path);
 	void setVolum();
 	void setVolume(__in SOUND_CHANNEL ch, __in float volume);
@@ -67,6 +71,8 @@ public:
 
 	void Play_Effect(__in SOUND_CHANNEL ch, __in string key, __in float volume = 0.5f);
 	void Play_Effect(__in SOUND_CHANNEL ch, __in string key, __in float volume, float playSpeed);
+	void Play_Effect2(__in SOUND_CHANNEL ch, __in string key, __in float volume);
+
 	void Play_Sound(__in SOUND_CHANNEL ch, __in string key, __in float volume = 0.5f);
 	void Stop_Sound(__in SOUND_CHANNEL ch, __in string key);
 

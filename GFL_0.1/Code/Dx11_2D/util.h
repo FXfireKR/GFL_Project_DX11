@@ -21,6 +21,11 @@
 #define FLOAT_TO_INT(f1) static_cast<int>(f1+ FLOAT_EPSILON)
 #define FLOAT_EQUAL(f1,f2) (fabs(f1-f2) <= FLOAT_EPSILON)
 
+template <typename T>
+struct STATE {
+	T max, curr;
+};
+
 enum EQUIPTYPE
 {
 	EPT_ACESORY = 0,
@@ -51,6 +56,32 @@ enum EQUIPTOTAL_TYPE
 	EPC_NVITION = 34,		//야투경
 	EPC_SPRESOR = 35,		//소음기
 	EPC_EXTBAR = 36			//연장총열
+};
+
+//	전술인형의 능력치
+struct Status
+{
+	STATE<int> HitPoint;		//	체력
+	STATE<int> ArmorPoint;		//	방패 수치	[ SG 한정 ]
+
+	int Armor;					//	자체 방어력
+	int ArmorPierce;			//	방어력 파쇄수치		[존재하지않을경우, 역장을 가진 유닛에게 딜을 줄수없다.]
+	double ArmorIgnore;			//	방어력 무시 정도		[ 0 ~ 1.0 ]
+
+	STATE<int> ShieldPoint;		//	역장 값
+	int ShieldPierce;			//	역장 파쇄수치			[존재하지않을경우, 역장을 가진 유닛에게 딜을 줄수없다.]
+	double ShieldIgnore;		//	역장 무시 확률		[ 0 ~ 1.0 ]
+
+	int AttackPoint;			//	공격력
+
+	double Accuracy;			//	명중률		[ 0 ~ 1.0 ]
+	double Avoid;				//	회피율		[ 0 ~ 1.0 ]
+
+	double CriticPoint;			//	치명타율		[ 0 ~ 1.0 ]
+	double CriticAcl;			//	치명배율		[ 1 ~ INF ]
+
+	double AttackDelay;			//	공격직후 ~ 재 공격까지의 대기시간
+	double AimDelay;			//	대기 ~ 사격전까지의 조준시간
 };
 
 //	리소스 Scene 로드시 Release할 내용들 저장
@@ -214,7 +245,7 @@ static char* ChangeToLPC(T _value)
 	char value[128];
 
 	if (typeName.compare("int") == 0)
-		sprintf(value, "%d", (int)_value);
+		sprintf(value, "%d", _value);
 
 	else if (typeName.compare("float") == 0 || typeName.compare("double") == 0)
 		sprintf(value, "%lf", _value);

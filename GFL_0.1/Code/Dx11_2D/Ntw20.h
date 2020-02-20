@@ -9,6 +9,11 @@ private:
 	const float		NTW20_ACL_X = 0.8f;
 	const float		NTW20_ACL_Y = 0.8f;
 
+	const float		NTW20_SKILL_COLTIME = 10.5f;
+
+	BYTE			safeTirgger;
+	bool			sklPreShow;
+
 public:
 	Ntw20();
 	~Ntw20();
@@ -31,4 +36,3 @@ public:
 	static void NTW20_Attack_Action(void* _this);
 	static void NTW20_Skill_Action(void* _this);
 };
-

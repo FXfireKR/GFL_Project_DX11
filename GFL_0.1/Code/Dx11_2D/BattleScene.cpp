@@ -14,6 +14,18 @@ BattleScene::~BattleScene()
 
 void BattleScene::init()
 {
+	DAMAGE->loadImageList();
+	DAMAGE->AllocateMemory();
+
+	LOADMANAGER->Add_LoadTray("arSound", "../../_SoundSource/Battle_AR.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray("mgSound1", "../../_SoundSource/Battle_170.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray("mgSound2", "../../_SoundSource/Battle_171.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray("srSound1", "../../_SoundSource/Battle_179.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray("srSound2", "../../_SoundSource/Battle_180.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray("srSound3", "../../_SoundSource/Battle_181.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+
+	LOADMANAGER->Add_LoadTray(BTLMAP->imgKey, BTLMAP->imgPath, LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+
 	//PLAYER->test_create();
 	BULLET->init();
 	PLAYER->test_setting();
@@ -22,7 +34,12 @@ void BattleScene::init()
 	{
 		it.second->LoadTray_SoundList();
 		it.second->LoadTray_ImageList();
+		PLAYER->insertTacDolToSquad(it.first, 1);
 	}
+
+	ARCHITECT* test = new ARCHITECT;
+	test->init();
+	BDATA->insertObject(test);
 
 	LOADMANAGER->setAutoInit(false);
 	LOADMANAGER->setNextScene("BATTLE");
@@ -51,11 +68,13 @@ void BattleScene::update()
 	ZOrder_Sort();
 
 	EFFECT->update();
+	SOUNDMANAGER->update();
+	DAMAGE->update();
 }
 
 void BattleScene::render()
 {
-	//BTLMAP->testRender(vRendList);
+	BTLMAP->testRender(vRendList);
 
 	BULLET->render();
 
@@ -73,6 +92,7 @@ void BattleScene::render()
 		{
 			PLAYER->getIOPdoll_crntSquad(it.y)->render();
 			PLAYER->getIOPdoll_crntSquad(it.y)->render_Motion();
+			PLAYER->getIOPdoll_crntSquad(it.y)->render_VisualBar();
 		}
 		else
 		{
@@ -81,10 +101,13 @@ void BattleScene::render()
 			BDATA->getObject(it.y)->render_VisualBar();
 		}
 	}
-
+	
+	
 	PLAYER->render();
 
 	EFFECT->render();
+
+	DAMAGE->render();
 }
 
 void BattleScene::ZOrder_Sort()

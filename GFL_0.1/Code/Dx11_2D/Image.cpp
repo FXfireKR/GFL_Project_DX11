@@ -65,9 +65,8 @@ void Image::update()
 {
 }
 
-void Image::render(string srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 _rotate)
+void Image::render(const char * srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 _rotate)
 {
-	//	Vertex Buffer Update
 	{
 		D3DXMATRIX s, rx, ry, rz, t;
 
@@ -97,13 +96,68 @@ void Image::render(string srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 _rotat
 		_trans.x += ((1 - percent) * Dif_Center_X);
 		_trans.y += ((1 - percent) * Dif_Center_Y);
 
+		D3DXMatrixScaling(&s, _scale.x, _scale.y, 1);
+
+		D3DXMatrixRotationX(&rx, RAD(_rotate.x));
+		D3DXMatrixRotationY(&ry, RAD(_rotate.y));
+		D3DXMatrixRotationZ(&rz, RAD(_rotate.z));
+
+		D3DXMatrixTranslation(&t, _trans.x, _trans.y, 0);
+
+		worldMatrix = s * rx * ry * rz * t;
+		D3DXMatrixTranspose(&worldMatrix, &worldMatrix);
+		DeviceContext->UpdateSubresource(worldBuffer, 0, NULL, worldMatrix, 0, 0);
+
+		color = _color;
+		DeviceContext->UpdateSubresource(colorBuffer, 0, NULL, color, 0, 0);
+
+		PTVertex vertices[6] =
+		{
+			arrVertex[0],
+			arrVertex[1],
+			arrVertex[2],
+			arrVertex[0],
+			arrVertex[2],
+			arrVertex[3],
+		};
+		DeviceContext->UpdateSubresource(vertexBuffer, 0, NULL, vertices, 0, 0);
+	}
+
+	//	Render
+	{
+		SHADER->setShader("PTBase");
+
+		UINT stride = sizeof(PTVertex);
+		UINT offset = 0;
+
+		DeviceContext->VSSetConstantBuffers(1, 1, &worldBuffer);
+		DeviceContext->PSSetConstantBuffers(0, 1, &colorBuffer);
+		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		ID3D11ShaderResourceView* srv = IMAGEMAP->getTexture(srvKey);
+
+		DeviceContext->PSSetShaderResources(0, 1, &srv);
+
+		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+		DeviceContext->Draw(6, 0);
+	}
+}
+
+void Image::render(string srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 _rotate)
+{
+	//	Vertex Buffer Update
+	{
+		D3DXMATRIX s, rx, ry, rz, t;
+
+		D3DXMatrixIdentity(&worldMatrix);
+
 		D3DXMatrixScaling(&s, _scale.x , _scale.y , 1);
 
 		D3DXMatrixRotationX(&rx, RAD(_rotate.x));
 		D3DXMatrixRotationY(&ry, RAD(_rotate.y));
 		D3DXMatrixRotationZ(&rz, RAD(_rotate.z));
 
-		D3DXMatrixTranslation(&t, _trans.x,  _trans.y, 0);
+		D3DXMatrixTranslation(&t, _trans.x, WINSIZEY - _trans.y, 0);
 
 		worldMatrix = s * rx * ry * rz * t;
 		D3DXMatrixTranspose(&worldMatrix, &worldMatrix);
@@ -291,6 +345,9 @@ void Image::render(string srvKey, const D3DXMATRIX & worldMatrix, ID3D11Buffer*c
 		UINT offset = 0;
 
 		DeviceContext->VSSetConstantBuffers(1, 1, &worldBuffer);
+
+		color = D3DXCOLOR(1, 1, 1, 1);
+		DeviceContext->UpdateSubresource(colorBuffer, 0, NULL, color, 0, 0);
 		DeviceContext->PSSetConstantBuffers(0, 1, &colorBuffer);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

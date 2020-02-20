@@ -45,6 +45,7 @@ bool		appPaused = false;
 
 float CameraPositionX = 0.0f;
 float CameraPositionY = 0.0f;
+float DeltaAcl = 1.0f;
 int whlCount;
 
 D3DXCOLOR worldColor;

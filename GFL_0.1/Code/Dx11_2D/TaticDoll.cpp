@@ -39,16 +39,110 @@ void TaticDoll::MotionUpdate() {}
 void TaticDoll::Update_DrawPos() {}
 void TaticDoll::Unit_CollitionCheck() {}
 
+void TaticDoll::AttachEquipment()
+{
+	curState = maxState;
+
+	for (auto& it : mEquip)
+	{
+		if (it.second == nullptr) continue;
+
+		auto& atchState = it.second->getState();
+
+		curState.Accuracy += atchState.Accuracy;
+		curState.AttackDelay -= (curState.AttackDelay * atchState.AttackDelay) * 0.01f;
+		curState.AttackPoint += atchState.AttackPoint;
+		curState.CriticPoint += atchState.CriticPoint;
+	}
+
+	//옵티컬일때 최소사거리를 주고, 사거리를 증가시킴
+	if (mEquip.count(EPT_ACESORY))
+	{
+		if (mEquip.find(EPT_ACESORY)->second != nullptr)
+		{
+			if (mEquip.find(EPT_ACESORY)->second->getItemType() == EPC_OPTICAL)
+			{
+				auto& maxRange = mCollision.find("MAX_RANGE")->second;
+
+				float l, s;
+				l = axisMax_LongRad + (maxRange->getLongRad() * 0.2f);
+				s = axisMax_ShortRad + (maxRange->getShortRad() * 0.2f);
+
+				if (!mCollision.count("MIN_RANGE"))
+					mCollision.insert(make_pair("MIN_RANGE",
+						new EllipseBase(&Pos.x, &Pos.y, axisMin_LongRad, axisMin_ShortRad)));
+
+				maxRange->ChangeLadius(l, s);
+			}
+
+			else
+			{
+				auto& maxRange = mCollision.find("MAX_RANGE")->second;
+				maxRange->ChangeLadius(axisMax_LongRad, axisMax_ShortRad);
+
+				//최소사거리가 존재한다면 -> 최소사거리를 없앰
+				if (mCollision.count("MIN_RANGE"))
+				{
+					auto& it = (mCollision.find("MIN_RANGE")->second);
+					it->Release_Ellipse();
+					SAFE_DEL(it);
+
+					mCollision.erase(mCollision.find("MIN_RANGE"));
+				}
+			}
+
+		}
+	}
+
+	//연장총열일때 사거리를 증가시킴
+	if (mEquip.count(EPT_ACESORY2))
+	{
+		if (mEquip.find(EPT_ACESORY2)->second != nullptr)
+		{
+			if (mEquip.find(EPT_ACESORY2)->second->getItemType() == EPC_EXTBAR)
+			{
+				auto& maxRange = mCollision.find("MAX_RANGE")->second;
+
+				float l, s;
+				l = maxRange->getLongRad() + (axisMax_LongRad * 0.1f);
+				s = maxRange->getShortRad() + (axisMax_ShortRad * 0.1f);
+
+				maxRange->ChangeLadius(l, s);
+			}
+
+			else
+			{
+				bool sameCheck = false;
+				if (mEquip.count(EPT_ACESORY))
+				{
+					if (mEquip.find(EPT_ACESORY)->second != nullptr)
+					{
+						if (mEquip.find(EPT_ACESORY)->second->getItemType() == EPC_OPTICAL)
+							sameCheck = true;
+					}
+				}
+
+				if (!sameCheck)
+				{
+					auto& maxRange = mCollision.find("MAX_RANGE")->second;
+					maxRange->ChangeLadius(axisMax_LongRad, axisMax_ShortRad);
+				}
+			}
+		}
+	}
+}
+
+
 void TaticDoll::update_Coltime()
 {
 	if (atkColTime > 0.0)
-		atkColTime -= DELTA;
+		atkColTime -= DELTA * DeltaAcl;
 	else
 		atkColTime = 0.0;
 
 
 	if (sklColTime > 0.0)
-		sklColTime -= DELTA;
+		sklColTime -= DELTA * DeltaAcl;
 	else
 		sklColTime = 0.0;
 }
@@ -84,14 +178,14 @@ void TaticDoll::release()
 
 void TaticDoll::update()
 {
-	_color.r = _color.r < 1.0F ? _color.r + (DELTA * 5.0f) : 1.0F;
-	_color.g = _color.g < 1.0F ? _color.g + (DELTA * 5.0f) : 1.0F;
-	_color.b = _color.b < 1.0F ? _color.b + (DELTA * 5.0f) : 1.0F;
+	_color.r = _color.r < 1.0F ? _color.r + (DELTA * DeltaAcl * 5.0f) : 1.0F;
+	_color.g = _color.g < 1.0F ? _color.g + (DELTA * DeltaAcl * 5.0f) : 1.0F;
+	_color.b = _color.b < 1.0F ? _color.b + (DELTA * DeltaAcl * 5.0f) : 1.0F;
 
 	MoveClickPoint();
 	Limit_CharacterPosition();
 
-	MoveClickPoint();
+	//MoveClickPoint();
 	IsEnemy_at();
 	Set_Targetting_Angle();
 }
@@ -191,7 +285,7 @@ void TaticDoll::MoveClickPoint()
 		else
 			Spd = moveSpd + (s_angle * 0.5f) * moveSpd;
 
-		Spd *= DELTA;
+		Spd *= (DELTA * DeltaAcl);
 
 		//삼각함수 계산
 		Pos.x = Pos.x + (Spd * c_angle);

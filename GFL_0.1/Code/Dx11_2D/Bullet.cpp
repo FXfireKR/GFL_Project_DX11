@@ -110,8 +110,8 @@ void Bullet::update_TargetBullet()
 		break;
 		}
 
-		pos.x += cosf(Angle) * Speed * DELTA;
-		pos.y -= sinf(Angle) * Speed * DELTA;
+		pos.x += cosf(Angle) * Speed * (DELTA * DeltaAcl);
+		pos.y -= sinf(Angle) * Speed * (DELTA * DeltaAcl);
 
 		rc = RectMakeCenter(pos.x - CameraPositionX, pos.y - CameraPositionY, 10, 10);
 
@@ -200,7 +200,7 @@ void Bullet::update_NoneTargetBullet()
 
 			//}
 
-			Limit_Distance <= 0.0f ? Arrive = true : Limit_Distance -= Speed * DELTA;
+			Limit_Distance <= 0.0f ? Arrive = true : Limit_Distance -= Speed * (DELTA*DeltaAcl);
 
 			break;
 
@@ -220,15 +220,14 @@ void Bullet::update_NoneTargetBullet()
 				}
 
 				else
-					Limit_Distance <= 0.0f ? Arrive = true : Limit_Distance -= Speed * DELTA;
-
+					Limit_Distance <= 0.0f ? Arrive = true : Limit_Distance -= Speed * (DELTA*DeltaAcl);
 			}
 		}
 			break;
 		}
 
-		pos.x += cosf(Angle) * Speed * DELTA;
-		pos.y -= sinf(Angle) * Speed * DELTA;
+		pos.x += cosf(Angle) * Speed * (DELTA*DeltaAcl);
+		pos.y -= sinf(Angle) * Speed * (DELTA*DeltaAcl);
 
 
 		//rc = RectMakeCenter(pos.x - BDATA->getVirtualPos().x, pos.y - BDATA->getVirtualPos().y,

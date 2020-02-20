@@ -97,6 +97,7 @@ MainGame::MainGame()
 	SOUNDMANAGER->init();
 	SHADER->getInstance();
 	DRAW->init();
+	EQUIP;
 
 	ThreadPool* beforeGame = new ThreadPool;
 	beforeGame->SetThread(8);
@@ -125,8 +126,10 @@ void MainGame::Init()
 	SCENE->Create_Scene("CHAPTER", new ChapterScene);
 	SCENE->Create_Scene("STORY", new StoryScene);
 	SCENE->Create_Scene("TUTORIAL", new TutorialScene);
+	SCENE->Create_Scene("EQUIP", new EquipScene);
+	SCENE->Create_Scene("SQUAD", new SquadEdditScene);
 
-	SCENE->Change_Scene("LOGO");
+	SCENE->Change_Scene("BATTLE");
 	SCENE->Init_Scene();
 }
 
@@ -202,6 +205,8 @@ void MainGame::Release()
 	BULLET->delInstance();
 	EFFECT->delInstance();
 	CAMERA->delInstance();
+	
+	EQUIP->delInstance();
 
 	DAMAGE->release();
 	DAMAGE->delInstance();

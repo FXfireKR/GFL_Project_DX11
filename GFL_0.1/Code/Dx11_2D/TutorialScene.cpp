@@ -149,6 +149,7 @@ void TutorialScene::update()
 		scriptUpdate();
 
 		DAMAGE->update();
+		SOUNDMANAGER->update();
 	}
 }
 
