@@ -158,6 +158,8 @@ void AN94::update()
 
 void AN94::render()
 {
+	TaticDoll::render_Motion();
+	motion->render();
 }
 
 void AN94::Use_ActiveSkill()
@@ -166,29 +168,41 @@ void AN94::Use_ActiveSkill()
 
 void AN94::MotionUpdate()
 {
-	if (TargetID != -1)
+	if (curState.HitPoint.curr < 1)
 	{
-		if (motion->isCurrent("wait"))
-			motion->changeMotion("attack", false, true, 0.125f);
-
-		else if (motion->isCurrent("attack"))
+		if (!motion->isCurrent("die"))
 		{
-			if (atkColTime > 0.0)
-			{
-				safeTirgger = 0;
-				motion->pause(-0.055);
-			}
+			motion->changeMotion("die", false, true);
+			isAlive = false;
 		}
 	}
 
 	else
 	{
-		if (motion->isCurrent("attack"))
-			motion->changeMotion("wait", true, true);
-	}
+		if (TargetID != -1)
+		{
+			if (motion->isCurrent("wait"))
+				motion->changeMotion("attack", false, true, 0.125f);
 
-	if (!motion->isCurrent("attack"))
-		atkColTime = curState.AimDelay;
+			else if (motion->isCurrent("attack"))
+			{
+				if (atkColTime > 0.0)
+				{
+					safeTirgger = 0;
+					motion->pause(-0.055);
+				}
+			}
+		}
+
+		else
+		{
+			if (motion->isCurrent("attack"))
+				motion->changeMotion("wait", true, true);
+		}
+
+		if (!motion->isCurrent("attack"))
+			atkColTime = curState.AimDelay;
+	}
 }
 
 void AN94::Update_DrawPos()

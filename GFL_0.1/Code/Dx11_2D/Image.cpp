@@ -292,7 +292,7 @@ void Image::render(string srvKey, DV2 _scale, DV3 _trans, DCR _color, DV3 _rotat
 		D3DXMatrixRotationY(&ry, RAD(_rotate.y));
 		D3DXMatrixRotationZ(&rz, RAD(_rotate.z));
 
-		D3DXMatrixTranslation(&t, _trans.x, _trans.y, _trans.z);
+		D3DXMatrixTranslation(&t, _trans.x, WINSIZEY - _trans.y, _trans.z);
 
 		worldMatrix = s * rx * ry * rz * t;
 		D3DXMatrixTranspose(&worldMatrix, &worldMatrix);

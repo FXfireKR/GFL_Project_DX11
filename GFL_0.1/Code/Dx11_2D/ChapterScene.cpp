@@ -203,7 +203,14 @@ void ChapterScene::Chapter1Button(void * obj)
 
 void ChapterScene::Chapter2Button(void * obj)
 {
+	ChapterScene* object = (ChapterScene*)obj;
+	object->SceneKey = "WORLD";
+	object->isSceneChanged = true;
 
+	MAP->Load_MapFile("../../_TextTable/MapTestFile.txt");
+
+	LOADMANAGER->setAutoInit(true);
+	LOADMANAGER->setNextScene("WORLD");
 }
 
 void ChapterScene::Chapter3Button(void * obj)

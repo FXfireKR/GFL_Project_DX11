@@ -182,12 +182,15 @@ void TaticDoll::update()
 	_color.g = _color.g < 1.0F ? _color.g + (DELTA * DeltaAcl * 5.0f) : 1.0F;
 	_color.b = _color.b < 1.0F ? _color.b + (DELTA * DeltaAcl * 5.0f) : 1.0F;
 
-	MoveClickPoint();
-	Limit_CharacterPosition();
+	if (isAlive)
+	{
+		MoveClickPoint();
+		Limit_CharacterPosition();
 
-	//MoveClickPoint();
-	IsEnemy_at();
-	Set_Targetting_Angle();
+		//MoveClickPoint();
+		IsEnemy_at();
+		Set_Targetting_Angle();
+	}
 }
 
 void TaticDoll::render_Ellipse()
@@ -373,6 +376,7 @@ void TaticDoll::IsEnemy_at()
 				break;
 			case ALIANCE_GRIFFON:
 				object = BDATA->getObject(i);
+				if (object->alianceType == ALIANCE_GRIFFON)continue;
 				break;
 
 			case ALIANCE_IRONBLOD:
@@ -382,6 +386,8 @@ void TaticDoll::IsEnemy_at()
 				break;
 			}
 			
+			if (object == this)continue;
+
 			//	살아있지않으면 패스
 			if (!object->getAlive())
 			{

@@ -237,5 +237,5 @@ void Bullet::update_NoneTargetBullet()
 
 void Bullet::render()
 {
-	DRAW->render(key, DV2(imgSize.x * 0.6f, imgSize.y * 0.6f), DV2(pos.x, pos.y), DCR(1, 1, 1, 1), DV3(0, 0, DGR(Angle)));
+	DRAW->render(key, DV2(imgSize.x * 0.4f, imgSize.y * 0.4f), DV2(pos.x, pos.y), DCR(1, 1, 1, 1), DV3(0, 0, DGR(Angle)));
 }

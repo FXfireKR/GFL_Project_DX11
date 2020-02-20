@@ -10,8 +10,12 @@ MapManager::MapManager()
 	BTM_Loader* loader = new BTM_Loader;
 	battleMap = loader->LoadBTM("../../_Assets/BattleMap/bg2.btm");
 
+
+
 	//	require 
 	//IMAGEMAP->InsertImage_FromeFile("bg2", "../../_Assets/bg2.png");
+
+	this->init();
 
 	SAFE_DELETE(loader);
 }
@@ -23,6 +27,7 @@ MapManager::~MapManager()
 
 HRESULT MapManager::init()
 {
+
 	//LOADMANAGER->Add_LoadTray("N_Normal", "../../_Textures/Panel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	//LOADMANAGER->Add_LoadTray("N_Heliport", "../../_Textures/Heliport.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	//LOADMANAGER->Add_LoadTray("N_HQ", "../../_Textures/HQ.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
@@ -68,9 +73,10 @@ void MapManager::update()
 
 void MapManager::render()
 {
+	DRAW->render(mapImageFileName, D3DXVECTOR2(1440, 1440), D3DXVECTOR3(WINSIZEX*0.5F, WINSIZEY*0.5F, 0), D3DXCOLOR(1, 1, 1, 0.25F));
+	DRAW->render(mapImageFileName, D3DXVECTOR2(720, 720), D3DXVECTOR3(WINSIZEX*0.5F, WINSIZEY*0.5F, 0));
 
 	pManager->Render_Panel();
-
 }
 
 void MapManager::CreatePanel_()
@@ -85,5 +91,271 @@ void MapManager::Check_ActionPoint()
 
 void MapManager::Load_MapFile(string path)
 {
-	pManager->LoadPanel_Data(path);
+	//	Clear All Panel
+	pManager->Release_Panel();
+	pManager->getAllLink().clear();
+	Panel::panelId = 0;
+
+	//	Read File
+	FILE* file = fopen(path.c_str(), "rb");
+
+	if (file != NULL)
+	{
+		string buffer;
+		char buf[512];
+		size_t panelSize;
+
+
+		while (!feof(file))
+		{
+			fgets(buf, 512, file);
+			buffer = buf;
+
+			// Tokenize #
+			if (buffer.find("#") != string::npos)
+			{
+				//	Find Back Image
+				if (buffer.find("image") != string::npos)
+				{
+					buffer.erase(0, buffer.find_last_of(" ") + 1);
+					buffer = eraseEscape(buffer);
+
+					mapImageFileName = buffer;
+				}
+
+				//	Find BGM
+				else if (buffer.find("bgm") != string::npos)
+				{
+					buffer.erase(0, buffer.find_last_of(" ") + 1);
+					buffer = eraseEscape(buffer);
+
+					if (buffer.size() > 1)
+					{
+						//	Insert BGM Code
+					}
+				}
+
+				//	Find BGM
+				else if (buffer.find("linklistsize") != string::npos)
+				{
+					buffer.erase(0, buffer.find_last_of(" ") + 1);
+					size_t linkSize = readInteger(buffer);
+					pManager->getAllLink().reserve(linkSize);
+
+					for (size_t i = 0; i < linkSize; ++i)
+					{
+						fgets(buf, 512, file);
+						buffer = buf;
+
+						tagPanelLink temp;
+						POINT rpt = readDoubleInteger(buffer);
+						temp.id1 = rpt.x;
+						temp.id2 = rpt.y;
+
+						pManager->getAllLink().push_back(temp);
+					}
+				}
+
+				//	Find Panel
+				else if (buffer.find("panelsize") != string::npos)
+				{
+					buffer.erase(0, buffer.find_last_of(" ") + 1);
+					buffer = eraseEscape(buffer);
+
+					panelSize = atoi(buffer.c_str());
+
+					for (panelSize; panelSize > 0; --panelSize)
+					{
+						int panelID = 1;
+						Panel* newPanel = nullptr;
+
+						while (true)
+						{
+							fgets(buf, 512, file);
+							buffer = buf;
+
+							//	read Position of Panel
+							if (buffer.find("t ") != string::npos)
+							{
+								buffer.erase(0, buffer.find_first_of(" ") + 1);
+								POINT pos = readDoubleInteger(buffer);
+
+								pManager->Create_Panel(pos.x, pos.y);
+								newPanel = pManager->findPanel(pManager->getTotalPanelNum());
+								++panelID;
+							}
+
+							//	read PanelClassify of Panel
+							else if (buffer.find("ps ") != string::npos)
+							{
+								buffer.erase(0, buffer.find_last_of(" ") + 1);
+								newPanel->setPanelEnum(readPanelClass(buffer));
+							}
+
+							//	read PanelAliance of Panel
+							else if (buffer.find("pa ") != string::npos)
+							{
+								buffer.erase(0, buffer.find_last_of(" ") + 1);
+								newPanel->setPanelAlience(readAlianceClass(buffer));
+							}
+
+							//	read Linked Pnale ID List of Panel
+							else if (buffer.find("ls ") != string::npos)
+							{
+								buffer.erase(0, buffer.find_last_of(" ") + 1);
+								size_t ListSize = readUnsignedInteger(buffer);
+
+								newPanel->reserveLinkedList(ListSize);
+
+								//	get List ID
+								fgets(buf, 512, file);
+								buffer = buf;
+								buffer.erase(0, buffer.find_first_of(" ") + 1);
+								eraseEscape(buffer);
+
+								for (size_t i = 0; i < ListSize; ++i)
+								{
+									string temp; temp.append(buffer, 0, buffer.find_first_of(" "));
+									buffer.erase(0, buffer.find_first_of(" ") + 1);
+
+									newPanel->setLinkedId(atoi(temp.c_str()));
+								}
+							}
+
+							//	read Battle Atlas Key
+							else if (buffer.find("ba ") != string::npos)
+							{
+								buffer.erase(0, buffer.find_last_of(" ") + 1);
+								buffer = eraseEscape(buffer);
+								newPanel->setBattleAtlasKey(buffer);
+							}
+
+							//	read Battle Win Style Plag
+							else if (buffer.find("bs ") != string::npos)
+							{
+								buffer.erase(0, buffer.find_last_of(" ") + 1);
+
+								BattlePlagData temp = newPanel->getPlagData();
+								temp.battlePlag = readInteger(buffer);
+								newPanel->setPlagData(temp);
+							}
+
+							//	read Battle Protect Object or Area Data
+							else if (buffer.find("bpsize ") != string::npos)
+							{
+								buffer.erase(0, buffer.find_last_of(" ") + 1);
+
+								BattlePlagData temp = newPanel->getPlagData();
+								temp.protectObjectNumber = readInteger(buffer);
+								temp.protectArea.reserve(temp.protectObjectNumber);
+
+								for (int i = 0; i < temp.protectObjectNumber; ++i)
+								{
+									fgets(buf, 512, file);
+									buffer = buf;
+
+									tagArea newArea;
+									newArea = readArea(buffer);
+									temp.protectArea.push_back(newArea);
+								}
+
+								newPanel->setPlagData(temp);
+
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		fclose(file);
+	}
+
+	string image = "../../_Assets/BattleMap/" + mapImageFileName + ".ab";
+	LOADMANAGER->Add_LoadTray(mapImageFileName, image.c_str(), LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+}
+
+string MapManager::eraseEscape(string _str)
+{
+	if (_str.find("\n") != string::npos)
+		_str.erase(_str.find("\n"), _str.size());
+
+	if (_str.find("\r") != string::npos)
+		_str.erase(_str.find("\r"), _str.size());
+
+	return _str;
+}
+
+int MapManager::readInteger(string _str)
+{
+	_str = eraseEscape(_str);
+	return atoi(_str.c_str());
+}
+
+size_t MapManager::readUnsignedInteger(string _str)
+{
+	_str = eraseEscape(_str);
+	return static_cast<size_t>(atoi(_str.c_str()));
+}
+
+POINT MapManager::readDoubleInteger(string _str)
+{
+	_str = eraseEscape(_str);
+	string buffer; buffer.append(_str, 0, _str.find(" "));
+	_str.erase(0, _str.find(" ") + 1);
+
+	POINT value;
+	value.x = atoi(buffer.c_str());
+	value.y = atoi(_str.c_str());
+
+	return value;
+}
+
+tagArea MapManager::readArea(string _str)
+{
+	_str = eraseEscape(_str);
+
+	tagArea newArea;
+	string buffer;
+
+	for (int i = 0; i < 3; ++i)
+	{
+		buffer.append(_str, 0, _str.find_first_of(" "));
+		_str.erase(0, _str.find_first_of(" ") + 1);
+
+		switch (i)
+		{
+		case 0:
+			newArea.AreaCenter.x = atof(buffer.c_str());
+			break;
+
+		case 1:
+			newArea.AreaCenter.y = atof(buffer.c_str());
+			break;
+
+		case 2:
+			newArea.AreaRaius.x = atof(buffer.c_str());
+			break;
+		}
+
+		buffer.clear();
+	}
+
+	newArea.AreaRaius.y = atof(_str.c_str());
+
+
+	return newArea;
+}
+
+PANEL_CLASSIFY MapManager::readPanelClass(string _str)
+{
+	_str = eraseEscape(_str);
+	return (PANEL_CLASSIFY)atoi(_str.c_str());
+}
+
+TATICDOLL_ALIANCE_TYPE MapManager::readAlianceClass(string _str)
+{
+	_str = eraseEscape(_str);
+	return (TATICDOLL_ALIANCE_TYPE)atoi(_str.c_str());
 }

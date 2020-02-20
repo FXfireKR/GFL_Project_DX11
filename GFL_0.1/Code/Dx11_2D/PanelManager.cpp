@@ -78,14 +78,40 @@ void PanelManager::Update_Panel()
 
 void PanelManager::Render_Panel()
 {
-
-	for (miPanel = mPanel.begin(); miPanel != mPanel.end(); ++miPanel)
-		(*miPanel).second->LineRender();
+	Render_PanelLink();
 
 	for (miPanel = mPanel.begin(); miPanel != mPanel.end(); ++miPanel)
 		(*miPanel).second->render();
+}
 
+void PanelManager::Render_PanelLink()
+{
+	for (size_t i = 0; i < allLink.size(); ++i)
+	{
+		Panel* startPanel = mPanel[allLink[i].id1];
+		Panel* endPanel = mPanel[allLink[i].id2];
 
+		float dist = getDistance(startPanel->getPanelPos().x, startPanel->getPanelPos().y,
+			endPanel->getPanelPos().x, endPanel->getPanelPos().y);
+
+		int distTotalNum = static_cast<int>(dist / 40.0f) + 1;
+
+		D3DXVECTOR2 position;
+		position.x = startPanel->getPanelPos().x;
+		position.y = startPanel->getPanelPos().y;
+
+		float angle = 0.0f;
+
+		for (distTotalNum; distTotalNum > 0; --distTotalNum)
+		{
+			angle = getAngle(position.x, position.y, endPanel->getPanelPos().x, endPanel->getPanelPos().y);
+
+			DRAW->render("WAY", D3DXVECTOR2(25, 25), position, D3DXCOLOR(1, 1, 1, 1), D3DXVECTOR3(0, 0, DGR(angle)));
+
+			position.x += cosf(angle) * 40.0f;
+			position.y -= sinf(angle) * 40.0f;
+		}
+	}
 }
 
 void PanelManager::Delete_Panel(int id)
@@ -262,7 +288,7 @@ int PanelManager::Check_ActionPoint_For()
 	{
 		if (miPanel->second->getPanelAlience() == ALIANCE_GRIFFON)
 		{
-			if (miPanel->second->getPanelEnum() == HQ || miPanel->second->getPanelEnum() == HELIPORT)
+			if (miPanel->second->getPanelEnum() == PANEL_CLASS_HQ || miPanel->second->getPanelEnum() == PANEL_CLASS_HELIPORT)
 				++cnt;
 		}
 	}

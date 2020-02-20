@@ -37,9 +37,13 @@ void BattleScene::init()
 		PLAYER->insertTacDolToSquad(it.first, 1);
 	}
 
-	ARCHITECT* test = new ARCHITECT;
+	Pyxis* test = new Pyxis;
 	test->init();
 	BDATA->insertObject(test);
+
+	Strelet* test2 = new Strelet;
+	test2->init();
+	BDATA->insertObject(test2);
 
 	LOADMANAGER->setAutoInit(false);
 	LOADMANAGER->setNextScene("BATTLE");

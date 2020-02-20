@@ -26,7 +26,7 @@ HRESULT Panel::Create(int x, int y)
 {
 	this->init();
 
-	panelEnum = NONE;
+	panelEnum = PANEL_CLASS_NONE;
 	alience = ALIANCE_NONE;
 
 	pos.x = x;
@@ -34,7 +34,7 @@ HRESULT Panel::Create(int x, int y)
 
 	change = false;
 
-	rc = RectMakeCenter(pos.x, pos.y, PANELSIZE_X, PANELSIZE_Y);
+	rc = RectMakeCenter(pos.x, pos.y, PANEL_SIZE_X, PANEL_SIZE_Y);
 
 	return S_OK;
 }
@@ -51,79 +51,61 @@ void Panel::update()
 
 void Panel::LineRender()
 {
-	for (pLinkedId = LinkedId.begin(); pLinkedId != LinkedId.end(); ++pLinkedId)
-	{
-		//int x = MAP->pManager->findPanel(*pLinkedId)->getPanelPos().x;
-		//int y = MAP->pManager->findPanel(*pLinkedId)->getPanelPos().y;
 
-		//D2DX->renderLine(pos.x, pos.y, x, y, ColorF(1, 0, 0));
-	}
+}
+
+void Panel::setPlagData(BattlePlagData _plagData)
+{
+	plagData = _plagData;
+}
+
+BattlePlagData Panel::getPlagData()
+{
+	return plagData;
 }
 
 void Panel::render()
 {
-	D2DX->renderRect(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, ColorF(1, 0, 0));
+	D2DX->renderRect(rc.left - CameraPositionX, rc.top + CameraPositionY,
+		(rc.right - CameraPositionX) - (rc.left - CameraPositionX),
+		(rc.bottom + CameraPositionY) - (rc.top + CameraPositionY), ColorF(1, 0, 0));
+
+	D3DXCOLOR _color = PANEL_COLOR_NONE;
+	D3DXVECTOR3 panelPos = D3DXVECTOR3(rc.left + PANEL_SIZE_X, rc.top + PANEL_SIZE_Y, 0);
 
 	switch (alience)
 	{
-	case ALIANCE_NONE:
-
-		switch (panelEnum)
-		{
-		case NONE:
-			DRAW->render("N_Normal", DV2(50, 50), DV2(rc.left - 10, rc.top - 10));
-			break;
-
-		case HELIPORT:
-			DRAW->render("N_Heliport", DV2(50, 50), DV2(rc.left - 18.75f, rc.top - 18.75f));
-			break;
-
-		case HQ:
-			DRAW->render("N_HQ", DV2(50, 50), DV2(rc.left - 18.75f, rc.top - 18.75f));
-			break;
-		};
-
-		break;
-
 	case ALIANCE_GRIFFON:
-
-		switch (panelEnum)
-		{
-		case NONE:
-			DRAW->render("N_Normal", DV2(50, 50), DV2(rc.left - 10, rc.top - 10), DCR(0.1, 0.75, 0.8, 1));
-			break;
-
-		case HELIPORT:
-			DRAW->render("N_Heliport", DV2(50, 50), DV2(rc.left - 18.75f, rc.top - 18.75f), DCR(0.1, 0.75, 0.8, 1));
-			break;
-
-		case HQ:
-			DRAW->render("N_HQ", DV2(50, 50), DV2(rc.left - 18.75f, rc.top - 18.75f), DCR(0.1, 0.75, 0.8, 1));
-			break;
-		};
-
+		_color = PANEL_COLOR_GRF;
 		break;
 
 	case ALIANCE_IRONBLOD:
-
-		switch (panelEnum)
-		{
-		case NONE:
-			DRAW->render("N_Normal", DV2(50, 50), DV2(rc.left - 10, rc.top - 10), DCR(0.8, 0, 0, 1));
-			break;
-
-		case HELIPORT:
-			DRAW->render("N_Heliport", DV2(50, 50), DV2(rc.left - 18.75f, rc.top - 18.75f), DCR(0.8, 0, 0, 1));
-			break;
-
-		case HQ:
-			DRAW->render("N_HQ", DV2(50, 50), DV2(rc.left - 18.75f, rc.top - 18.75f), DCR(0.8, 0, 0, 1));
-			break;
-		};
-
+		_color = PANEL_COLOR_SNV;
 		break;
-	};
 
+	case ALIANCE_PEREDEUS:
+		_color = PANEL_COLOR_PRD;
+		break;
+
+	case ALIANCE_SCCOM:
+		_color = PANEL_COLOR_SSO;
+		break;
+	}
+
+	switch (panelEnum)
+	{
+	case PANEL_CLASS_NONE:
+		DRAW->render("Panel_Normal", PANEL_SIZE, panelPos, _color);
+		break;
+
+	case PANEL_CLASS_HELIPORT:
+		DRAW->render("Panel_Heli", PANEL_SIZE, panelPos, _color);
+		break;
+
+	case PANEL_CLASS_HQ:
+		DRAW->render("Panel_Hq", PANEL_SIZE, panelPos, _color);
+		break;
+	}
 }
 
 bool Panel::FindLinkedPanel(int findnum)

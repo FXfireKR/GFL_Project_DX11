@@ -4,6 +4,8 @@
 */
 
 #include "Drone.h"
+#include "Pyxis.h"
+
 
 #include "AK12.h"
 #include "GuA91.h"

@@ -1,6 +1,13 @@
 #pragma once
 #include "Panel.h"
 
+struct tagPanelLink
+{
+	int id1, id2;
+	tagPanelLink() {}
+	tagPanelLink(int _i1, int _i2) : id1(_i1), id2(_i2) {}
+};
+
 struct PanelSave
 {
 	RECT rc;
@@ -26,6 +33,7 @@ private:
 	int Select_Panel_id;	//-1이 미선택
 	int tempPanel;
 
+	vector<tagPanelLink> allLink;
 
 public:
 	PanelManager(void);
@@ -37,6 +45,7 @@ public:
 	void Release_Panel();
 	void Update_Panel();
 	void Render_Panel();
+	void Render_PanelLink();
 
 	void Search_SelPanel();
 	int Search_intfacePanel();
@@ -64,4 +73,5 @@ public:
 
 	inline Panel* findPanel(int id) { if (mPanel.find(id) != mPanel.end())return mPanel.find(id)->second; else return NULL; }
 
+	inline vector<tagPanelLink>& getAllLink() { return allLink; }
 };

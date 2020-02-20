@@ -119,17 +119,20 @@ MainGame::~MainGame()
 
 void MainGame::Init()
 {
+	SCENE->Create_Scene("LOGO", new MainLoadScene);
+
 	SCENE->Create_Scene("BATTLE", new BattleScene);
 	SCENE->Create_Scene("LOAD", new LoadScene);
 	SCENE->Create_Scene("LOBBY", new LobbyScene);
-	SCENE->Create_Scene("LOGO", new MainLoadScene);
 	SCENE->Create_Scene("CHAPTER", new ChapterScene);
 	SCENE->Create_Scene("STORY", new StoryScene);
 	SCENE->Create_Scene("TUTORIAL", new TutorialScene);
 	SCENE->Create_Scene("EQUIP", new EquipScene);
 	SCENE->Create_Scene("SQUAD", new SquadEdditScene);
+	SCENE->Create_Scene("WORLD", new worldmapScene);
+	//
 
-	SCENE->Change_Scene("BATTLE");
+	SCENE->Change_Scene("LOGO");
 	SCENE->Init_Scene();
 }
 

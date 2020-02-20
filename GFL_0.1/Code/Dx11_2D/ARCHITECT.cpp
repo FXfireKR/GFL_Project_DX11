@@ -85,7 +85,7 @@ void ARCHITECT::update()
 	update_Coltime();
 	this->Update_DrawPos();
 	this->MotionUpdate();
-	motion->update(DELTA);
+	motion->update(DELTA * DeltaAcl);
 }
 
 void ARCHITECT::render()

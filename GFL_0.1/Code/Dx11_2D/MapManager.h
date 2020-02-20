@@ -11,6 +11,7 @@ public:
 	PanelManager* pManager;
 	UINT MaxActionPoint;
 	UINT ActionPoint;
+	string mapImageFileName;
 
 public:
 	MapManager();
@@ -25,6 +26,15 @@ public:
 	void CreatePanel_();
 	void Check_ActionPoint();
 	void Load_MapFile(string path);
+
+private:
+	string eraseEscape(string _str);
+	int readInteger(string _str);
+	size_t readUnsignedInteger(string _str);
+	POINT readDoubleInteger(string _str);
+	tagArea readArea(string _str);
+	PANEL_CLASSIFY readPanelClass(string _str);
+	TATICDOLL_ALIANCE_TYPE readAlianceClass(string _str);
 
 public:
 	inline void decreaseActPoint(int dcp = 1) { ActionPoint -= dcp; }

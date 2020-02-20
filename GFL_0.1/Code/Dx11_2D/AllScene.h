@@ -9,3 +9,4 @@
 #include "TutorialScene.h"
 #include "EquipScene.h"
 #include "SquadEdditScene.h"
+#include "worldmapScene.h"

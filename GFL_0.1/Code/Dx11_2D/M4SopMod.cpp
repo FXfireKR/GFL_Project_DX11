@@ -198,29 +198,41 @@ void M4SopMod::Use_ActiveSkill()
 
 void M4SopMod::MotionUpdate()
 {
-	if (TargetID != -1)
+	if (curState.HitPoint.curr < 1)
 	{
-		if (motion->isCurrent("wait"))
-			motion->changeMotion("attack", false, true, 0.125f);
-
-		else if (motion->isCurrent("attack"))
+		if (!motion->isCurrent("die"))
 		{
-			if (atkColTime > 0.0)
-			{
-				safeTirgger = 0;
-				motion->pause(-0.055);
-			}
+			motion->changeMotion("die", false, true);
+			isAlive = false;
 		}
 	}
 
 	else
 	{
-		if (motion->isCurrent("attack"))
-			motion->changeMotion("wait", true, true);
-	}
+		if (TargetID != -1)
+		{
+			if (motion->isCurrent("wait"))
+				motion->changeMotion("attack", false, true, 0.125f);
 
-	if (!motion->isCurrent("attack"))
-		atkColTime = curState.AimDelay;
+			else if (motion->isCurrent("attack"))
+			{
+				if (atkColTime > 0.0)
+				{
+					safeTirgger = 0;
+					motion->pause(-0.055);
+				}
+			}
+		}
+
+		else
+		{
+			if (motion->isCurrent("attack"))
+				motion->changeMotion("wait", true, true);
+		}
+
+		if (!motion->isCurrent("attack"))
+			atkColTime = curState.AimDelay;
+	}
 }
 
 void M4SopMod::Update_DrawPos()
@@ -377,7 +389,7 @@ void M4SopMod::M4SopMod_Attack_Action(void * _this)
 			if (object->safeTirgger == 0)
 			{
 				BULLET->CreateBullet("AR_BLT", object->Pos.x, object->Pos.y - 65, object->TargetID, object->curState, object->alianceType, 1100.0f);
-				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.15f);
+				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.05f);
 				++object->safeTirgger;
 			}
 		}
@@ -388,7 +400,7 @@ void M4SopMod::M4SopMod_Attack_Action(void * _this)
 			if (object->safeTirgger == 1)
 			{
 				BULLET->CreateBullet("AR_BLT", object->Pos.x, object->Pos.y - 65, object->TargetID, object->curState, object->alianceType, 1100.0f);
-				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.15f);
+				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.05f);
 				++object->safeTirgger;
 			}
 		}
@@ -399,7 +411,7 @@ void M4SopMod::M4SopMod_Attack_Action(void * _this)
 			if (object->safeTirgger == 2)
 			{
 				BULLET->CreateBullet("AR_BLT", object->Pos.x, object->Pos.y - 65, object->TargetID, object->curState, object->alianceType, 1100.0f);
-				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.15f);
+				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.05f);
 				++object->safeTirgger;
 			}
 		}

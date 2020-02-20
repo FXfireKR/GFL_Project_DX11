@@ -90,6 +90,10 @@ void spineMotion::setMotionObject(void * _obj)
 
 void spineMotion::init()
 {
+	base->changeMotion_byName("pseudo_setup_pose", true);
+	base->changeMotion_byName("pseudo_setup_pose", true);
+	base->changeMotion_byName("pseudo_setup_pose", true);
+
 	base->changeMotion_byName("wait", true);
 	curMotion = "wait";
 }

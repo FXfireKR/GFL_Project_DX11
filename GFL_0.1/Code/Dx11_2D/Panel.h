@@ -1,19 +1,45 @@
 #pragma once
 
-#define PANELSIZE_X		50
-#define PANELSIZE_Y		50
-
 #define PANEL_LINK_LIMIT	10
+
 
 enum PANEL_CLASSIFY
 {
-	NONE = 0,
-	HELIPORT,
-	HQ
+	PANEL_CLASS_NONE = 0,
+	PANEL_CLASS_HELIPORT,
+	PANEL_CLASS_HQ
+};
+
+struct tagArea
+{
+	D3DXVECTOR2 AreaCenter;
+	D3DXVECTOR2 AreaRaius;
+};
+
+struct BattlePlagData
+{
+	BYTE battlePlag;					//	전투 형태
+
+	BYTE protectObjectNumber;			//	보호/점령 해야하는 오브젝트 갯수
+	vector<tagArea> protectArea;		//	보호/점령 해야하는 오브젝트 장소 범위
+
+	BattlePlagData() : battlePlag(1 << 1), protectObjectNumber(0) {} 
 };
 
 class Panel
 {
+private:
+	const FLOAT	PANEL_SIZE_X = 25;
+	const FLOAT	PANEL_SIZE_Y = 25;
+
+	const D3DXCOLOR PANEL_COLOR_NONE = D3DXCOLOR(1, 1, 1, 1);
+	const D3DXCOLOR PANEL_COLOR_GRF = D3DXCOLOR(0.1, 0.8, 1, 1);
+	const D3DXCOLOR PANEL_COLOR_SNV = D3DXCOLOR(0.9, 0, 0, 1);
+	const D3DXCOLOR PANEL_COLOR_PRD = D3DXCOLOR(1, 1, 1, 1);
+	const D3DXCOLOR PANEL_COLOR_SSO = D3DXCOLOR(1, 1, 1, 1);
+
+	const D3DXVECTOR2 PANEL_SIZE = D3DXVECTOR2(PANEL_SIZE_X, PANEL_SIZE_Y);
+
 private:
 	RECT rc;
 	POINT pos;
@@ -21,6 +47,10 @@ private:
 	PANEL_CLASSIFY panelEnum;		//패널의 종류
 	TATICDOLL_ALIANCE_TYPE alience;		//패널의 영향세력
 	TATICDOLL_ALIANCE_TYPE change_alie;	//변화할 세력
+
+	string battleAtlas;				//	전투 백그라운드 이미지
+
+	BattlePlagData plagData;		//	플래그 데이터
 
 	bool change;
 
@@ -44,9 +74,18 @@ public:
 	void render();
 	void LineRender();
 
+	void setPlagData(BattlePlagData _plagData);
+	BattlePlagData getPlagData();
 	bool FindLinkedPanel(int findnum);
 
 public:
+	inline string getBattleAtlasKey() { return battleAtlas; }
+	inline void setBattleAtlasKey(string key) { battleAtlas = key; }
+
+	inline const vector<int>& getLinkedList() { return LinkedId; }
+
+	inline void reserveLinkedList(size_t _size) { LinkedId.reserve(_size); }
+
 	inline int getLinkedPanelNum() { return LinkedId.size(); }
 
 	inline int getLinkedId(int num) { if (LinkedId.size() > num) return LinkedId[num]; else return -1; }
