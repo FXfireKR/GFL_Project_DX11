@@ -16,6 +16,8 @@
 
  - Aliance Change, Checking Aliance.
  - The color of the opponent will change depending on the alliance.
+ - Read map file and setting panel's data
+ - WorldmapScene add.
  
 ## Add class
 
@@ -27,5 +29,10 @@
  Paradeus's tactical doll which one is attack rifle. it has nothing special attack. 
  But Paradeus's all tactical doll have shield. that protect from bullets
 
+
 ### Drone
  None Aliance testing drone.
+
+
+### Pyxis
+ None Aliance Turret for protect area.
