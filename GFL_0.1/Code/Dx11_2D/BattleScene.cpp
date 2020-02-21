@@ -39,10 +39,12 @@ void BattleScene::init()
 
 	Pyxis* test = new Pyxis;
 	test->init();
+	test->getID()->SquadMem_ID = 0;
 	BDATA->insertObject(test);
 
 	Strelet* test2 = new Strelet;
 	test2->init();
+	test2->getID()->SquadMem_ID = 1;
 	BDATA->insertObject(test2);
 
 	LOADMANAGER->setAutoInit(false);

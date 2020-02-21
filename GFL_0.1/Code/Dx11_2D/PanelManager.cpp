@@ -68,8 +68,7 @@ void PanelManager::Release_Panel()
 
 void PanelManager::Update_Panel()
 {
-
-	this->Search_SelPanel();
+	//this->Search_SelPanel();
 
 	for (miPanel = mPanel.begin(); miPanel != mPanel.end(); ++miPanel)
 		(*miPanel).second->update();
@@ -146,7 +145,11 @@ void PanelManager::Search_SelPanel()
 	{
 		for (miPanel = mPanel.begin(); miPanel != mPanel.end(); ++miPanel)
 		{
-			if (PtInRect(&(miPanel->second->getPanelRect()), g_ptMouse))
+			POINT vMous = g_ptMouse;
+			vMous.x += CameraPositionX;
+			vMous.y -= CameraPositionY;
+
+			if (PtInRect(&(miPanel->second->getPanelRect()), vMous))
 			{
 				Select_Panel_id = miPanel->first;
 				//cout << "Select Panel ID : " << Select_Panel_id << endl;
@@ -170,6 +173,68 @@ void PanelManager::Search_SelPanel()
 		}
 	}
 
+}
+
+void PanelManager::Search_SelPanel(int keyboard)
+{
+	//if (!POPENT->getisVisible())
+	if (KEYMANAGER->isKeyDown(keyboard))
+	{
+		for (miPanel = mPanel.begin(); miPanel != mPanel.end(); ++miPanel)
+		{
+			POINT vMous = g_ptMouse;
+			vMous.x += CameraPositionX;
+			vMous.y -= CameraPositionY;
+
+			if (PtInRect(&(miPanel->second->getPanelRect()), vMous))
+			{
+				Select_Panel_id = miPanel->first;
+
+				for (int i = 0; i < 5; ++i)
+				{
+					if (miPanel->second->getLinkedId(i) != -1)
+						cout << "Linked P :" << miPanel->second->getLinkedId(i) << endl;
+					else
+						i = 5;
+				}
+
+				//cout << "\n\n" << endl;
+
+				break;
+			}
+			else
+				Select_Panel_id = -1;
+		}
+	}
+}
+
+void PanelManager::Search_SelectPanel()
+{
+	for (miPanel = mPanel.begin(); miPanel != mPanel.end(); ++miPanel)
+	{
+		POINT vMous = g_ptMouse;
+		vMous.x += CameraPositionX;
+		vMous.y -= CameraPositionY;
+
+		if (PtInRect(&(miPanel->second->getPanelRect()), vMous))
+		{
+			Select_Panel_id = miPanel->first;
+
+			for (int i = 0; i < 5; ++i)
+			{
+				if (miPanel->second->getLinkedId(i) != -1)
+					cout << "Linked P :" << miPanel->second->getLinkedId(i) << endl;
+				else
+					i = 5;
+			}
+
+			//cout << "\n\n" << endl;
+
+			break;
+		}
+		else
+			Select_Panel_id = -1;
+	}
 }
 
 int PanelManager::Search_intfacePanel()

@@ -274,6 +274,9 @@ void MapManager::Load_MapFile(string path)
 
 	string image = "../../_Assets/BattleMap/" + mapImageFileName + ".ab";
 	LOADMANAGER->Add_LoadTray(mapImageFileName, image.c_str(), LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+
+	for (auto& iter : pManager->getAllLink())
+		pManager->Panel_Link(iter.id1, iter.id2);
 }
 
 string MapManager::eraseEscape(string _str)

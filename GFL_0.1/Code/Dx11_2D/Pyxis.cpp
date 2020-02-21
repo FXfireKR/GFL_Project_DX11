@@ -37,6 +37,16 @@ HRESULT Pyxis::init()
 			motion->setMotionAction("attack", Pyxis_Attack_Action);
 			motion->setMotionAction("set", Pyxis_Set_Action);
 
+			for (int i = 0; i < 3; ++i)
+			{
+				motion->changeMotion("die", false, true);
+				motion->changeMotion("set", false, true);
+				motion->changeMotion("attack", false, true);
+				motion->changeMotion("wait", false, true);
+				motion->changeMotion("pseudo_setup_pose", false, true);
+			}
+			motion->changeMotion("wait", false, true);
+
 			motion->setMotionObject(this);
 			motion->init();
 		}
@@ -94,7 +104,11 @@ void Pyxis::release()
 void Pyxis::update()
 {
 	if (KEYMANAGER->isKeyDown('I'))
+	{
 		alianceType = ALIANCE_GRIFFON;
+		TargetID = -1;
+		vRange.clear();
+	}
 
 	TaticDoll::update();
 
@@ -267,7 +281,7 @@ void Pyxis::Pyxis_Attack_Action(void* _this)
 			if (object->TargetID != -1)
 				motion->changeMotion("attack", false);
 			else
-				motion->changeMotion("wait", true, true, 0.09f);
+				motion->changeMotion("wait", true, true, 0.1f);
 
 			object->safeTirgger = 0;
 			object->moveAble = true;

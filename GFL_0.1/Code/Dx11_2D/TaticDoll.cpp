@@ -368,6 +368,7 @@ void TaticDoll::IsEnemy_at()
 		for (size_t i = 0; i < EnemyLoopSize; ++i)
 		{
 			TaticDoll* object;
+			TaticDoll* myAdr = this;
 			iter = mCollision.find("MAX_RANGE");
 
 			switch (alianceType)
@@ -376,7 +377,16 @@ void TaticDoll::IsEnemy_at()
 				break;
 			case ALIANCE_GRIFFON:
 				object = BDATA->getObject(i);
-				if (object->alianceType == ALIANCE_GRIFFON)continue;
+				if (object->alianceType == ALIANCE_GRIFFON)
+				{
+					if (TargetID == i)
+						TargetID = -1;
+
+					if (FindEnemy_ID(i))
+						vRange.erase(vRange.begin() + getEnemy_ID_Pos(i));
+
+					continue;
+				}
 				break;
 
 			case ALIANCE_IRONBLOD:
@@ -385,8 +395,12 @@ void TaticDoll::IsEnemy_at()
 				object = PLAYER->getIOPdoll_crntSquad(i);
 				break;
 			}
-			
-			if (object == this)continue;
+						
+			if (object == myAdr)
+			{
+				TargetID = -1;
+				continue;
+			}
 
 			//	살아있지않으면 패스
 			if (!object->getAlive())

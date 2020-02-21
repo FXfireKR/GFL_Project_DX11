@@ -197,7 +197,11 @@ void AN94::MotionUpdate()
 		else
 		{
 			if (motion->isCurrent("attack"))
+			{
+				if (!moveAble)
+					moveAble = true;
 				motion->changeMotion("wait", true, true);
+			}
 		}
 
 		if (!motion->isCurrent("attack"))

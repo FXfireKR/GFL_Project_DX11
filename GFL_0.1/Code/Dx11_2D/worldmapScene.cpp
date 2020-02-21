@@ -16,6 +16,8 @@ void worldmapScene::init()
 	rendSquad = false;
 
 	LOADMANAGER->Add_LoadTray("Panel_Normal", "../../_Assets/Texture2D/Panel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("Panel_Heli", "../../_Assets/Texture2D/Heliport.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("Panel_Hq", "../../_Assets/Texture2D/HQ.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOADMANAGER->Add_LoadTray("WAY", "../../_Assets/Texture2D/waypoint.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	
 	LOADMANAGER->setAutoInit(false);
@@ -47,12 +49,15 @@ void worldmapScene::update()
 {
 	CAMERA->setCameraFix(false);
 	MAP->update();
+	
+	ImGui::Checkbox("renderSquad", &rendSquad);
 
 	if (!rendSquad)
 	{
 		if (KEYMANAGER->isKeyUp(VK_LBUTTON))
 		{
 			int id;
+			MAP->pManager->Search_SelectPanel();
 			if ((id = MAP->pManager->getSelectPanelId()) != -1)
 			{
 				if (Focus_Squad == -1)
@@ -74,17 +79,28 @@ void worldmapScene::update()
 					if (!onSpawnSite)
 					{
 						//클릭된 패널이 아군소속 지휘부 / 헬리포트일경우  [ 임시 전부 허용 ]
-						//if (MAP->pManager->findPanel(id)->getPanelEnum() != PANEL_CLASS_NONE && 
-						//		MAP->pManager->findPanel(id)->getPanelAlience() == ALIANCE_GRIFFON)
+						if (MAP->pManager->findPanel(id)->getPanelEnum() != PANEL_CLASS_NONE && 
+								MAP->pManager->findPanel(id)->getPanelAlience() == ALIANCE_GRIFFON)
 						{
 							rendSquad = true;
 							Spawn_Squad = 1;
 							Spawn_PanelID = id;
+							//Focus_Squad = 
 						}
 					}
 				}
+			}
+		}
 
-				else
+		ImGui::DragInt("FocusID", &Focus_Squad);
+
+		if (KEYMANAGER->isKeyUp(VK_RBUTTON))
+		{
+			if (Focus_Squad != -1)
+			{
+				int id;
+				MAP->pManager->Search_SelectPanel();
+				if ((id = MAP->pManager->getSelectPanelId()) != -1)
 				{
 					auto Leader = PLAYER->getPlayerSquad(Focus_Squad)->squadLeader;
 
@@ -103,20 +119,20 @@ void worldmapScene::update()
 
 					if (!onSpawnSite)
 					{
-						//정지해있을경우에만 움직일수있다.
+						//	정지해있을경우에만 움직일수있다.
 						if (Leader->getMotion()->isCurrent("wait"))
 						{
-							//자신이 현재 서있는 노드가 아니다.
+							//	자신이 현재 서있는 노드가 아니다.
 							if (PLAYER->getPlayerSquad(Focus_Squad)->nowNodeID != id)
 							{
-								//현재 서있는 노드가, 선택된 노드와 연결이 되어있는가?
+								//	현재 서있는 노드가, 선택된 노드와 연결이 되어있는가?
 								if (MAP->pManager->findPanel(PLAYER->getPlayerSquad(Focus_Squad)->nowNodeID)->FindLinkedPanel(id))
 								{
 									Leader->MovePoint(MAP->pManager->findPanel(id)->getPanelPos().x, MAP->pManager->findPanel(id)->getPanelPos().y);
 									PLAYER->getPlayerSquad(Focus_Squad)->nowNodeID = id;
 								}
 
-								//범위를 벗어난 노드를 선택시, 포커싱을 해제한다.
+								//	범위를 벗어난 노드를 선택시, 포커싱을 해제한다.
 								else
 									Focus_Squad = -1;
 							}
@@ -125,10 +141,11 @@ void worldmapScene::update()
 				}
 			}
 		}
-
+		
 	}
 	else
 	{
+		//	분대 배치 확정
 		if (KEYMANAGER->isKeyUp(VK_SPACE))
 		{
 			//이미 배치된 분대가 아니라면 포트 노드로 배속시킨다.

@@ -132,6 +132,7 @@ void MainGame::Init()
 	SCENE->Create_Scene("WORLD", new worldmapScene);
 	//
 
+	//SCENE->Change_Scene("BATTLE");
 	SCENE->Change_Scene("LOGO");
 	SCENE->Init_Scene();
 }

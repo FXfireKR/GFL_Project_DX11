@@ -48,6 +48,8 @@ public:
 	void Render_PanelLink();
 
 	void Search_SelPanel();
+	void Search_SelPanel(int keyboard);
+	void Search_SelectPanel();
 	int Search_intfacePanel();
 	void Select_Panel_Classify(PANEL_CLASSIFY pc);
 	void Select_Panel_Alience(TATICDOLL_ALIANCE_TYPE ac);

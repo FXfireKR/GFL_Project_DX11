@@ -95,15 +95,15 @@ void Panel::render()
 	switch (panelEnum)
 	{
 	case PANEL_CLASS_NONE:
-		DRAW->render("Panel_Normal", PANEL_SIZE, panelPos, _color);
+		DRAW->render("Panel_Normal", PANEL_NORMAL_SIZE, panelPos, _color);
 		break;
 
 	case PANEL_CLASS_HELIPORT:
-		DRAW->render("Panel_Heli", PANEL_SIZE, panelPos, _color);
+		DRAW->render("Panel_Heli", PANEL_HELI_SIZE, panelPos, _color);
 		break;
 
 	case PANEL_CLASS_HQ:
-		DRAW->render("Panel_Hq", PANEL_SIZE, panelPos, _color);
+		DRAW->render("Panel_Hq", PANEL_HQ_SIZE, panelPos, _color);
 		break;
 	}
 }
