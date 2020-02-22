@@ -192,8 +192,8 @@ void PanelManager::Search_SelPanel(int keyboard)
 
 				for (int i = 0; i < 5; ++i)
 				{
-					if (miPanel->second->getLinkedId(i) != -1)
-						cout << "Linked P :" << miPanel->second->getLinkedId(i) << endl;
+					if (miPanel->second->getLinkedId(i) != -1) {}			
+						//cout << "Linked P :" << miPanel->second->getLinkedId(i) << endl;
 					else
 						i = 5;
 				}
@@ -222,8 +222,8 @@ void PanelManager::Search_SelectPanel()
 
 			for (int i = 0; i < 5; ++i)
 			{
-				if (miPanel->second->getLinkedId(i) != -1)
-					cout << "Linked P :" << miPanel->second->getLinkedId(i) << endl;
+				if (miPanel->second->getLinkedId(i) != -1) {}
+					//cout << "Linked P :" << miPanel->second->getLinkedId(i) << endl;
 				else
 					i = 5;
 			}
@@ -276,73 +276,10 @@ bool PanelManager::Panel_Link(int id1, int id2)
 
 void PanelManager::SavePanel_Data(char* filename)
 {
-	PanelSave ps;
-
-	FILE *p_file = fopen("TestMap.txt", "w");
-
-	for (miPanel = mPanel.begin(); miPanel != mPanel.end(); ++miPanel)
-	{
-		ps.alience = miPanel->second->getPanelAlience();
-		ps.change = miPanel->second->getPanelChanged();
-
-		ps.LinkedNum = miPanel->second->getLinkedPanelNum();
-
-		for (int i = 0; i < ps.LinkedNum; ++i)
-			ps.Linked[i] = miPanel->second->getLinkedId(i);
-
-		ps.panelEnum = miPanel->second->getPanelEnum();
-		ps.panelId = miPanel->first;
-		ps.pos = miPanel->second->getPanelPos();
-		ps.rc = miPanel->second->getPanelRect();
-
-
-		if (NULL != p_file)
-			fwrite(&ps, 1, sizeof(PanelSave), p_file);
-
-		ZeroMemory(&ps, sizeof(PanelSave));
-	}
-
-	fclose(p_file);
-
-	cout << "Save Complete" << endl;
-
 }
 
 void PanelManager::LoadPanel_Data(string path)
 {
-	PanelSave ps;
-	Panel* p;
-
-	FILE *p_file = fopen("../../_TextTable/TestMap.txt", "r");
-
-	while (!feof(p_file))
-	{
-		if (NULL != p_file)
-			fread(&ps, sizeof(PanelSave), 1, p_file);
-
-		p = new Panel;
-
-		for (int i = 0; i < ps.LinkedNum; ++i)
-			p->setLinkedId(ps.Linked[i]);
-
-		p->setPanelAlience(ps.alience);
-		p->setPanelChanged(ps.change);
-		p->setPanelEnum(ps.panelEnum);
-		p->setPanelId(ps.panelId);
-		p->setPanelPos(ps.pos);
-		p->setPanelRect(ps.rc);
-
-		mPanel.insert(make_pair(p->getPanelId(), p));
-
-	}
-
-	SAFE_DEL(p);
-
-	fclose(p_file);
-
-	cout << "File Load Complete" << endl;
-
-
 }
 
 int PanelManager::Check_ActionPoint_For()

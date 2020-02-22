@@ -595,7 +595,9 @@ void TaticDoll::Character_GetDamage(const Status & st)
 			//HP를 줄인다.
 			if (curState.HitPoint.curr > totalDamge)
 			{
+				totalDamge = totalDamge > curState.Armor ? totalDamge - curState.Armor : 0;
 				curState.HitPoint.curr -= totalDamge;
+				
 				_color.g = _color.b = 0.0F;
 			}
 
@@ -607,17 +609,20 @@ void TaticDoll::Character_GetDamage(const Status & st)
 
 		else
 		{
+			UINT totalDamge = st.AttackPoint;
+
 			//HP를 줄인다.
 			if (curState.HitPoint.curr > st.AttackPoint)
 			{
-				curState.HitPoint.curr -= st.AttackPoint;
+				totalDamge = totalDamge > curState.Armor ? totalDamge - curState.Armor : 0;
+				curState.HitPoint.curr -= totalDamge;
 				_color.g = _color.b = 0.0F;
 			}
 
 			else
 				curState.HitPoint.curr = 0;
 
-			DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, st.AttackPoint);
+			DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, totalDamge);
 		}
 
 

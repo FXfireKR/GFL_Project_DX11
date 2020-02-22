@@ -15,6 +15,9 @@ void worldmapScene::init()
 	Focus_Squad = -1;
 	rendSquad = false;
 
+	Turn = 0;
+	turnAliance = ALIANCE_GRIFFON;
+
 	LOADMANAGER->Add_LoadTray("Panel_Normal", "../../_Assets/Texture2D/Panel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOADMANAGER->Add_LoadTray("Panel_Heli", "../../_Assets/Texture2D/Heliport.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOADMANAGER->Add_LoadTray("Panel_Hq", "../../_Assets/Texture2D/HQ.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
@@ -39,6 +42,9 @@ void worldmapScene::init()
 		vector<UINT> vint;
 		mInstSquad.insert(make_pair((TATICDOLL_ALIANCE_TYPE)(i + 1), vint));
 	}
+
+	MAP->Check_ActionPoint();
+	MAP->setActionPoint(MAP->getMaxActionPoint());
 }
 
 void worldmapScene::release()
@@ -49,11 +55,25 @@ void worldmapScene::update()
 {
 	CAMERA->setCameraFix(false);
 	MAP->update();
+
+	keyUpate();
 	
 	ImGui::Checkbox("renderSquad", &rendSquad);
+		
+	//	분대별 분대장 업데이트
+	for (auto& it : mInstSquad.find(ALIANCE_GRIFFON)->second)
+	{
+		PLAYER->getPlayerSquad(it)->squadLeader->getMotion()->update(DELTA);
+		PLAYER->getPlayerSquad(it)->squadLeader->MoveClickPoint();
+		PLAYER->getPlayerSquad(it)->squadLeader->Update_DrawPos();
+	}
+}
 
+void worldmapScene::keyUpate()
+{
 	if (!rendSquad)
 	{
+		//	좌클릭시 행동
 		if (KEYMANAGER->isKeyUp(VK_LBUTTON))
 		{
 			int id;
@@ -78,14 +98,13 @@ void worldmapScene::update()
 					//클릭된 패널위에 아무런 분대도 없을경우
 					if (!onSpawnSite)
 					{
-						//클릭된 패널이 아군소속 지휘부 / 헬리포트일경우  [ 임시 전부 허용 ]
-						if (MAP->pManager->findPanel(id)->getPanelEnum() != PANEL_CLASS_NONE && 
-								MAP->pManager->findPanel(id)->getPanelAlience() == ALIANCE_GRIFFON)
+						//클릭된 패널이 아군소속 지휘부 / 헬리포트일경우
+						if (MAP->pManager->findPanel(id)->getPanelEnum() != PANEL_CLASS_NONE &&
+							MAP->pManager->findPanel(id)->getPanelAlience() == ALIANCE_GRIFFON)
 						{
 							rendSquad = true;
 							Spawn_Squad = 1;
 							Spawn_PanelID = id;
-							//Focus_Squad = 
 						}
 					}
 				}
@@ -94,6 +113,7 @@ void worldmapScene::update()
 
 		ImGui::DragInt("FocusID", &Focus_Squad);
 
+		//	우클릭시 행동
 		if (KEYMANAGER->isKeyUp(VK_RBUTTON))
 		{
 			if (Focus_Squad != -1)
@@ -141,37 +161,60 @@ void worldmapScene::update()
 				}
 			}
 		}
-		
+
+
+		ImGui::Text("Max Act Point %d", MAP->getMaxActionPoint());
+		ImGui::Text("Act Point %d", MAP->getActionPoint());
+
+		//	엔터시 행동 [ 임시 ]
+		if (KEYMANAGER->isKeyUp(VK_RETURN))
+		{ 
+			MAP->pManager->Check_AroundPanel(ALIANCE_GRIFFON);
+
+			MAP->Check_ActionPoint();
+			MAP->plsMaxActionPoint(mInstSquad[ALIANCE_GRIFFON].size());
+			MAP->setActionPoint(MAP->getMaxActionPoint());
+
+			MAP->pManager->setSelectPID();
+
+			for (auto& squadID : mInstSquad[ALIANCE_GRIFFON])
+			{
+				auto* squad = PLAYER->getPlayerSquad(squadID);
+
+				if (squad->nowNodeID != -1)
+				{
+					if (MAP->pManager->findPanel(squad->nowNodeID)->getPanelAlience() != ALIANCE_GRIFFON)
+						MAP->pManager->findPanel(squad->nowNodeID)->setPanelAlience(ALIANCE_GRIFFON);
+				}
+
+			}
+
+			MAP->pManager->Check_AroundPanel(ALIANCE_IRONBLOD);
+		}
+
 	}
+
 	else
 	{
-		//	분대 배치 확정
+		//	스페이스바 [ 임시 ]
 		if (KEYMANAGER->isKeyUp(VK_SPACE))
 		{
-			//이미 배치된 분대가 아니라면 포트 노드로 배속시킨다.
+			//	이미 배치된 분대가 아니라면 포트 노드로 배속시킨다.
 			if (!Find_SquadInWorld(ALIANCE_GRIFFON, Spawn_Squad))
 			{
 				mInstSquad.find(ALIANCE_GRIFFON)->second.push_back(Spawn_Squad);
 
 				PLAYER->getPlayerSquad(Spawn_Squad)->nowNodeID = Spawn_PanelID;
 
-				PLAYER->getPlayerSquad(mInstSquad.find(ALIANCE_GRIFFON)->second.back())->squadLeader->p_getCharacterPos()->x = 
+				PLAYER->getPlayerSquad(mInstSquad.find(ALIANCE_GRIFFON)->second.back())->squadLeader->p_getCharacterPos()->x =
 					MAP->pManager->findPanel(Spawn_PanelID)->getPanelPos().x;
 
-				PLAYER->getPlayerSquad(mInstSquad.find(ALIANCE_GRIFFON)->second.back())->squadLeader->p_getCharacterPos()->y = 
+				PLAYER->getPlayerSquad(mInstSquad.find(ALIANCE_GRIFFON)->second.back())->squadLeader->p_getCharacterPos()->y =
 					MAP->pManager->findPanel(Spawn_PanelID)->getPanelPos().y;
 
 				rendSquad = false;
 			}
 		}
-	}
-
-	//분대별 분대장 업데이트
-	for (auto& it : mInstSquad.find(ALIANCE_GRIFFON)->second)
-	{
-		PLAYER->getPlayerSquad(it)->squadLeader->getMotion()->update(DELTA);
-		PLAYER->getPlayerSquad(it)->squadLeader->MoveClickPoint();
-		PLAYER->getPlayerSquad(it)->squadLeader->Update_DrawPos();
 	}
 }
 
@@ -198,12 +241,10 @@ void worldmapScene::render()
 		auto panel = MAP->pManager->findPanel(nowNode);
 		auto Leader = PLAYER->getPlayerSquad(it)->squadLeader;
 
-		ImGui::DragFloat("Leader_X", &Leader->p_getCharacterPos()->x);
-		ImGui::DragFloat("Leader_Y", &Leader->p_getCharacterPos()->y);
+		//ImGui::DragFloat("Leader_X", &Leader->p_getCharacterPos()->x);
+		//ImGui::DragFloat("Leader_Y", &Leader->p_getCharacterPos()->y);
 
 		Leader->render_Motion();
-
-		//Leader->getMotion().render(Leader->getDrawPos().x, Leader->getDrawPos().y, 0.5F, 1.0F, DgreeAngle(Leader->getViewAngle()));
 	}
 
 	//if (rendSquad)

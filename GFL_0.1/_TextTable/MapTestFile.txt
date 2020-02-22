@@ -1,0 +1,197 @@
+# image ops30_y
+# bgm 
+# linklistsize 20
+1 2
+2 3
+3 4
+4 5
+5 13
+5 6
+13 14
+14 15
+6 7
+7 8
+1 16
+16 17
+17 18
+18 19
+19 9
+8 9
+9 10
+10 11
+11 12
+12 10
+# panelsize 19
+
+t 411 956
+ps 2
+pa 1
+ls 1
+19
+ba 
+bs 8
+bpsize 1
+15.000000 658.505981 600.000000 300.000000
+
+t 353 690
+ps 0
+pa 1
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 228 651
+ps 0
+pa 1
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 303 542
+ps 0
+pa 0
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 396 506
+ps 0
+pa 0
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 538 406
+ps 0
+pa 2
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 785 503
+ps 0
+pa 2
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 896 391
+ps 1
+pa 2
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 1123 264
+ps 0
+pa 2
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 1070 -27
+ps 0
+pa 2
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 1010 -177
+ps 0
+pa 2
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 878 -59
+ps 2
+pa 2
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 350 360
+ps 0
+pa 0
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 201 324
+ps 0
+pa 0
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 59 -67
+ps 1
+pa 1
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 694 919
+ps 0
+pa 1
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 1034 921
+ps 0
+pa 0
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 1151 636
+ps 0
+pa 2
+ls 0
+
+ba 
+bs 2
+bpsize 0
+
+t 1330 454
+ps 0
+pa 2
+ls 0
+
+ba 
+bs 2
+bpsize 0
+

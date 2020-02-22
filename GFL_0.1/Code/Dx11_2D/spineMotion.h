@@ -36,6 +36,7 @@ public:
 	void init();
 
 	void pause();
+	void pauseAt(double _timer);
 	void pause(double _timer);
 	void update(float delta);
 	void render();

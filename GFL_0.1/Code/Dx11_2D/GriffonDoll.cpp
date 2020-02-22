@@ -90,6 +90,14 @@ HRESULT GriffonDoll::Create_IOPtacDoll(GRFDOLL_NAME name)
 	}
 	break;
 
+	case GRF_KSG:
+	{
+		Ksg* _new = new Ksg;
+		_new->getID()->All_ID = seed;
+		mAlltacDoll.insert(make_pair(_new->getID()->All_ID, _new));
+	}
+	break;
+
 	default:
 		break;
 	}

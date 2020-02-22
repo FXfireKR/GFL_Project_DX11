@@ -12,6 +12,10 @@ private:
 
 	map<TATICDOLL_ALIANCE_TYPE, vector<UINT>> mInstSquad;
 
+	int Turn;
+
+	TATICDOLL_ALIANCE_TYPE turnAliance;
+
 public:
 	worldmapScene();
 	~worldmapScene();
@@ -22,5 +26,8 @@ public:
 	virtual void update() override;
 	virtual void render() override;
 
+
+private:
+	void keyUpate();
 	bool Find_SquadInWorld(TATICDOLL_ALIANCE_TYPE ac, UINT id);
 };

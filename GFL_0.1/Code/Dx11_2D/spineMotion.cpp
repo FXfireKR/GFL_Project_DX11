@@ -59,7 +59,7 @@ void spineMotion::loadSpine_FromJsonFile(const char * _path)
 	base->setShaderResourceView(pngKey);
 
 	//	Setting All Motion's MixTime	0.105
-	base->getStateData()->defaultMix = 0.125f;
+	base->getStateData()->defaultMix = 0.0f;
 
 	skeleton = base->getSkeleton();
 	skeleton->flipX = false;
@@ -102,13 +102,18 @@ void spineMotion::pause()
 {
 }
 
+void spineMotion::pauseAt(double _timer)
+{
+	if (base->getTrackEntry() != nullptr)
+		base->getTrackEntry()->time = _timer;
+}
+
 void spineMotion::pause(double _timer)
 {
 	//	Mixtime 을 반영해서 pauseTime을 적용합니다.
 	if (base->getTrackEntry() != nullptr)
 		if (base->getTrackEntry()->time > _timer + base->getTrackEntry()->mixTime)
-			base->getTrackEntry()->time = _timer + base->getTrackEntry()->mixTime;
-	
+			base->getTrackEntry()->time = _timer + base->getTrackEntry()->mixTime;	
 }
 
 void spineMotion::update(float delta)
@@ -136,7 +141,8 @@ void spineMotion::changeMotion(string _aniKey, bool loop, bool _mix, float _dur)
 
 	else
 	{
-		base->changeMotion_byName(_aniKey, loop);
+		changeMotion_mix_byName(_aniKey, loop, 0.0f);
+		//base->changeMotion_byName(_aniKey, loop);
 		base->getState()->data->defaultMix = 0.0f;
 		curMotion = _aniKey;
 	}

@@ -23,6 +23,8 @@ void BattleScene::init()
 	LOADMANAGER->Add_LoadTray("srSound1", "../../_SoundSource/Battle_179.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 	LOADMANAGER->Add_LoadTray("srSound2", "../../_SoundSource/Battle_180.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 	LOADMANAGER->Add_LoadTray("srSound3", "../../_SoundSource/Battle_181.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray("sgSound", "../../_SoundSource/SG_shot.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOADMANAGER->Add_LoadTray("sgReload", "../../_SoundSource/SG_re.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
 	LOADMANAGER->Add_LoadTray(BTLMAP->imgKey, BTLMAP->imgPath, LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 

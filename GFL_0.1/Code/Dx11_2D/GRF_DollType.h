@@ -14,6 +14,7 @@
 #include "M4SopMod.h"
 #include "Ntw20.h"
 #include "AN94.h"
+#include "Ksg.h"
 
 enum GRFDOLL_NAME
 {
@@ -24,7 +25,8 @@ enum GRFDOLL_NAME
 	GRF_AR15,
 	GRF_M4SOP,
 	GRF_NTW20,
-	GRF_AN94
+	GRF_AN94,
+	GRF_KSG
 };
 
 /*
