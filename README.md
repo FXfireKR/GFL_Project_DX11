@@ -1,10 +1,12 @@
-# [ 2020 - 02 - 20 ]  Update Note
+# [ 2020 - 02 - 22 ]  Update Note
 
 ## Bug fix
 
- - When use damagelog class render, battle atlas render alpha was dropping with damage font alpha.
- - When tatic doll skill pre-active after use active skill, character voice was slowly together.
- - Use active skill button LBUTTON -> RBUTTON
+ - worldmapScene, when click the panel the API cannot reconize the player's input.
+ 
+ 
+## Issue
+ - spine mixtime animation render should be improved & Know how to use spineAPI well.
  
  
 ## Current Develop
@@ -36,3 +38,7 @@
 
 ### Pyxis
  None Aliance Turret for protect area.
+
+
+### KSG
+ Griffon's tactical doll which one is shotgun. she have passive skill about improve avoid point & aromor point
