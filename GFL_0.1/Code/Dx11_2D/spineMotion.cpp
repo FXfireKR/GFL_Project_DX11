@@ -59,7 +59,7 @@ void spineMotion::loadSpine_FromJsonFile(const char * _path)
 	base->setShaderResourceView(pngKey);
 
 	//	Setting All Motion's MixTime	0.105
-	base->getStateData()->defaultMix = 0.0f;
+	//base->getStateData()->defaultMix = 0.0f;
 
 	skeleton = base->getSkeleton();
 	skeleton->flipX = false;

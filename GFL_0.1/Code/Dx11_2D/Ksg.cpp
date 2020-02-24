@@ -92,11 +92,8 @@ HRESULT Ksg::init()
 
 			for (int i = 0; i < 3; ++i)
 			{
-				motion->changeMotion("die", false, true);
-				motion->changeMotion("reload", false, true);
-				motion->changeMotion("wait", false, true);
-				motion->changeMotion("attack", false, true);
-				motion->changeMotion("pseudo_setup_pose", false, true);
+				motion->changeMotion("move", false, true);
+				motion->changeMotion("attack", false, true, 0.001f);
 			}
 			motion->changeMotion("wait", false, true);
 
@@ -124,13 +121,13 @@ HRESULT Ksg::init()
 
 	curState.HitPoint.max = curState.HitPoint.curr = 993000;
 	curState.Armor = 9950;
-	curState.Accuracy = 1.0;
+	curState.Accuracy = 0.9;
 	curState.CriticPoint = 25.5;
 	curState.CriticAcl = 50;
-	curState.AttackDelay = 2.8f;
-	curState.AimDelay = 2.999;
+	curState.AttackDelay = 0.8f;
+	curState.AimDelay = 0.59;
 	curState.Avoid = 0.435;
-	curState.AttackPoint = 85;
+	curState.AttackPoint = 350;
 
 	maxState = curState;
 
@@ -175,9 +172,9 @@ void Ksg::Use_ActiveSkill()
 
 void Ksg::MotionUpdate()
 {
-	static float mixTime = -0.033f;
-	ImGui::DragFloat("mixTime", &mixTime, 0.01f);
-	ImGui::Text("KSG Motion Timer : %.4f", motion->getCurTime());
+	static float mixTime = -0.017f;
+	ImGui::DragFloat("mixTime", &mixTime, 0.00001f, -999, 999, "%.6f");
+	ImGui::Text("KSG Motion Timer : %.6f", motion->getCurTime());
 
 	if (curState.HitPoint.curr < 1)
 	{
@@ -194,7 +191,7 @@ void Ksg::MotionUpdate()
 		{
 			if (motion->isCurrent("wait"))
 			{
-				motion->changeMotion("attack", false, true, 0.001f);
+				motion->changeMotion("attack", false);
 				waitAfter = true;
 			}
 
@@ -203,7 +200,11 @@ void Ksg::MotionUpdate()
 				if (atkColTime > 0.0)
 				{
 					safeTrigger = 0;
-					motion->pauseAt(mixTime);
+					if (!waitAfter)
+						motion->pauseAt(-0.0167f);
+
+					else
+						motion->pauseAt(-0.016650f);
 				}
 			}
 		}
@@ -211,7 +212,10 @@ void Ksg::MotionUpdate()
 		else
 		{
 			if (motion->isCurrent("attack"))
+			{
 				motion->changeMotion("wait", true, true);
+				moveAble = true;
+			}
 		}
 
 		if (!motion->isCurrent("attack"))
@@ -276,8 +280,24 @@ void Ksg::KSG_Attack_Action(void * _this)
 		{
 			if (object->safeTrigger == 0)
 			{
-				BULLET->CreateBullet("AR_BLT", object->Pos.x, object->Pos.y - 65, object->TargetID, object->curState, object->alianceType, 1100.0f);
+				//BULLET->CreateBullet("AR_BLT", object->Pos.x, object->Pos.y - 65, object->TargetID, object->curState, object->alianceType, 1100.0f);
+				//SG_BLT
+				EFFECT->createEffect("SG_BLT", DV2(object->Pos.x + 120, object->Pos.y - 65), DELTA * 2.0f, 80.0f);
+
+				BULLET->CreateBullet(object, object->TargetID, object->curState, object->alianceType, 90.0f, 150.0f);
+
+				// SG는 Bullet을 사용하지않는다.
+
 				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "sgSound", 0.05f);
+				++object->safeTrigger;
+			}
+		}
+
+		if (curTime < 0.883f && curTime > 0.883f - DELTA)
+		{
+			if (object->safeTrigger == 1)
+			{
+				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "sgReload", 0.05f);
 				++object->safeTrigger;
 			}
 		}

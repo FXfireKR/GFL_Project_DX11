@@ -66,6 +66,8 @@ HRESULT Strelet::init()
 	curState.AimDelay = 0.15;
 	curState.Avoid = 0.125;
 	curState.AttackPoint = 115;
+	curState.Armor = 0;
+	
 
 	maxState = curState;
 

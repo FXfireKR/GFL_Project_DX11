@@ -20,4 +20,5 @@ public:
 	HRESULT CreateBullet(string k, float sx, float sy, UINT id, Status st, TATICDOLL_ALIANCE_TYPE t, float spd = 25.0f);
 	HRESULT CreateBullet(string k, D3DXVECTOR2 sp, UINT id, Status st, TATICDOLL_ALIANCE_TYPE t, float spd = 25.0f);
 	HRESULT CreateBullet(string k, D3DXVECTOR2 sp, FLOAT angle, FLOAT limDist, Status st, TATICDOLL_ALIANCE_TYPE t, float spd = 25.0f);
+	HRESULT CreateBullet(TaticDoll* _this, UINT id, Status st, TATICDOLL_ALIANCE_TYPE t, float limitAngle, float minDist);
 };

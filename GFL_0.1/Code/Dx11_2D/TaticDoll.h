@@ -174,6 +174,8 @@ public:
 	inline bool getAlive() const { return isAlive; }
 	inline bool& setAlive() { return isAlive; }
 
+	inline const vector<SINT>& getRange() { return vRange; }
+
 	inline EllipseBase* getCollision(string key) 
 		{ return mCollision.count(key) ? mCollision.find(key)->second : nullptr; }
 

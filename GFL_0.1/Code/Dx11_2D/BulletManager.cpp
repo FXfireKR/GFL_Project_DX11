@@ -97,3 +97,74 @@ HRESULT BulletManager::CreateBullet(string k, D3DXVECTOR2 sp, FLOAT angle, FLOAT
 
 	return S_OK;
 }
+
+HRESULT BulletManager::CreateBullet(TaticDoll* _this, UINT id, Status st, TATICDOLL_ALIANCE_TYPE t, float limitAngle, float minDist)
+{
+	//	SG탄환을 사용하는경우 사용하는 함수다.
+	//	minDistance :: 데미지가 순수하게 들어가는 최대 사거리
+	//	targetAngle :: 주요 타겟을 보고있는 Angle
+	//	limitAngle	:: 타겟으로 부터의 최대 Angle 값
+	//	홀리 쉣~
+
+	switch (t)
+	{
+	case ALIANCE_GRIFFON:
+	{
+		float targetAngle = getAngle(_this->getCharacterPos().x, _this->getCharacterPos().y,
+			BDATA->getObject(id)->getCharacterPos().x, BDATA->getObject(id)->getCharacterPos().y);
+
+		float minLimit = targetAngle - RAD(limitAngle);
+		float maxLimit = targetAngle + RAD(limitAngle);
+
+		for (auto& enemyID : _this->getRange())
+		{
+			if (!BDATA->getObject(enemyID)->getAlive())continue;
+
+			float angle = getAngle(_this->getCharacterPos().x, _this->getCharacterPos().y,
+				BDATA->getObject(enemyID)->getCharacterPos().x, BDATA->getObject(enemyID)->getCharacterPos().y);
+
+			
+			if (angle > HPI && minLimit < 0.0f)
+			{
+				minLimit = (PI * 2) + minLimit;
+				maxLimit = (PI * 2) + maxLimit;
+			}
+
+			if (angle > minLimit  && angle < maxLimit)
+			{
+				float distance = getDistance(_this->getCharacterPos().x, _this->getCharacterPos().y,
+					BDATA->getObject(enemyID)->getCharacterPos().x, BDATA->getObject(enemyID)->getCharacterPos().y);
+
+
+				//	거리가 멀수록, 명중률과 화력이 감소한다.
+				if (distance < minDist)
+					BDATA->getObject(enemyID)->Character_GetDamage(st);
+
+				else
+				{
+					float percent;
+					float rangeDist = _this->getCollision("MAX_RANGE")->getLongRad() + BDATA->getObject(enemyID)->getCollision("SELF")->getLongRad() - minDist;
+					distance -= minDist;
+					percent = 1.0f - (distance / rangeDist);
+					
+					st.Accuracy *= percent;
+					st.AttackPoint *= percent;
+					BDATA->getObject(enemyID)->Character_GetDamage(st);
+				}
+			}
+		
+		}
+	}
+	break;
+
+	case ALIANCE_IRONBLOD:
+	case ALIANCE_PEREDEUS:
+	case ALIANCE_SCCOM:
+	{
+
+	}
+	break;
+	}
+
+	return S_OK;
+}

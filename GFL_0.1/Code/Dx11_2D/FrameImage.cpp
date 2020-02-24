@@ -43,7 +43,7 @@ void FrameImage::render(string srvKey, DV2 _scale, DV2 _trans, DV2 _minTexCoord,
 		D3DXMatrixRotationY(&ry, RAD(_rotate.y));
 		D3DXMatrixRotationZ(&rz, RAD(_rotate.z));
 
-		D3DXMatrixTranslation(&t, _trans.x, _trans.y, 0);
+		D3DXMatrixTranslation(&t, _trans.x, WINSIZEY - _trans.y, 0);
 
 		worldMatrix = s * rx * ry * rz * t;
 		D3DXMatrixTranspose(&worldMatrix, &worldMatrix);

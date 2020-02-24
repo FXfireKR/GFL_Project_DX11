@@ -26,6 +26,8 @@ void BattleScene::init()
 	LOADMANAGER->Add_LoadTray("sgSound", "../../_SoundSource/SG_shot.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 	LOADMANAGER->Add_LoadTray("sgReload", "../../_SoundSource/SG_re.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
+	LOADMANAGER->Add_LoadTray("SG_BLT", "../../_Assets/Texture2D/fire1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 5, 1);
+
 	LOADMANAGER->Add_LoadTray(BTLMAP->imgKey, BTLMAP->imgPath, LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	//PLAYER->test_create();
@@ -39,9 +41,10 @@ void BattleScene::init()
 		PLAYER->insertTacDolToSquad(it.first, 1);
 	}
 
-	Pyxis* test = new Pyxis;
+	Strelet* test = new Strelet;
 	test->init();
 	test->getID()->SquadMem_ID = 0;
+	test->p_getCharacterPos()->y += 45;
 	BDATA->insertObject(test);
 
 	Strelet* test2 = new Strelet;
