@@ -1,13 +1,8 @@
 # [ 2020 - 02 - 22 ]  Update Note
 
 ## Bug fix
-
- - worldmapScene, when click the panel the API cannot reconize the player's input.
  
- 
-## Issue
- - spine mixtime animation render should be improved & Know how to use spineAPI well.
- 
+ - Unnatural 'KSG' spine motion delay fix
  
 ## Current Develop
 
@@ -16,10 +11,8 @@
  
 ## Add Function
 
- - Aliance Change, Checking Aliance.
- - The color of the opponent will change depending on the alliance.
- - Read map file and setting panel's data
- - WorldmapScene add.
+ - 'BulletManager' class add method for 'SG' weapon's tactical dolls
+
  
 ## Add class
 
