@@ -11,14 +11,13 @@ bool findAt(vector<T> _vec, T _value)
 }
 
 TaticDoll::TaticDoll()
-	: motion(nullptr), _colorBuffer(nullptr)
+	: motion(nullptr), _colorBuffer(nullptr), buffList(nullptr)
 {
 	myID.All_ID = myID.SquadMem_ID = myID.Squad_ID = -1;
 	alianceType = ALIANCE_NONE;
 
 	if (_colorBuffer == nullptr)
 		CreateConstantBuffer(&_colorBuffer, sizeof(D3DXCOLOR), &_color);
-
 }
 TaticDoll::~TaticDoll(){}
 void TaticDoll::LoadTray_SoundList()
@@ -174,6 +173,7 @@ void TaticDoll::release()
 	}
 
 	SAFE_DELETE(motion);
+	SAFE_DELETE(buffList);
 }
 
 void TaticDoll::update()
@@ -582,7 +582,7 @@ void TaticDoll::Character_GetDamage(const Status & st)
 	//명중
 	if (Accur >= Acr_rnd)
 	{
-		//치명타
+		//	치명타
 		if (rand() % 100 < st.CriticPoint)
 		{
 			float per = st.CriticAcl;
@@ -592,37 +592,83 @@ void TaticDoll::Character_GetDamage(const Status & st)
 
 			UINT totalDamge = st.AttackPoint + (UINT)CriticDamage;
 
-			//HP를 줄인다.
-			if (curState.HitPoint.curr > totalDamge)
+			if (curState.ArmorPoint.curr < 1)
 			{
-				totalDamge = totalDamge > curState.Armor ? totalDamge - curState.Armor : 0;
-				curState.HitPoint.curr -= totalDamge;
-				
-				_color.g = _color.b = 0.0F;
+				//HP를 줄인다.
+				if (curState.HitPoint.curr > totalDamge)
+				{
+					totalDamge = totalDamge > curState.Armor ? totalDamge - curState.Armor : 0;
+					curState.HitPoint.curr -= totalDamge;
+
+					_color.g = _color.b = 0.0F;
+				}
+
+				else
+					curState.HitPoint.curr = 0;
+
+				DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, totalDamge);
 			}
 
 			else
-				curState.HitPoint.curr = 0;
+			{
+				if (st.ArmorPierce < 1)
+				{
+					totalDamge = 1;
+					--curState.ArmorPoint.curr;
+				}
 
-			DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, totalDamge, true);
+				else
+				{
+					totalDamge = st.ArmorPierce;
+					curState.ArmorPoint.curr -= st.ArmorPierce;
+				}
+
+				DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, totalDamge, true, true);
+
+			}
+
+
 		}
 
+		//	안치명타
 		else
 		{
 			UINT totalDamge = st.AttackPoint;
 
-			//HP를 줄인다.
-			if (curState.HitPoint.curr > st.AttackPoint)
+			if (curState.ArmorPoint.curr < 1)
 			{
-				totalDamge = totalDamge > curState.Armor ? totalDamge - curState.Armor : 0;
-				curState.HitPoint.curr -= totalDamge;
-				_color.g = _color.b = 0.0F;
+				//HP를 줄인다.
+				if (curState.HitPoint.curr > st.AttackPoint)
+				{
+					totalDamge = totalDamge > curState.Armor ? totalDamge - curState.Armor : 0;
+					curState.HitPoint.curr -= totalDamge;
+					_color.g = _color.b = 0.0F;
+				}
+
+				else
+					curState.HitPoint.curr = 0;
+
+				DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, totalDamge);
 			}
 
 			else
-				curState.HitPoint.curr = 0;
+			{
+				if (st.ArmorPierce < 1)
+				{
+					totalDamge = 1;
+					--curState.ArmorPoint.curr;
+				}
 
-			DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, totalDamge);
+				else
+				{
+					totalDamge = st.ArmorPierce;
+					curState.ArmorPoint.curr -= st.ArmorPierce;
+				}
+
+				DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, totalDamge, true, false);
+			}
+
+
 		}
 
 
@@ -631,7 +677,7 @@ void TaticDoll::Character_GetDamage(const Status & st)
 			isAlive = false;	//앙 죽었띠
 	}
 	else
-		DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, -1, 0);
+		DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, -1);
 }
 
 void TaticDoll::Render_VisualBar(D3DXVECTOR2 _pos, int _curHp, int _maxHp, D3DXVECTOR2 _size, ColorF _frontColor, ColorF _backColor)

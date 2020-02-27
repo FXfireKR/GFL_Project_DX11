@@ -130,10 +130,10 @@ void MainGame::Init()
 	SCENE->Create_Scene("EQUIP", new EquipScene);
 	SCENE->Create_Scene("SQUAD", new SquadEdditScene);
 	SCENE->Create_Scene("WORLD", new worldmapScene);
-	//
+	
 
-	SCENE->Change_Scene("BATTLE");
-	//SCENE->Change_Scene("LOGO");
+	//SCENE->Change_Scene("BATTLE");
+	SCENE->Change_Scene("LOGO");
 	SCENE->Init_Scene();
 }
 
@@ -145,10 +145,10 @@ void MainGame::Update()
 
 	if (m_pDirLightBuffer)
 	{
-		ImGui::DragFloat("worldColor_R", &worldColor.r, 0.01F, 0.0F, 1.0F);
-		ImGui::DragFloat("worldColor_G", &worldColor.g, 0.01F, 0.0F, 1.0F);
-		ImGui::DragFloat("worldColor_B", &worldColor.b, 0.01F, 0.0F, 1.0F);
-		ImGui::DragFloat("worldColor_A", &worldColor.a, 0.01F, 0.0F, 1.0F);
+		//ImGui::DragFloat("worldColor_R", &worldColor.r, 0.01F, 0.0F, 1.0F);
+		//ImGui::DragFloat("worldColor_G", &worldColor.g, 0.01F, 0.0F, 1.0F);
+		//ImGui::DragFloat("worldColor_B", &worldColor.b, 0.01F, 0.0F, 1.0F);
+		//ImGui::DragFloat("worldColor_A", &worldColor.a, 0.01F, 0.0F, 1.0F);
 
 		DeviceContext->UpdateSubresource(m_pDirLightBuffer, 0, 0, &worldColor, 0, 0);
 	}

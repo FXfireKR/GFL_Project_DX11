@@ -31,6 +31,8 @@ public:
 
 	HRESULT init();
 	void release();
+
+	void insertObject_AtSquad(SINT id);
 	void insertObject(TaticDoll* _pointer);
 	void deleteObject(const TaticDoll* _pointer);
 	void deleteObject(size_t at);
@@ -39,7 +41,7 @@ public:
 public:
 	//inline Squad* getEnemySquad(UINT id) { return mSNVsquad.find(id)->second; }
 	//inline TaticDoll* getEnemyMember(UINT sq_id, UINT id) { return (TaticDoll*)getEnemySquad(sq_id)->getSquadMember(id); }
-	//inline SINT& getEngageSquadID() { return EngageEnemySquad; }
+	inline SINT& getEngageSquadID() { return EngageEnemySquad; }
 
 	//inline tagSquad<TaticDoll*>* getEnemySquad(UINT squadID) { return squadSNV->Call_Squad(squadID); }
 	//inline TaticDoll* getEnemyMember(UINT squadID, UINT memID) { return squadSNV->Call_SquadMember(squadID, memID); }

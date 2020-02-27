@@ -28,6 +28,8 @@ M4SopMod::M4SopMod()
 	mEquip.insert(make_pair(EPT_ACESORY, nullptr));		// »çÀÌÆ®
 	mEquip.insert(make_pair(EPT_BULLET, nullptr));		// ÅºÈ¯
 	mEquip.insert(make_pair(EPT_ACESORY2, nullptr));	// ¿Ü°ñ°Ý
+
+	buffList = new BuffManager(&curState, &maxState);
 }
 
 M4SopMod::~M4SopMod()
@@ -175,6 +177,8 @@ void M4SopMod::release()
 
 void M4SopMod::update()
 {
+	buffList->update(DELTA * DeltaAcl);
+
 	TaticDoll::update();
 
 	update_Coltime();

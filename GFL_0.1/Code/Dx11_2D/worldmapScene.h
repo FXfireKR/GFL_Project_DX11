@@ -13,6 +13,8 @@ private:
 	map<TATICDOLL_ALIANCE_TYPE, vector<UINT>> mInstSquad;
 
 	int Turn;
+	bool worldmapInit;
+	bool squadInit;
 
 	TATICDOLL_ALIANCE_TYPE turnAliance;
 

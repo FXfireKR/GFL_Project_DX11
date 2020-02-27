@@ -34,6 +34,8 @@ void DamageManager::loadImageList()
 	LOADMANAGER->Add_LoadTray("9a", "../../_Assets/Texture2D/Font/9a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	LOADMANAGER->Add_LoadTray("miss", "../../_Assets/Texture2D/Font/MISS.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("amo", "../../_Assets/Texture2D/Font/Armo.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("bamo", "../../_Assets/Texture2D/Font/bArmo.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 }
 
 void DamageManager::AllocateMemory()
@@ -52,6 +54,7 @@ void DamageManager::release()
 {
 	for (auto& iter : DamageLogger)
 		SAFE_DEL(iter);
+	DamageLogger.clear();
 }
 
 void DamageManager::Create_Damage(float x, float y, int _damage, bool _isCiritic)
@@ -65,7 +68,27 @@ void DamageManager::Create_Damage(float x, float y, int _damage, bool _isCiritic
 			iter->damage = _damage < 0 ? "miss" : to_string(_damage);
 			iter->isCritical = _isCiritic;
 			iter->isRender = true;
-			iter->pos.x = x + (rand() % 65) - 50;
+			iter->isArmor = false;
+			iter->pos.x = x + (rand() % 65) - .0;
+			iter->pos.y = y - 40.0f;
+			break;
+		}
+	}
+}
+
+void DamageManager::Create_Damage(float x, float y, int _damage, bool _isArmor, bool _isCiritic)
+{
+	for (auto& iter : DamageLogger)
+	{
+		if (iter->isRender)continue;
+		else
+		{
+			iter->alpha = 1.0F;
+			iter->damage = _damage < 0 ? "miss" : to_string(_damage);
+			iter->isCritical = _isCiritic;
+			iter->isArmor = _isArmor;
+			iter->isRender = true;
+			iter->pos.x = x + (rand() % 65) - 30;
 			iter->pos.y = y - 40.0f;
 			break;
 		}
@@ -95,6 +118,9 @@ void DamageManager::render()
 		if (!iter->isRender) continue;
 		else
 		{
+			if (iter->isArmor)
+				DRAW->render("amo", DV2(15, 15), DV2(iter->pos.x - 25, iter->pos.y), DCR(1, 1, 1, iter->alpha));
+
 			if (iter->damage.find("miss") == string::npos)
 			{
 				for (int i = 0; i < iter->damage.size(); ++i)
@@ -110,8 +136,9 @@ void DamageManager::render()
 			}
 
 			else
+			{				
 				DRAW->render(iter->damage, DV2(32, 10), DV2(iter->pos.x, iter->pos.y), DCR(1, 1, 1, iter->alpha));
-			
+			}
 		}
 	}
 }

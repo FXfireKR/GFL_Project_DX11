@@ -45,6 +45,15 @@ void BattleDataBse::release()
 	}
 }
 
+void BattleDataBse::insertObject_AtSquad(SINT id)
+{
+	//	데이터 삭제
+	deleteAll();
+
+	for (auto& taticDoll : squadSNV->Call_Squad(id)->mSquad)	
+		vecBattleObjects.push_back(taticDoll.second);
+}
+
 void BattleDataBse::insertObject(TaticDoll * _pointer)
 {
 	vecBattleObjects.push_back(_pointer);

@@ -13,6 +13,10 @@ public:
 	UINT ActionPoint;
 	string mapImageFileName;
 
+
+	BattlePlagData missionFlag;				//	전투 승리 조건 플래그
+	
+
 public:
 	MapManager();
 	~MapManager();
@@ -45,4 +49,7 @@ public:
 	inline void plsMaxActionPoint(int pls) { MaxActionPoint += pls; }
 
 	inline BattleMap* getBattleMap() { return battleMap; }
+
+	inline const BattlePlagData& getMissionFlag() { return missionFlag; }
+	inline BattlePlagData& pGetMissionFlag() { return missionFlag; }
 };

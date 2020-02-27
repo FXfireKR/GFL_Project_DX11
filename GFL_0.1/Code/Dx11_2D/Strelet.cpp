@@ -3,6 +3,9 @@
 
 Strelet::Strelet()
 {
+	LoadTray_ImageList();
+
+	buffList = new BuffManager(&curState, &maxState);
 }
 
 Strelet::~Strelet()
@@ -59,6 +62,8 @@ HRESULT Strelet::init()
 	moveSpd = STRELET_SPEED;
 
 	curState.HitPoint.max = curState.HitPoint.curr = 1500;
+	curState.ArmorPoint.max = curState.ArmorPoint.curr = 0;
+	curState.Armor = 0;
 	curState.Accuracy = 0.75;
 	curState.CriticPoint = 25.5;
 	curState.CriticAcl = 50;
@@ -67,7 +72,7 @@ HRESULT Strelet::init()
 	curState.Avoid = 0.125;
 	curState.AttackPoint = 115;
 	curState.Armor = 0;
-	
+	curState.ArmorPierce = 0;
 
 	maxState = curState;
 
@@ -93,6 +98,8 @@ void Strelet::release()
 
 void Strelet::update()
 {
+	buffList->update(DELTA * DeltaAcl);
+
 	TaticDoll::update();
 
 	update_Coltime();

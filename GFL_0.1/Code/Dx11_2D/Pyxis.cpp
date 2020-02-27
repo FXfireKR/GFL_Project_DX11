@@ -70,6 +70,9 @@ HRESULT Pyxis::init()
 	moveSpd = 0.0;
 
 	curState.HitPoint.max = curState.HitPoint.curr = 3000;
+	curState.ArmorPoint.max = curState.ArmorPoint.curr = 0;
+	curState.Armor = 0;	
+	curState.ArmorPierce = 0;
 	curState.Accuracy = 999;
 	curState.CriticPoint = 50.0;
 	curState.CriticAcl = 50;
@@ -268,7 +271,7 @@ void Pyxis::Pyxis_Attack_Action(void* _this)
 					break;
 				}	
 
-				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.05f);
+				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.01f);
 
 				++object->safeTirgger;
 			}

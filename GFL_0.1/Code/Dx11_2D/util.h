@@ -65,11 +65,11 @@ struct Status
 	STATE<int> ArmorPoint;		//	방패 수치	[ SG 한정 ]
 
 	int Armor;					//	자체 방어력
-	int ArmorPierce;			//	방어력 파쇄수치		[존재하지않을경우, 역장을 가진 유닛에게 딜을 줄수없다.]
+	int ArmorPierce;			//	방어력 파쇄수치		[ 존재하지않을경우, 장갑을 가진 유닛에게 딜이 1씩 들어간다 ]
 	double ArmorIgnore;			//	방어력 무시 정도		[ 0 ~ 1.0 ]
 
 	STATE<int> ShieldPoint;		//	역장 값
-	int ShieldPierce;			//	역장 파쇄수치			[존재하지않을경우, 역장을 가진 유닛에게 딜을 줄수없다.]
+	int ShieldPierce;			//	역장 파쇄수치			[ 존재하지않을경우, 역장을 가진 유닛에게 딜을 줄수없다. ]
 	double ShieldIgnore;		//	역장 무시 확률		[ 0 ~ 1.0 ]
 
 	int AttackPoint;			//	공격력
@@ -77,11 +77,16 @@ struct Status
 	double Accuracy;			//	명중률		[ 0 ~ 1.0 ]
 	double Avoid;				//	회피율		[ 0 ~ 1.0 ]
 
-	double CriticPoint;			//	치명타율		[ 0 ~ 1.0 ]
+	double CriticPoint;			//	치명타율		[ 0 ~ 100.0 ]
 	double CriticAcl;			//	치명배율		[ 1 ~ INF ]
 
 	double AttackDelay;			//	공격직후 ~ 재 공격까지의 대기시간
 	double AimDelay;			//	대기 ~ 사격전까지의 조준시간
+
+	Status()
+	{
+		memset(this, 0, sizeof(Status));
+	}
 };
 
 //	리소스 Scene 로드시 Release할 내용들 저장
@@ -280,3 +285,16 @@ static bool str_compare(string _str, const char* _compare)
 {
 	return _str.compare(_compare) == 0 ? true : false;
 }
+
+static void StatusInput(Status* by, Status* from)
+{
+	int saveHP = by->HitPoint.curr;
+	int saveAP = by->ArmorPoint.curr;
+	int saveSP = by->ShieldPoint.curr;
+
+	*by = *from;
+
+	by->HitPoint.curr = saveHP;
+	by->ArmorPoint.curr = saveAP;
+	by->ShieldPoint.curr = saveSP;
+}	

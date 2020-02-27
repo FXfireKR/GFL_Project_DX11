@@ -27,6 +27,14 @@ struct tagSquad
 	vector<UINT> vNextNode;
 
 	TATICDOLL_ALIANCE_TYPE	squadAliance;
+
+	tagSquad() {
+		AllDead = false;
+		isSelect = false;
+		nowNodeID = 0;
+		nextNodeID = 0;
+		pos.x = pos.y = 0.0f;
+	}
 };
 
 template <typename T>

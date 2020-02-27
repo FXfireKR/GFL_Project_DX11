@@ -27,6 +27,10 @@ void BattleScene::init()
 	LOADMANAGER->Add_LoadTray("sgReload", "../../_SoundSource/SG_re.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
 	LOADMANAGER->Add_LoadTray("SG_BLT", "../../_Assets/Texture2D/fire1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 5, 1);
+	LOADMANAGER->Add_LoadTray("sgmm", "../../_Assets/Texture2D/slugmm.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	//LOADMANAGER->Add_LoadTray("sgmm", "../../_Assets/Texture2D/slugmm.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	//LOADMANAGER->Add_LoadTray("sgmm", "../../_Assets/Texture2D/slugmm.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	//LOADMANAGER->Add_LoadTray("sgmm", "../../_Assets/Texture2D/slugmm.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	LOADMANAGER->Add_LoadTray(BTLMAP->imgKey, BTLMAP->imgPath, LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
@@ -34,27 +38,38 @@ void BattleScene::init()
 	BULLET->init();
 	PLAYER->test_setting();
 
-	for (auto& it : PLAYER->getPlayerTaticDoll().getAllTacDoll())		//	get List of Player's TacticalDoll
+	//	get List of Player's TacticalDoll
+	for (auto& it : PLAYER->getPlayerTaticDoll().getAllTacDoll())		
 	{
-		it.second->LoadTray_SoundList();
-		it.second->LoadTray_ImageList();
-		PLAYER->insertTacDolToSquad(it.first, 1);
+			it.second->LoadTray_SoundList();
+			it.second->LoadTray_ImageList();
+	//		PLAYER->insertTacDolToSquad(it.first, 1);
 	}
 
-	Strelet* test = new Strelet;
-	test->init();
-	test->getID()->SquadMem_ID = 0;
-	test->p_getCharacterPos()->y += 45;
-	BDATA->insertObject(test);
+	for (auto& it : BDATA->getCurrUnits())
+	{
+		it->LoadTray_SoundList();
+		it->LoadTray_ImageList();
+	}
 
-	Strelet* test2 = new Strelet;
-	test2->init();
-	test2->getID()->SquadMem_ID = 1;
-	BDATA->insertObject(test2);
+	//	Test case
+	//Pyxis* test = new Pyxis;
+	//test->init();
+	//test->getID()->SquadMem_ID = 0;
+	//test->p_getCharacterPos()->y += 45;
+	//BDATA->insertObject(test);
+
+	//Strelet* test2 = new Strelet;
+	//test2->init();
+	//test2->getID()->SquadMem_ID = 1;
+	//BDATA->insertObject(test2);
 
 	LOADMANAGER->setAutoInit(false);
 	LOADMANAGER->setNextScene("BATTLE");
 	SCENE->Change_Scene("LOAD");
+
+	resultTimer = 0.0f;
+	battleOver = false;
 }
 
 void BattleScene::release()
@@ -66,7 +81,6 @@ void BattleScene::update()
 {
 	CAMERA->setCameraFix(false);
 
-	PLAYER->update();
 	BTLMAP->update();
 	BULLET->update();
 
@@ -75,8 +89,30 @@ void BattleScene::update()
 
 	for (auto& iter : PLAYER->getPlayerSquad(PLAYER->getCurrentSquad())->mSquad)
 		iter.second->update();
-	
-	ZOrder_Sort();
+
+	if (!battleOver)
+	{
+		PLAYER->update();
+		ZOrder_Sort();
+		check_BattlePlag();
+	}
+
+	else
+	{
+		ImGui::Text("Result Timer : %.3f", resultTimer);
+
+		resultTimer -= DELTA;
+		if (resultTimer - DELTA < DELTA)
+		{
+			resultTimer = 0.0f;
+
+			DAMAGE->release();
+			BULLET->release();
+			BDATA->getSquadSNV()->Call_Squad(BDATA->getEngageSquadID())->AllDead = true;
+			SCENE->Change_Scene("WORLD");
+			SCENE->Init_Scene();
+		}
+	}
 
 	EFFECT->update();
 	SOUNDMANAGER->update();
@@ -86,13 +122,13 @@ void BattleScene::update()
 void BattleScene::render()
 {
 	BTLMAP->testRender(vRendList);
-
 	BULLET->render();
 
 	for (auto& it : vRendList)
 	{
 		if (it.x < 100)
 			PLAYER->getIOPdoll_crntSquad(it.y)->render_Ellipse();
+
 		else
 			BDATA->getObject(it.y)->render_Ellipse();
 	}
@@ -105,6 +141,7 @@ void BattleScene::render()
 			PLAYER->getIOPdoll_crntSquad(it.y)->render_Motion();
 			PLAYER->getIOPdoll_crntSquad(it.y)->render_VisualBar();
 		}
+
 		else
 		{
 			BDATA->getObject(it.y)->render();
@@ -112,12 +149,9 @@ void BattleScene::render()
 			BDATA->getObject(it.y)->render_VisualBar();
 		}
 	}
-	
-	
+		
 	PLAYER->render();
-
 	EFFECT->render();
-
 	DAMAGE->render();
 }
 
@@ -179,4 +213,45 @@ void BattleScene::ZOrder_Sort()
 	}
 	else
 		count -= DELTA;
+}
+
+void BattleScene::check_BattlePlag()
+{
+	//	Check Battle Plag
+	if (MAP->getMissionFlag().battlePlag & ANNIHILATION && MAP->getMissionFlag().protectObjectNumber == 0)
+	{
+		bool enemyDie = true;
+		for (auto enemy : BDATA->getCurrUnits())
+		{
+			if (enemy->getAlive())
+			{
+				enemyDie = false;
+				break;
+			}
+		}
+
+		if (enemyDie)
+		{
+			battleOver = true;
+			resultTimer = 240.0f * DELTA;	
+		}
+
+		if (!battleOver)
+		{
+			for (auto& ali : PLAYER->getPlayerSquad(PLAYER->getCurrentSquad())->mSquad)
+			{
+				if (ali.second->getAlive())
+				{
+					enemyDie = false;
+					break;
+				}
+			}
+
+			if (enemyDie)
+			{
+				SCENE->Change_Scene("WORLD");
+				SCENE->Init_Scene();
+			}
+		}
+	}
 }

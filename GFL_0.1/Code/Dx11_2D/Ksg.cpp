@@ -27,6 +27,23 @@ Ksg::Ksg()
 	mEquip.insert(make_pair(EPT_ACESORY, nullptr));		// »çÀÌÆ®
 	mEquip.insert(make_pair(EPT_BULLET, nullptr));		// ÅºÈ¯
 	mEquip.insert(make_pair(EPT_ACESORY2, nullptr));	// ¿Ü°ñ°Ý
+
+	//	Setting Spec
+	curState.HitPoint.max = curState.HitPoint.curr = 2530;
+	curState.ArmorPoint.max = curState.ArmorPoint.curr = 240;
+	curState.Armor = 15;
+	curState.Accuracy = 0.9;
+	curState.CriticPoint = 40.0;
+	curState.CriticAcl = 50;
+	curState.AttackDelay = 0.8;
+	curState.AimDelay = 0.59;
+	curState.Avoid = 0.135;
+	curState.AttackPoint = 80;
+	curState.ArmorPierce = 0;
+
+	maxState = curState;
+
+	buffList = new BuffManager(&curState, &maxState);
 }
 
 Ksg::~Ksg()
@@ -89,6 +106,7 @@ HRESULT Ksg::init()
 		{
 			motion->loadSpine_FromJsonFile("KSG");
 			motion->setMotionAction("attack", KSG_Attack_Action);
+			motion->setMotionAction("reload", KSG_Reload_Action);
 
 			for (int i = 0; i < 3; ++i)
 			{
@@ -119,27 +137,18 @@ HRESULT Ksg::init()
 
 	moveSpd = KSG_SPEED;
 
-	curState.HitPoint.max = curState.HitPoint.curr = 993000;
-	curState.Armor = 9950;
-	curState.Accuracy = 0.9;
-	curState.CriticPoint = 25.5;
-	curState.CriticAcl = 50;
-	curState.AttackDelay = 0.8f;
-	curState.AimDelay = 0.59;
-	curState.Avoid = 0.435;
-	curState.AttackPoint = 350;
-
-	maxState = curState;
-
 	atkColTime = 0.0;
 	sklColTime = 0.0;
 	TargetAngle = Angle = 0.0f;
+	skillTimer = 0.0;
 
 	isAlive = true;
 	Select = false;
 	moveAble = true;
+	isActive = false;
 
 	safeTrigger = 0;
+	leftBullet = KSG_MAX_BULLET;
 
 	alianceType = ALIANCE_GRIFFON;
 	waitAfter = false;
@@ -154,12 +163,39 @@ void Ksg::release()
 
 void Ksg::update()
 {
+	buffList->update(DELTA * DeltaAcl);
+
 	TaticDoll::update();
 
 	update_Coltime();
 	this->Update_DrawPos();
 	motion->update(DELTA * DeltaAcl);
 	this->MotionUpdate();
+
+	if (isActive)
+	{
+		skillTimer -= DELTA * DeltaAcl;
+
+		if (skillTimer < DELTA * DeltaAcl)
+		{
+			skillTimer = 0.0;
+			isActive = false;
+
+			sklColTime = KSG_SKILL_COLTIME;
+		}
+
+		else
+		{
+			if (curState.ArmorPoint.max > curState.ArmorPoint.curr + 1)
+				++curState.ArmorPoint.curr;
+
+			else
+				curState.ArmorPoint.curr = curState.ArmorPoint.max;
+		}
+
+		if (_color.b > 0.9)
+			_color.b = 0.0f;
+	}
 }
 
 void Ksg::render()
@@ -168,14 +204,44 @@ void Ksg::render()
 
 void Ksg::Use_ActiveSkill()
 {
+	if (!isActive)
+	{
+		if (sklColTime > 0.0) {}
+
+		else
+		{
+			isActive = true;
+
+			skillTimer = KSG_SKILL_MAINTAIN;
+
+			Status skillstate;
+
+			skillstate.AimDelay = (curState.AimDelay * 0.8f) * -1.0f;
+			skillstate.AttackDelay = (curState.AttackDelay * 0.8f) * -1.0f;
+			skillstate.AttackPoint = (curState.AttackPoint * 3) / 2;
+
+			buffList->create(skillstate, KSG_SKILL_MAINTAIN);
+
+			switch (rand() % 3)
+			{
+			case 0:
+				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_VOICE, SOUND_SKILL1, 0.15f);
+				break;
+
+			case 1:
+				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_VOICE, SOUND_SKILL2, 0.15f);
+				break;
+
+			case 2:
+				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_VOICE, SOUND_SKILL2, 0.15f);
+				break;
+			}
+		}
+	}
 }
 
 void Ksg::MotionUpdate()
 {
-	static float mixTime = -0.017f;
-	ImGui::DragFloat("mixTime", &mixTime, 0.00001f, -999, 999, "%.6f");
-	ImGui::Text("KSG Motion Timer : %.6f", motion->getCurTime());
-
 	if (curState.HitPoint.curr < 1)
 	{
 		if (!motion->isCurrent("die"))
@@ -191,7 +257,12 @@ void Ksg::MotionUpdate()
 		{
 			if (motion->isCurrent("wait"))
 			{
-				motion->changeMotion("attack", false);
+				if (leftBullet == 0)
+					motion->changeMotion("reload", false, true);
+
+				else
+					motion->changeMotion("attack", false);
+
 				waitAfter = true;
 			}
 
@@ -244,11 +315,38 @@ void Ksg::render_VisualBar()
 		//	HP - hit point
 		Render_VisualBar(DV2(Pos.x - 50.0f, Pos.y - 150.0f), curState.HitPoint.curr,
 			curState.HitPoint.max, DV2(100, 5), ColorF(0, 0.8, 0, 0.5f));
+		
+		//	AP - Armor point
+		if (curState.ArmorPoint.curr > 0)
+		{		
+			
+			Render_VisualBar(DV2(Pos.x - 50.0f, Pos.y - 150.0f), curState.ArmorPoint.curr,
+				curState.ArmorPoint.max, DV2(100, 5), ColorF(0.1, 0.1, 0.1, 0.5f));
+
+			DRAW->render("amo", DV2(10, 10), DV2(Pos.x - 58.0f, Pos.y - 148.0f), DCR(1, 1, 1, 1));
+		}
+		else
+			DRAW->render("bamo", DV2(10, 10), DV2(Pos.x - 58.0f, Pos.y - 148.0f), DCR(1, 1, 1, 1));
+
 
 		//	SP - skill cool down
-		/*if (sklColTime > 0.0f)
-			Render_VisualBar(DV2(Pos.x - 50.0f, Pos.y - 145.0f), sklColTime,
-				M4SOP_SKILL_COLTIME, DV2(100, 5), ColorF(0, 0, 0.8, 0.5f));*/
+		if (isActive)
+		{
+			if (skillTimer > 0.0f)
+				Render_VisualBar(DV2(Pos.x - 50.0f, Pos.y - 145.0f), skillTimer,
+					KSG_SKILL_MAINTAIN, DV2(100, 5), ColorF(0.1, 0.1, 0.8, 0.5f));
+		}
+
+		else
+		{
+			if (sklColTime > 0.0f)
+				Render_VisualBar(DV2(Pos.x - 50.0f, Pos.y - 145.0f), sklColTime,
+					KSG_SKILL_COLTIME, DV2(100, 5), ColorF(0.1, 0.1, 0.8, 0.5f));
+		}
+
+		//	Left Bullets
+		for (int i = 0; i < leftBullet; ++i)
+			DRAW->render("sgmm", DV2(10, 5), DV2(Pos.x - 40.0f + (i * 20), Pos.y - 130.0f), DCR(1, 1, 1, 1));
 	}
 }
 
@@ -280,7 +378,6 @@ void Ksg::KSG_Attack_Action(void * _this)
 		{
 			if (object->safeTrigger == 0)
 			{
-				//BULLET->CreateBullet("AR_BLT", object->Pos.x, object->Pos.y - 65, object->TargetID, object->curState, object->alianceType, 1100.0f);
 				//SG_BLT
 				EFFECT->createEffect("SG_BLT", DV2(object->Pos.x + 120, object->Pos.y - 65), DELTA * 2.0f, 80.0f);
 
@@ -290,6 +387,7 @@ void Ksg::KSG_Attack_Action(void * _this)
 
 				SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "sgSound", 0.05f);
 				++object->safeTrigger;
+				--object->leftBullet;
 			}
 		}
 
@@ -308,7 +406,12 @@ void Ksg::KSG_Attack_Action(void * _this)
 
 			if (object->TargetID != -1)
 			{
-				motion->changeMotion("attack", false);
+				if (object->leftBullet == 0)
+					motion->changeMotion("reload", false, true);
+
+				else
+					motion->changeMotion("attack", false);
+
 				object->waitAfter = false;
 			}
 			else
@@ -318,5 +421,31 @@ void Ksg::KSG_Attack_Action(void * _this)
 			object->moveAble = true;
 		}
 
+	}
+}
+
+void Ksg::KSG_Reload_Action(void * _this)
+{
+	Ksg* object = (Ksg*)_this;
+	spineMotion* motion = object->motion;
+	float curTime = motion->getCurTime();
+
+	object->moveAble = false;
+
+	if (curTime < 2.645f && curTime > 2.645f - DELTA)
+	{
+		if (object->safeTrigger == 0)
+		{
+			SOUNDMANAGER->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "sgReload", 0.05f);
+			++object->safeTrigger;
+			object->leftBullet = object->KSG_MAX_BULLET;
+		}
+	}
+
+	else if (motion->getCurTime() > motion->getEndTime())
+	{		
+		object->moveAble = true;
+		motion->changeMotion("wait", true, true);
+		object->safeTrigger = 0;
 	}
 }

@@ -17,7 +17,8 @@ private:
 	vector<POINT>					vRendList;
 	map<FLOAT, map<FLOAT, POINT>>	mRendList;
 
-	BYTE missionFlag;				//	전투 승리 조건 플래그
+	float resultTimer;				//	결과 타이머
+	bool battleOver;
 	
 public:
 	BattleScene();
@@ -29,5 +30,8 @@ public:
 	void update() override;
 	void render() override;
 
+private:
 	void ZOrder_Sort();
+	void check_BattlePlag();
+
 };

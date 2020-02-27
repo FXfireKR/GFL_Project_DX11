@@ -3,6 +3,7 @@
 #include "EllipseBase.h"
 #include "spineMotion.h"
 #include "UtanBase.h"
+#include "BuffManager.h"
 
 //	전술인형의 소속 상태
 enum TATICDOLL_ALIANCE_TYPE
@@ -33,6 +34,7 @@ struct DOGTAG_ID
 	signed int Squad_ID,	All_ID,		SquadMem_ID;
 //			    분대번호	    전체번호      분대원번호
 };
+
 
 class TaticDoll
 {
@@ -73,6 +75,7 @@ protected:
 	D3DXVECTOR2				Pos;		//	Position		[ 캐릭터의 기준 판단 좌표 ]
 
 	spineMotion*			motion;
+	BuffManager*			buffList;
 	
 	vector<SINT>			vRange;		//	사거리내의 적군ID
 	vector<D3DXVECTOR2>		vPath;		//	움직이는 위치 지정
@@ -173,6 +176,8 @@ public:
 
 	inline bool getAlive() const { return isAlive; }
 	inline bool& setAlive() { return isAlive; }
+
+	inline BuffManager* getBuffList() { return buffList; }
 
 	inline const vector<SINT>& getRange() { return vRange; }
 
