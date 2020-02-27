@@ -1,37 +1,14 @@
-# [ 2020 - 02 - 22 ]  Update Note
+# [ 2020 - 02 - 27 ]  Update Note
 
 ## Bug fix
- 
- - Unnatural 'KSG' spine motion delay fix
+ - Effect, Damage, Buff, Hp Ap Crush that occurs when entering the next battle after ending battle in battle-scene.
+ - Fixed unnatural bug where characters are created in world-scene.
  
 ## Current Develop
+ - Enemy-Squad generation and action 'AI' in world scene.
+ - Each scene's user interface design.
 
- - Map-editor enemy squad script making
- - Script making with binary file . ostream
- 
-## Add Function
-
- - 'BulletManager' class add method for 'SG' weapon's tactical dolls
-
- 
 ## Add class
 
-### An94
- Griffon's tactical doll which one is attack rifle. she have passive skill about rapid aim, attack.
-
-
-### Strelet
- Paradeus's tactical doll which one is attack rifle. it has nothing special attack. 
- But Paradeus's all tactical doll have shield. that protect from bullets
-
-
-### Drone
- None Aliance testing drone.
-
-
-### Pyxis
- None Aliance Turret for protect area.
-
-
-### KSG
- Griffon's tactical doll which one is shotgun. she have passive skill about improve avoid point & aromor point
+### BuffManager
+ - Buff-manager class, manages the status of buffs, debuffs, and overall status of units.
