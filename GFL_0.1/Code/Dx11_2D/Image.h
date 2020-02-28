@@ -47,7 +47,7 @@ public:		// Define Fnc
 	void release();
 	void update();
 	void render(const char* srvKey, DV2 _scale, DV2 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
-	void render(string srvKey, DV2 _scale, DV2 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
+	void render(string srvKey, DV2 _scale, DV2 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0), bool worldAlpha = true);
 	void NoiseRender(string srvKey, DV2 _scale, DV2 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 	void render(string srvKey, DV2 _scale, DV3 _trans, DCR _color = DCR(1, 1, 1, 1), DV3 _rotate = DV3(0, 0, 0));
 	void render(string srvKey, const D3DXMATRIX& worldMatrix, ID3D11Buffer*const* vertexBuffer);

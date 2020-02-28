@@ -5,7 +5,7 @@ Strelet::Strelet()
 {
 	LoadTray_ImageList();
 
-	buffList = new BuffManager(&curState, &maxState);
+	statusManager = new StatusManager(&curState, &maxState, &mEquip);
 }
 
 Strelet::~Strelet()
@@ -98,7 +98,7 @@ void Strelet::release()
 
 void Strelet::update()
 {
-	buffList->update(DELTA * DeltaAcl);
+	statusManager->update(DELTA * DeltaAcl);
 
 	TaticDoll::update();
 

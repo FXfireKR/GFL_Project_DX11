@@ -159,151 +159,12 @@ void SoundManager::InsertSoundBianry(string key, string _path)
 				THREADPOOL->OrigByte[lastIndex + i] = value;
 			}
 
-			{
-				//FILE* f = fopen(_path.c_str(), "rb");
-				//vector<char> vBuffer;
-				//vector<BYTE> vOrig;
-				//vector<BYTE> InitVec;
-
-				//string fileName;
-				//int count = 0;
-				//fseek(f, 0, SEEK_END);
-				//int size = ftell(f) - 32;
-				//fseek(f, 0, SEEK_SET);
-
-				//InitVec.resize(32, 0);
-				//vOrig.resize(size, 0);
-				//vBuffer.resize(size, 0);
-
-				////Tokenize File Name
-				//{
-				//	fileName = _path;
-
-				//	if (fileName.find_last_of("/") != string::npos)
-				//		fileName.erase(0, fileName.find_last_of("/") + 1);
-
-
-				//	if (fileName.find_last_of("\\") != string::npos)
-				//		fileName.erase(0, fileName.find_last_of("\\") + 1);
-
-
-				//	if (fileName.find_last_of(".") != string::npos)
-				//		fileName.erase(fileName.find_last_of("."), fileName.size());
-				//}
-
-				//if (NULL != f)
-				//{
-				//	bool hashing_Vec = false;
-				//	BYTE buffer = 0;
-
-				//	//InitVector Insert
-				//	fread(&InitVec[0], sizeof(BYTE), 32, f);
-				//	//fread(&CipByte[0], sizeof(BYTE), size, f);
-
-				//	// 512 Byte 분할 읽기
-				//	int i = 0;
-				//	while (true)
-				//	{
-				//		fread(&vOrig[i], sizeof(BYTE), 512, f);
-				//		i += 512;
-
-				//		if (i > size - 1)
-				//			break;
-				//	}
-
-				//	for (auto& it : InitVec)
-				//	{
-				//		it ^= fileName[fileName.size() - 1];
-				//		it ^= fileName[0];
-				//	}
-
-				//}
-				//fclose(f);
-
-				////CipByte.erase(CipByte.begin() + CipByte.size() - 1);
-
-				//int onceSize = vOrig.size() * 0.03125f;
-				//int leftSize = vOrig.size() - (onceSize * 32);
-				//int lastIndex = onceSize * 32;
-				//int ThreadNum = 8;
-				//mutex mtx;
-
-				////	Eight Thread Running
-				//for (int i = 0; i < 8;)
-				//{
-				//	thread trd([&, i]()
-				//	{
-				//		mtx.lock();
-
-				//		int startP = i * 4;
-				//		int lineNum = 0;
-				//		int height = onceSize;
-				//		BYTE value = 0;
-
-				//		mtx.unlock();
-
-				//		while (true)
-				//		{
-				//			// 0
-				//			value = vOrig[startP + (lineNum * 32)] ^ InitVec[startP];
-				//			value ^= 255;
-				//			vBuffer[startP + (lineNum * 32)] = static_cast<char>(value);
-				//			InitVec[startP] = value;
-
-				//			// 1
-				//			value = vOrig[startP + (lineNum * 32) + 1] ^ InitVec[startP + 1];
-				//			value ^= 255;
-				//			vBuffer[startP + (lineNum * 32) + 1] = static_cast<char>(value);
-				//			InitVec[startP + 1] = value;
-
-				//			// 2
-				//			value = vOrig[startP + (lineNum * 32) + 2] ^ InitVec[startP + 2];
-				//			value ^= 255;
-				//			vBuffer[startP + (lineNum * 32) + 2] = static_cast<char>(value);
-				//			InitVec[startP + 2] = value;
-
-				//			// 3
-				//			value = vOrig[startP + (lineNum * 32) + 3] ^ InitVec[startP + 3];
-				//			value ^= 255;
-				//			vBuffer[startP + (lineNum * 32) + 3] = static_cast<char>(value);
-				//			InitVec[startP + 3] = value;
-
-				//			++lineNum;
-
-				//			if (lineNum == height)
-				//				break;
-				//		}
-
-				//		mtx.lock();
-				//		--ThreadNum;
-				//		mtx.unlock();
-
-				//	});
-
-				//	mtx.lock();
-
-				//	trd.detach();
-				//	++i;
-				//	mtx.unlock();
-				//}
-
-				//while (ThreadNum > 0)
-				//	this_thread::yield();
-
-				/*for (int i = 0; i < leftSize; ++i)
-				{
-					BYTE value = vOrig[lastIndex + i] ^ InitVec[(lastIndex + i) % 32];
-					value ^= 255;
-					vBuffer[lastIndex + i] = static_cast<char>(value);
-				}*/
-			}
-
 			locker.lock();
 			add->memory = &THREADPOOL->OrigByte[0];
 			add->fileSize = THREADPOOL->OrigByte.size();
 
 			add->resource = SoundEngine->addSoundSourceFromMemory(add->memory, add->fileSize, key.c_str());
-
+			add->resource->setStreamMode(E_STREAM_MODE::ESM_STREAMING);
 
 			// 1 .Tokenize Sound Resource Type
 			string path = _path;
@@ -351,11 +212,17 @@ void SoundManager::setVolum()
 
 void SoundManager::setVolume(SOUND_CHANNEL ch, float volume)
 {
+	if (volume < 0.0)
+		volume = 0;
+
 	mChannel[ch]->engine->setSoundVolume(volume);
 }
 
 void SoundManager::setVolume(string key, SOUND_CHANNEL ch, float volume)
 {
+	if (volume < 0.0)
+		volume = 0;
+
 	if ((miSoundRes = mSoundRes.find(key)) != mSoundRes.end())
 		mChannel[ch]->playList[key]->setVolume(volume);
 }
@@ -451,10 +318,10 @@ void SoundManager::Play_Sound(SOUND_CHANNEL ch, string key, float volume)
 		{
 			if (mChannel[ch]->playList[key]->isFinished())
 			{
-				mChannel[ch]->playList[key] = mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true);
+				mChannel[ch]->playList[key] = mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true, true);
 				auto& cur = mChannel[ch]->playList[key];
 
-				cur->setVolume(volume);
+				//cur->setVolume(0.0);
 				cur->setIsPaused(false);
 			}
 
@@ -463,11 +330,11 @@ void SoundManager::Play_Sound(SOUND_CHANNEL ch, string key, float volume)
 		else
 		{
 			miSoundRes->second->resource->setDefaultVolume(volume);
-			mChannel[ch]->playList.insert(make_pair(key, mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true)));
+			mChannel[ch]->playList.insert(make_pair(key, mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true, true)));
 
 			auto& cur = mChannel[ch]->playList[key];
 
-			cur->setVolume(volume);
+			//cur->setVolume(0.0);
 			cur->setIsPaused(false);
 		}
 

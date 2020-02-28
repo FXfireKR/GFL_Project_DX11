@@ -1,12 +1,11 @@
 #include "stdafx.h"
-#include "BuffManager.h"
+#include "StatusManager.h"
 
-BuffManager::~BuffManager()
+StatusManager::~StatusManager()
 {
-	vBuffLsit.reserve(MAX_BUFF_SIZE);
 }
 
-void BuffManager::create(Status state, double conTime)
+void StatusManager::create(Status state, double conTime)
 {
 	buffStatus newbuff;
 	newbuff.state = state;
@@ -15,9 +14,23 @@ void BuffManager::create(Status state, double conTime)
 	vBuffLsit.push_back(newbuff);
 }
 
-void BuffManager::update(double delta)
+void StatusManager::update(double delta)
 {
+	//	스테이터스 복귀
 	StatusInput(mainStatus, maxStatus);
+
+	//	장비 스테이터스 적용
+	for (auto& it : *mEquip)
+	{
+		if (it.second == nullptr) continue;
+
+		auto& atchState = it.second->getState();
+
+		mainStatus->Accuracy += atchState.Accuracy;
+		mainStatus->AttackDelay -= (mainStatus->AttackDelay * atchState.AttackDelay) * 0.01f;
+		mainStatus->AttackPoint += atchState.AttackPoint;
+		mainStatus->CriticPoint += atchState.CriticPoint;
+	}
 
 	for (int i = vBuffLsit.size() - 1; i > -1; --i)
 	{
@@ -28,8 +41,6 @@ void BuffManager::update(double delta)
 
 		else
 		{
-			ImGui::Text("LeftBuffTime : %.4f", vBuffLsit[i].continueTimer);
-
 			mainStatus->Accuracy += vBuffLsit[i].state.Accuracy;
 			mainStatus->AimDelay += vBuffLsit[i].state.AimDelay;
 			mainStatus->AttackDelay += vBuffLsit[i].state.AttackDelay;
@@ -39,4 +50,11 @@ void BuffManager::update(double delta)
 			mainStatus->CriticPoint += vBuffLsit[i].state.CriticPoint;
 		}
 	}
+}
+
+void StatusManager::allClear()
+{
+	//	모든 버프 제거 및 원상태 복귀
+	vBuffLsit.clear();
+	StatusInput(mainStatus, maxStatus);
 }

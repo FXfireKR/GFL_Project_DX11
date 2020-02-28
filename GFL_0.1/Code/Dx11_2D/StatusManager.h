@@ -7,7 +7,7 @@ struct buffStatus
 	bool isOver;				//	³¡³µ³ª¿ä?
 
 	buffStatus()
-		: isOver(false), continueTimer(0.0) 
+		: isOver(false), continueTimer(0.0)
 	{
 		memset(&state, 0, sizeof(Status));
 	}
@@ -21,7 +21,7 @@ struct buffStatus
 	}
 };
 
-class BuffManager
+class StatusManager
 {
 private:
 	const float MAX_BUFF_SIZE = 40;
@@ -30,15 +30,19 @@ private:
 	vector<buffStatus> vBuffLsit;
 	Status* mainStatus;
 	Status* maxStatus;
+	
+	map<EQUIPTYPE, EquipBase*>* mEquip;
 
 public:
-	BuffManager(Status* cur, Status* max)
-		: mainStatus(cur), maxStatus(max) {}
+	StatusManager(Status* cur, Status* max, map<EQUIPTYPE, EquipBase*>* equip)
+		: mainStatus(cur), maxStatus(max), mEquip(equip) 
+	{
+		vBuffLsit.reserve(MAX_BUFF_SIZE);
+	}
 
-	~BuffManager();
+	~StatusManager();
 
 	void create(Status state, double conTime);
 	void update(double delta);
 	void allClear();
-	//void 
 };

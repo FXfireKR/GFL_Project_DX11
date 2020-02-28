@@ -43,7 +43,7 @@ Ksg::Ksg()
 
 	maxState = curState;
 
-	buffList = new BuffManager(&curState, &maxState);
+	statusManager = new StatusManager(&curState, &maxState, &mEquip);
 }
 
 Ksg::~Ksg()
@@ -163,7 +163,7 @@ void Ksg::release()
 
 void Ksg::update()
 {
-	buffList->update(DELTA * DeltaAcl);
+	statusManager->update(DELTA * DeltaAcl);
 
 	TaticDoll::update();
 
@@ -220,7 +220,7 @@ void Ksg::Use_ActiveSkill()
 			skillstate.AttackDelay = (curState.AttackDelay * 0.8f) * -1.0f;
 			skillstate.AttackPoint = (curState.AttackPoint * 3) / 2;
 
-			buffList->create(skillstate, KSG_SKILL_MAINTAIN);
+			statusManager->create(skillstate, KSG_SKILL_MAINTAIN);
 
 			switch (rand() % 3)
 			{

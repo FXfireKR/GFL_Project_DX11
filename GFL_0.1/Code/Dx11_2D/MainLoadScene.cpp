@@ -154,6 +154,8 @@ void MainLoadScene::update()
 			}
 		}
 	}
+	else
+		worldColor.a = 1.0f;
 }
 
 void MainLoadScene::render()

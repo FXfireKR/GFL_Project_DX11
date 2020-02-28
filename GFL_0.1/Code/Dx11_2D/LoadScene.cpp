@@ -77,7 +77,7 @@ void LoadScene::update()
 void LoadScene::render()
 {
 	DRAW->render(LOADMANAGER->getLoadImageKey(), D3DXVECTOR2(WINSIZEX * 0.5f, WINSIZEY * 0.5f),
-		D3DXVECTOR2(WINSIZEX*0.5f, (WINSIZEY*0.5f)));
+		D3DXVECTOR2(WINSIZEX*0.5f, (WINSIZEY*0.5f)), DCR(1, 1, 1, 1), DV3(0, 0, 0), false);
 
 	D2DX->renderRect(D2D_RectMake(0, WINSIZEY - 120, WINSIZEX, WINSIZEY), ColorF(0, 0, 0, 1), true);
 	//DRAWMANAGER->renderRect(D2D_RectMake(percent + 40, 590, percent + 50, 610), ColorF(1, 1, 0, 0.1), true);

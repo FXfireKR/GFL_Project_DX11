@@ -11,7 +11,7 @@ bool findAt(vector<T> _vec, T _value)
 }
 
 TaticDoll::TaticDoll()
-	: motion(nullptr), _colorBuffer(nullptr), buffList(nullptr)
+	: motion(nullptr), _colorBuffer(nullptr), statusManager(nullptr)
 {
 	myID.All_ID = myID.SquadMem_ID = myID.Squad_ID = -1;
 	alianceType = ALIANCE_NONE;
@@ -27,6 +27,7 @@ void TaticDoll::LoadTray_ImageList()
 {
 }
 void TaticDoll::render() {}
+void TaticDoll::reset(){}
 void TaticDoll::render_VisualBar() {}
 void TaticDoll::render_Motion() 
 {
@@ -173,7 +174,7 @@ void TaticDoll::release()
 	}
 
 	SAFE_DELETE(motion);
-	SAFE_DELETE(buffList);
+	SAFE_DELETE(statusManager);
 }
 
 void TaticDoll::update()
@@ -606,7 +607,7 @@ void TaticDoll::Character_GetDamage(const Status & st)
 				else
 					curState.HitPoint.curr = 0;
 
-				DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, totalDamge);
+				DAMAGE->Create_Damage(Pos.x, Pos.y - 50.0f, totalDamge, true);
 			}
 
 			else

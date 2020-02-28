@@ -13,13 +13,16 @@ protected:
 protected:
 	SHOWMODE mode;
 
-	int FocusSquad;		//선택된 분대
-	int FocusBox;		//선택된 박스
+	int FocusSquad;		//	선택된 분대
+	int FocusBox;		//	선택된 박스
 
 	bool showEquip;
 
 	map<string, Button>		mButton;
-	vector<RECT> vBox;
+	vector<string>			vCharacter;
+	vector<RECT>			vBox;
+
+	bool changeScene;
 
 public:
 	SquadEdditScene();
@@ -48,4 +51,7 @@ private:
 	static void DeleteSelect(void* obj);
 	static void LeftSelect(void* obj);
 	static void RightSelect(void* obj);
+
+	static void ChangeSquad_Select(void* obj);
+	static void ReturnBase_Select(void* obj);
 };

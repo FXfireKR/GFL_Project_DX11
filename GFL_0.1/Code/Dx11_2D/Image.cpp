@@ -3,6 +3,7 @@
 
 Image::Image() : worldBuffer(nullptr), vertexBuffer(nullptr), NoiseBuffer(nullptr)
 {
+	SHADER->CreateShader("PTBase_noWorldColor", PTElementDesc, PTElementCount, PT_BaseShaderFile2);
 	SHADER->CreateShader("PTBase", PTElementDesc, PTElementCount, PT_BaseShaderFile);
 	SHADER->CreateShader("PT_Noise", PTElementDesc, PTElementCount, PT_NoiseShaderFile);
 	SHADER->CreateShader("PT_Alpha", PTElementDesc, PTElementCount, PT_AlphaShaderFile);
@@ -143,7 +144,7 @@ void Image::render(const char * srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 
 	}
 }
 
-void Image::render(string srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 _rotate)
+void Image::render(string srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 _rotate, bool worldAlpha)
 {
 	//	Vertex Buffer Update
 	{
@@ -180,7 +181,10 @@ void Image::render(string srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 _rotat
 	
 	//	Render
 	{
-		SHADER->setShader("PTBase");
+		if(worldAlpha)
+			SHADER->setShader("PTBase");
+		else
+			SHADER->setShader("PTBase_noWorldColor");
 
 		UINT stride = sizeof(PTVertex);
 		UINT offset = 0;
