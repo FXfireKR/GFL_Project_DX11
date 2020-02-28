@@ -1,4 +1,4 @@
-# [ 2020 - 02 - 27 ]  Update Note
+# [ 2020 - 02 - 28 ]  Update Note
 
 ## Bug fix
  - Effect, Damage, Buff, Hp Ap Crush that occurs when entering the next battle after ending battle in battle-scene.
@@ -10,5 +10,5 @@
 
 ## Add class
 
-### BuffManager
+### StatusManager
  - Buff-manager class, manages the status of buffs, debuffs, and overall status of units.
