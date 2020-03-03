@@ -528,11 +528,12 @@ bool PlayerData::Targetting_Other()
 void PlayerData::test_create()
 {
 	tacDoll->Create_IOPtacDoll(GRF_KSG);
-	//tacDoll->Create_IOPtacDoll(GRF_AK12);
-	tacDoll->Create_IOPtacDoll(GRF_M4SOP);
-	
-	//tacDoll->Create_IOPtacDoll(GRF_PKP);
+	tacDoll->Create_IOPtacDoll(GRF_M4SOP);	
 
+	//tacDoll->Create_IOPtacDoll(GRF_AK12);
+	//tacDoll->Create_IOPtacDoll(GRF_PKP);
+	//tacDoll->Create_IOPtacDoll(GRF_9A91);
+	//tacDoll->Create_IOPtacDoll(GRF_NTW20);
 }
 
 void PlayerData::test_setting()

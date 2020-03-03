@@ -23,12 +23,6 @@ LobbyScene::~LobbyScene()
 void LobbyScene::init()
 {
 	worldColor.a = 0.0f;
-	
-	SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
-	SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
-	SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);
-	SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
-	SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
 
 	for (auto& it : mButton)
 		it.second.boxImgColor = D3DXCOLOR(1, 1, 1, 1);
@@ -44,6 +38,8 @@ void LobbyScene::init()
 	isConvers = false;
 	isSceneChanged = false;
 	ConvAlpha = 0.0f;
+
+	SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
 
 	{
 		//PLAYER->testFuc();
@@ -92,7 +88,9 @@ void LobbyScene::update()
 	}
 
 	else
-	{
+	{	
+		SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.25f);
+
 		if (worldColor.a < 1.0f)
 		{
 			worldColor.a += DELTA;

@@ -37,7 +37,7 @@ void worldmapScene::init()
 		{
 			it.second->LoadTray_SoundList();
 			it.second->LoadTray_ImageList();
-			PLAYER->insertTacDolToSquad(it.first, 1);
+			//PLAYER->insertTacDolToSquad(it.first, 1);
 		}
 
 		mInstSquad.clear();

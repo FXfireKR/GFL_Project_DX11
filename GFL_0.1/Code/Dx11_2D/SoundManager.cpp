@@ -213,7 +213,7 @@ void SoundManager::setVolum()
 void SoundManager::setVolume(SOUND_CHANNEL ch, float volume)
 {
 	if (volume < 0.0)
-		volume = 0;
+		volume = 0.00001f;
 
 	mChannel[ch]->engine->setSoundVolume(volume);
 }

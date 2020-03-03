@@ -18,6 +18,7 @@ MainLoadScene::MainLoadScene()
 	loader->LoaduiAtlasData("../../_TextTable/LobbyUi.atlas");
 	loader->LoaduiAtlasData("../../_TextTable/GuidUi.atlas");
 	loader->LoaduiAtlasData("../../_TextTable/AvgUi.atlas");
+	loader->LoaduiAtlasData("../../_TextTable/SlotUi.atlas");
 	delete loader;
 
 	PLAYER->test_create();
@@ -46,7 +47,8 @@ void MainLoadScene::init()
 	LOADMANAGER->Add_LoadTray("LobbyLoop", "../../_SoundSource/LobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);				//	LobbyTheme
 	LOADMANAGER->Add_LoadTray("TitleLoop", "../../_SoundSource/TitleLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);				//	TitleTheme
 	LOADMANAGER->Add_LoadTray("ChapterLoop", "../../_SoundSource/ChapterLobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	ChapterTheme
-	
+	LOADMANAGER->Add_LoadTray("FormationLoop", "../../_SoundSource/GF_Achieve_loop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	FormationTheme
+
 	DAMAGE->loadImageList();
 	DAMAGE->AllocateMemory();
 
@@ -70,7 +72,7 @@ void MainLoadScene::update()
 		if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_SOUND1, "TitleLoop"))
 		{
 			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
-			SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "TitleLoop", 0.5f);
+			SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "TitleLoop", 0.25f);
 
 			SINT randomUint = rand() % PLAYER->getPlayerTaticDoll().getAllTacDoll().size();
 

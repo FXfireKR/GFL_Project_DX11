@@ -69,7 +69,41 @@ public:
 		}
 	};
 
-	void Insert_SquadMember(SINT squadID, void* mem)
+	//void Insert_SquadMember(SINT squadID, void* mem)
+	//{
+	//	if (mManager.count(squadID))
+	//	{
+	//		bool sameID = false;
+
+	//		T temp = (T)mem;
+
+	//		if (temp->getID()->SquadMem_ID == -1)	//소속이 없다는 뜻이다.
+	//		{
+	//			//동일한 시드 찾기
+	//			for (auto& it : mManager.find(squadID)->second->mSquad)
+	//			{
+	//				if (it.second->getID()->All_ID == temp->getID()->All_ID)
+	//				{
+	//					sameID = true;
+	//					break;
+	//				}
+	//			}
+
+	//			if (!sameID)
+	//			{
+	//				signed int id = mManager.find(squadID)->second->mSquad.size();
+	//				mManager.find(squadID)->second->mSquad.insert(make_pair(id, temp));
+	//				temp->getID()->SquadMem_ID = id;
+	//				temp->getID()->Squad_ID = squadID;
+
+	//				if (mManager.find(squadID)->second->squadLeaderID == -1)
+	//					mManager.find(squadID)->second->squadLeaderID = 0;
+	//			}
+	//		}
+	//	}
+	//};
+
+	bool Insert_SquadMember(SINT squadID, void* mem)
 	{
 		if (mManager.count(squadID))
 		{
@@ -98,10 +132,17 @@ public:
 
 					if (mManager.find(squadID)->second->squadLeaderID == -1)
 						mManager.find(squadID)->second->squadLeaderID = 0;
+
+					return true;
 				}
 			}
+			else
+				return false;
 		}
+		else
+			return false;
 	};
+
 
 	void Emit_SquadMember(SINT squadID, SINT memID)
 	{
