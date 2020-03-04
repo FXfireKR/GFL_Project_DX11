@@ -152,7 +152,7 @@ void MainGame::Update()
 
 		DeviceContext->UpdateSubresource(m_pDirLightBuffer, 0, 0, &worldColor, 0, 0);
 	}
-
+	SOUNDMANAGER->update();
 }
 
 void MainGame::Render()

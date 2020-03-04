@@ -3,6 +3,10 @@
 
 SoundManager::SoundManager()
 {
+	TotalVolume = 1.0f;
+	BackMusicVolume = 0.15f;
+	EffectVolume = 0.15f;
+	VoiceVolume = 0.15f;
 }
 
 SoundManager::~SoundManager()
@@ -51,14 +55,26 @@ void SoundManager::release()
 
 void SoundManager::update()
 {
+	ImGui::DragFloat("TotalVol", &TotalVolume, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("BgmVol", &BackMusicVolume, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("EffectVol", &EffectVolume, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("VoiceVol", &VoiceVolume, 0.01f, 0.0f, 1.0f);
+
 	for (auto& channel : mChannel)
 	{
-		if (channel.first == CH_VOICE)continue;
+		if (channel.first == CH_VOICE)
+		{
+			for (auto& soundPlay : channel.second->playList)
+				soundPlay.second->setVolume(VoiceVolume * TotalVolume);
+			continue;
+		}
 
 		else if (channel.first == CH_EFFECT)
 		{
 			for (size_t i = effectChannel.size() - 1; i < -1; --i)
 			{
+				effectChannel[i]->setVolume(EffectVolume * TotalVolume);
+
 				if (effectChannel[i]->isFinished())
 					effectChannel.erase(effectChannel.begin() + i);
 				else
@@ -72,7 +88,10 @@ void SoundManager::update()
 		else
 		{
 			for (auto& soundPlay : channel.second->playList)
+			{
+				soundPlay.second->setVolume(BackMusicVolume * TotalVolume);
 				soundPlay.second->setPlaybackSpeed(DeltaAcl);
+			}
 		}
 	}
 }
@@ -188,27 +207,6 @@ void SoundManager::InsertSoundBianry(string key, string _path)
 	}
 }
 
-void SoundManager::setVolum()
-{
-
-	if (KEYMANAGER->isKeyStayDown(VK_UP))
-	{
-		float curVol = SoundEngine->getSoundVolume();
-		if (curVol < 1.0f)
-			SoundEngine->setSoundVolume(curVol + 0.01f);
-
-		//mSoundRes.begin()->second->resInfo->setVolume(curVol);
-	}
-
-	if (KEYMANAGER->isKeyStayDown(VK_DOWN))
-	{
-		float curVol = SoundEngine->getSoundVolume();
-		if (curVol > 0.0f)
-			SoundEngine->setSoundVolume(curVol - 0.01f);
-
-		//mSoundRes.begin()->second->resInfo->setVolume(curVol);
-	}
-}
 
 void SoundManager::setVolume(SOUND_CHANNEL ch, float volume)
 {
@@ -321,7 +319,7 @@ void SoundManager::Play_Sound(SOUND_CHANNEL ch, string key, float volume)
 				mChannel[ch]->playList[key] = mChannel[ch]->engine->play2D(miSoundRes->second->resource, false, true, true, true);
 				auto& cur = mChannel[ch]->playList[key];
 
-				//cur->setVolume(0.0);
+				cur->setVolume(0.0);
 				cur->setIsPaused(false);
 			}
 
@@ -334,7 +332,7 @@ void SoundManager::Play_Sound(SOUND_CHANNEL ch, string key, float volume)
 
 			auto& cur = mChannel[ch]->playList[key];
 
-			//cur->setVolume(0.0);
+			cur->setVolume(0.0);
 			cur->setIsPaused(false);
 		}
 

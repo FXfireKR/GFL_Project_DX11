@@ -89,17 +89,30 @@ void LobbyScene::update()
 
 	else
 	{	
-		SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.25f);
+		if (!SOUNDMANAGER->isValidKey("LobbyLoop"))
+		{
+			if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop"))
+			{
+				SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+				SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.0f);
+				SOUNDMANAGER->setVolume("LobbyLoop", SOUND_CHANNEL::CH_SOUND1, 0.0f);
+			}
+		}
 
 		if (worldColor.a < 1.0f)
 		{
 			worldColor.a += DELTA;
-			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a < 0.15f ? worldColor.a : 0.15f);
+
+			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a < 0.25f ? worldColor.a : 0.25f);
+			SOUNDMANAGER->setVolume("LobbyLoop", SOUND_CHANNEL::CH_SOUND1, worldColor.a < 0.25f ? worldColor.a : 0.25f);
 		}
 
 		else
 		{
 			worldColor.a = 1.0f;
+
+			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.25f);
+			SOUNDMANAGER->setVolume("LobbyLoop", SOUND_CHANNEL::CH_SOUND1, 0.25f);
 
 			if (KEYMANAGER->isKeyDown(VK_LBUTTON))
 			{

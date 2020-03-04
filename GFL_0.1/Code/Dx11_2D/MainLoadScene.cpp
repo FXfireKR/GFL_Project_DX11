@@ -72,7 +72,8 @@ void MainLoadScene::update()
 		if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_SOUND1, "TitleLoop"))
 		{
 			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
-			SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "TitleLoop", 0.25f);
+			SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "TitleLoop", 0.0f);
+			SOUNDMANAGER->setVolume("TitleLoop", SOUND_CHANNEL::CH_SOUND1, 0.0f);
 
 			SINT randomUint = rand() % PLAYER->getPlayerTaticDoll().getAllTacDoll().size();
 
@@ -119,9 +120,8 @@ void MainLoadScene::update()
 		}
 	}
 
-	ImGui::Text("BGM Volume : %.2f", bgmVolume);
-
 	SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, bgmVolume);
+	SOUNDMANAGER->setVolume("TitleLoop", SOUND_CHANNEL::CH_SOUND1, bgmVolume);
 
 	if (KEYMANAGER->isKeyUp(VK_LBUTTON))
 	{
@@ -135,6 +135,7 @@ void MainLoadScene::update()
 		{
 			worldColor.a -= DELTA;
 			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a > bgmVolume ? bgmVolume : worldColor.a);
+			SOUNDMANAGER->setVolume("TitleLoop", SOUND_CHANNEL::CH_SOUND1, worldColor.a > bgmVolume ? bgmVolume : worldColor.a);
 		}
 
 		else
@@ -144,16 +145,10 @@ void MainLoadScene::update()
 			SCENE->Change_Scene("LOBBY");
 			SCENE->Init_Scene();
 
-			SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "TitleLoop");
+			SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+			SOUNDMANAGER->setVolume("TitleLoop", SOUND_CHANNEL::CH_SOUND1, 0.0f);
 
-			if (!SOUNDMANAGER->isValidKey("LobbyLoop"))
-			{
-				if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop"))
-				{
-					SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
-					SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "LobbyLoop", 0.5f);
-				}
-			}
+			SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "TitleLoop");		
 		}
 	}
 	else

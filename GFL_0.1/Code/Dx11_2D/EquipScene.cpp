@@ -61,13 +61,15 @@ void EquipScene::init()
 
 	//	Loading List Setting
 	LOADMANAGER->Add_LoadTray("NameLabel", "../../_Assets/Texture2D/NameLabel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("EquipBarBack", "../../_Assets/Texture2D/EquipBarBack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("editSceneBk", "../../_Assets/Texture2D/editSceneBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				// 로비 메인화면
 
 	//EQUIP->AddTray_EquipImage();										//	get List of Equip
 
 	//	Loading Setting
 	LOADMANAGER->setAutoInit(false);
 	LOADMANAGER->setNextScene("EQUIP");
-	LOADMANAGER->setLoadImageKey("LoadBk_InEquip");
+	LOADMANAGER->setLoadImageKey("ShootRange");
 	SCENE->Change_Scene("LOAD");
 }
 
@@ -78,6 +80,15 @@ void EquipScene::release()
 void EquipScene::update()
 {
 	worldColor.a = worldColor.a < 1.0f ? worldColor.a + DELTA : 1.0f;
+	SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a < 0.15f ? worldColor.a : 0.15f);
+
+	if (!SOUNDMANAGER->isValidKey("FormationLoop"))
+	{
+		if (!SOUNDMANAGER->isPlay(SOUND_CHANNEL::CH_SOUND1, "FormationLoop"))
+		{
+			SOUNDMANAGER->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "FormationLoop", 0.25f);
+		}
+	}
 
 	CAMERA->setCameraFix(true);
 	CAMERA->CameraReset();
@@ -97,8 +108,6 @@ void EquipScene::update()
 		break;
 	}
 
-	//KEYMANAGER->Init();
-
 	PLAYER->update();
 	if (CharaSlider.InfoDollID != -1)
 	{
@@ -113,6 +122,9 @@ void EquipScene::update()
 
 void EquipScene::render()
 {
+	DRAW->render("editSceneBk", DV2(WINSIZEX*0.5f, WINSIZEY*0.5f), DV2(WINSIZEX*0.5f, WINSIZEY*0.5f));
+	DRAW->render("gradiantBlack", DV2(WINSIZEX*0.5f, 75), DV2(WINSIZEX*0.5f, 75));
+
 	switch (state)
 	{
 	case EquipScene::ES_MAIN:
@@ -162,12 +174,6 @@ void EquipScene::State_MainUpdate()
 			}
 		}
 	}
-
-	//else if (KEYMANAGER->isKeyStayDown(VK_UP))
-	//	CharaSlider.Opacity += DELTA;
-
-	//else if (KEYMANAGER->isKeyStayDown(VK_DOWN))
-	//	CharaSlider.Opacity -= DELTA;
 
 	if (CharaSlider.isMoving)
 	{

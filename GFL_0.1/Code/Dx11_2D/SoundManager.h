@@ -56,6 +56,12 @@ private:
 	ISoundEngine* SoundEngine;
 
 public:
+	float TotalVolume;			//	ÀüÃ¼ º¼·ý
+	float BackMusicVolume;		//	¹è°æÀ½ º¼·ý
+	float EffectVolume;			//	ÀÌÆåÆ® SFX º¼·ý
+	float VoiceVolume;			//	¸ñ¼Ò¸® º¼·ý
+
+public:
 	SoundManager();
 	~SoundManager();
 
@@ -65,7 +71,6 @@ public:
 	void update();
 
 	void InsertSoundBianry(__in string key, __in string _path);
-	void setVolum();
 	void setVolume(__in SOUND_CHANNEL ch, __in float volume);
 	void setVolume(__in string key, __in SOUND_CHANNEL ch, __in float volume);
 

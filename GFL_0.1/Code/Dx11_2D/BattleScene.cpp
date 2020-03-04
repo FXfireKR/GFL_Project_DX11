@@ -115,7 +115,6 @@ void BattleScene::update()
 	}
 
 	EFFECT->update();
-	SOUNDMANAGER->update();
 	DAMAGE->update();
 }
 
