@@ -5,6 +5,8 @@ Ksg::Ksg()
 {
 	name = "KSG";
 
+	weaponType = TWT_SG;
+
 	SOUND_ATTACK = "KSG_ATTACK_JP";
 	SOUND_BREAK = "KSG_BREAK_JP";
 	SOUND_DEFENSE = "KSG_DEFENSE_JP";

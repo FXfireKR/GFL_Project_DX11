@@ -99,7 +99,7 @@ void BattleScene::update()
 
 	else
 	{
-		ImGui::Text("Result Timer : %.3f", resultTimer);
+		//ImGui::Text("Result Timer : %.3f", resultTimer);
 
 		resultTimer -= DELTA;
 		if (resultTimer - DELTA < DELTA)

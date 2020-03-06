@@ -37,6 +37,10 @@ protected:
 
 	int EquipNum;
 
+	bool sceneChange;
+
+	D3DXVECTOR2				virtualCamera;
+
 	EQUIPSCENE_STATE	 	state;
 	map<string, Button>		mButton;
 

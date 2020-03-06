@@ -93,20 +93,20 @@
 <type>35,<name>SPRESOR
 1#equip-14,AC4소음기
 2#equip-14,치명타율+5% 회피+10%
-3#equip-14,
+3#equip-14,SMG, HG, SG, MG 착용가능
 4#equip-14,AC사에서 특수작전용으로 특별 생산한 소음기로 전술인형의 은폐성을 최대로 향상시키고 피탄확률을 감소시킵니다.
 
 
 </type>,<name>SPRESOR_16LAB2
 1#equip-15,AC16소음기
 2#equip-15,치명타율+10% 회피+5%
-3#equip-15,
+3#equip-15,AR, SR, RF 착용가능
 4#equip-15,16LAB에서 AC사의 소음기모델을 표준으로 제작한 소음기로 전술인형의 은폐성을 조금더 높이고, 피탄확률을 소폭 희생합니다.
 
 
 <type>36,<name>SPRESOR_16LAB
 1#equip-16,16LAB연장총열
 2#equip-16,화력+5 치명타율+2% 이동속도-2%
-3#equip-16,
+3#equip-16,SMG, AR 착용가능
 4#equip-16,16LAB에서 정규작전용으로 특별 생산한 총열로 총기의 집탄율 향상및 화력을 증대시킵니다.
 

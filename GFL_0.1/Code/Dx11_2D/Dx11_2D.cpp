@@ -126,11 +126,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			{
 				GAMETIME->CalculateFrameStats();
 
-				ImGui::Update();
-				ImGui::Text("FPS : %.2f", GAMETIME->FPS());
-				ImGui::Text("mspl : %.2f", GAMETIME->ElaspedTime());
-				ImGui::Text("worldTime : %.2f", GAMETIME->GameTime());
-				ImGui::Text("Delta : %.2f", GAMETIME->DeltaTime());
+				//ImGui::Update();
+				//ImGui::Text("FPS : %.2f", GAMETIME->FPS());
+				//ImGui::Text("mspl : %.2f", GAMETIME->ElaspedTime());
+				//ImGui::Text("worldTime : %.2f", GAMETIME->GameTime());
+				//ImGui::Text("Delta : %.2f", GAMETIME->DeltaTime());
 
 				pMainGame->Update();
 				pMainGame->Render();
@@ -425,9 +425,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		return 0;
 
-	/*case WM_MOUSEWHEEL:
-		(SHORT)HIWORD(wParam) > 0 ? whlCount -= 5 : whlCount += 5;
-		break;*/
+	case WM_MOUSEWHEEL:
+		(SHORT)HIWORD(wParam) > 0 ? whlCount -= 20 : whlCount += 20;
+		break;
 
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

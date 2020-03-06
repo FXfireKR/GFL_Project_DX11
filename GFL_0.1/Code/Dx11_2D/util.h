@@ -26,6 +26,19 @@ struct STATE {
 	T max, curr;
 };
 
+//	전술인형의 무기 종류
+enum TATICDOLL_WEAPON_TYPE
+{
+	TWT_NONE = -1,
+	TWT_AR,
+	TWT_RF,
+	TWT_SR,
+	TWT_MG,
+	TWT_SG,
+	TWT_HG,
+	TWT_SMG
+};
+
 enum EQUIPTYPE
 {
 	EPT_ACESORY = 0,

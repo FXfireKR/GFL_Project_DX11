@@ -73,29 +73,29 @@ void Image::render(const char * srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 
 
 		D3DXMatrixIdentity(&worldMatrix);
 
-		//	Use Camera ScaleUp
-		FLOAT percent = static_cast<FLOAT>((100 - whlCount) * 0.01F);
-		_scale.x *= percent;
-		_scale.y *= percent;
+		////	Use Camera ScaleUp
+		//FLOAT percent = static_cast<FLOAT>((100 - whlCount) * 0.01F);
+		//_scale.x *= percent;
+		//_scale.y *= percent;
 
-		_trans.x = _trans.x;
-		_trans.y = (WINSIZEY - _trans.y);
+		//_trans.x = _trans.x;
+		//_trans.y = (WINSIZEY - _trans.y);
 
-		//	드래그를 이용한 중앙_ 확대 / 축소 시에 좌표 고정
-		FLOAT Dif_Center_X = 640.0f - _trans.x;
-		FLOAT Dif_Center_Y = 360.0f - _trans.y;
+		////	드래그를 이용한 중앙_ 확대 / 축소 시에 좌표 고정
+		//FLOAT Dif_Center_X = 640.0f - _trans.x;
+		//FLOAT Dif_Center_Y = 360.0f - _trans.y;
 
 		//FLOAT Dif_Center_X = g_ptMouse.x - _trans.x;
 		//FLOAT Dif_Center_Y = g_ptMouse.y - _trans.y;
 
-		if (fabsf(Dif_Center_X) < FLOAT_EPSILON)
-			Dif_Center_X = (int)0;
+		//if (fabsf(Dif_Center_X) < FLOAT_EPSILON)
+		//	Dif_Center_X = (int)0;
 
-		if (fabsf(Dif_Center_Y) < FLOAT_EPSILON)
-			Dif_Center_Y = (int)0;
+		//if (fabsf(Dif_Center_Y) < FLOAT_EPSILON)
+		//	Dif_Center_Y = (int)0;
 
-		_trans.x += ((1 - percent) * Dif_Center_X);
-		_trans.y += ((1 - percent) * Dif_Center_Y);
+		//_trans.x += ((1 - percent) * Dif_Center_X);
+		//_trans.y += ((1 - percent) * Dif_Center_Y);
 
 		D3DXMatrixScaling(&s, _scale.x, _scale.y, 1);
 
@@ -103,7 +103,7 @@ void Image::render(const char * srvKey, DV2 _scale, DV2 _trans, DCR _color, DV3 
 		D3DXMatrixRotationY(&ry, RAD(_rotate.y));
 		D3DXMatrixRotationZ(&rz, RAD(_rotate.z));
 
-		D3DXMatrixTranslation(&t, _trans.x, _trans.y, 0);
+		D3DXMatrixTranslation(&t, _trans.x, WINSIZEY - _trans.y, 0);
 
 		worldMatrix = s * rx * ry * rz * t;
 		D3DXMatrixTranspose(&worldMatrix, &worldMatrix);

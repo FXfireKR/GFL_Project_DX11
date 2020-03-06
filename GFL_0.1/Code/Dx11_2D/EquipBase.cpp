@@ -51,6 +51,44 @@ void EquipBase::render(D3DXVECTOR2 _trans, D3DXVECTOR2 _scale, float _alpha)
 	DRAW->render(img_key, _scale, _trans);
 }
 
+bool EquipBase::isAttachAble(TATICDOLL_WEAPON_TYPE twt)
+{
+	BYTE attachPlag;
+
+	if (twt != TWT_NONE)
+	{
+		switch (twt)
+		{
+		case TWT_AR:
+			attachPlag = ATTACH_AR;
+			break;
+		case TWT_RF:
+			attachPlag = ATTACH_RF;
+			break;
+		case TWT_SR:
+			attachPlag = ATTACH_SR;
+			break;
+		case TWT_MG:
+			attachPlag = ATTACH_MG;
+			break;
+		case TWT_SG:
+			attachPlag = ATTACH_SG;
+			break;
+		case TWT_HG:
+			attachPlag = ATTACH_HG;
+			break;
+		case TWT_SMG:
+			attachPlag = ATTACH_SMG;
+			break;
+
+		}
+
+		if (equipAttachAble & attachPlag)
+			return true;
+	}
+	return false;
+}
+
 void EquipBase::Tokenize_Spec()
 {
 	/*	[ 분리해야할 내용 ]
@@ -202,4 +240,6 @@ void EquipBase::Tokenize_AttachAble()
 
 	if (buf.find("SR") == string::npos)
 		equipAttachAble = attachAble ? equipAttachAble += ATTACH_SR : equipAttachAble -= ATTACH_SR;
+
+	this->equipAttachAble = equipAttachAble;
 }

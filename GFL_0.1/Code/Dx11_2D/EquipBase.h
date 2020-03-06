@@ -1,5 +1,6 @@
 #pragma once
 
+//	무기 장착에 사용하는 String
 struct WeaponString
 {
 	string name;				//무기 이름
@@ -8,6 +9,7 @@ struct WeaponString
 	string native;				//무기 착용설명
 };
 
+//	장착이가능한 부분
 enum AttachAblePlag
 {
 	ATTACH_AR = 1,
@@ -43,12 +45,13 @@ public:
 	void render(FLOAT x, FLOAT y, FLOAT acl = 1.0F, FLOAT opc = 1.0F);		//	장비 Image 렌더링
 	void render(D3DXVECTOR2 _trans, D3DXVECTOR2 _scale, float _alpha);		//	장비 Image 렌더링
 
+	bool isAttachAble(TATICDOLL_WEAPON_TYPE twt);
+
 private:
 	void Tokenize_Spec();
 	void Tokenize_AttachAble();
 
 public:
-
 	inline string getKey() { return img_key; }
 	inline void setKey(string str) { img_key = str; }
 

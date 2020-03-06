@@ -13,6 +13,9 @@ void EquipScene::init()
 {
 	worldColor.a = 0.0f;
 
+	virtualCamera.x = virtualCamera.y = 0.0f;
+	whlCount = 0;
+
 	CharaSlider.InfoDollID = -1;
 	CharaSlider.isMoving = false;
 	CharaSlider.isOpen = false;
@@ -24,7 +27,10 @@ void EquipScene::init()
 		it.second->LoadTray_ImageList();
 
 	TEXT->Create_TextField("CHARA_NAME", L"¸¼Àº°íµñ", "NULL", 28, DWRITE_FONT_WEIGHT_BOLD);
-	TEXT->Create_TextField("EQUIP_EXP", L"¸¼Àº°íµñ", "NULL", 12, DWRITE_FONT_WEIGHT_NORMAL);
+
+	TEXT->Create_TextField("EQUIP_NAME", L"¸¼Àº°íµñ", "NULL", 26, DWRITE_FONT_WEIGHT_BOLD);
+	TEXT->Create_TextField("EQUIP_EXP", L"¸¼Àº°íµñ", "NULL", 15, DWRITE_FONT_WEIGHT_NORMAL);
+
 	TEXT->Create_TextField("STATUS_IDX", L"¸¼Àº°íµñ", "NULL", 14, DWRITE_FONT_WEIGHT_NORMAL);
 	TEXT->Create_TextField("STATUS_VAL", L"¸¼Àº°íµñ", "NULL", 10, DWRITE_FONT_WEIGHT_NORMAL);
 
@@ -62,7 +68,11 @@ void EquipScene::init()
 	//	Loading List Setting
 	LOADMANAGER->Add_LoadTray("NameLabel", "../../_Assets/Texture2D/NameLabel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOADMANAGER->Add_LoadTray("EquipBarBack", "../../_Assets/Texture2D/EquipBarBack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOADMANAGER->Add_LoadTray("editSceneBk", "../../_Assets/Texture2D/editSceneBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				// ·Îºñ ¸ÞÀÎÈ­¸é
+	LOADMANAGER->Add_LoadTray("editSceneBk", "../../_Assets/Texture2D/editSceneBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+
+	LOADMANAGER->Add_LoadTray("EquipCard", "../../_Assets/Texture2D/EquipCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("EquipOut", "../../_Assets/Texture2D/EquipOut.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOADMANAGER->Add_LoadTray("EquipCardBk", "../../_Assets/Texture2D/EquipCardBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	//EQUIP->AddTray_EquipImage();										//	get List of Equip
 
@@ -81,6 +91,15 @@ void EquipScene::update()
 {
 	worldColor.a = worldColor.a < 1.0f ? worldColor.a + DELTA : 1.0f;
 	SOUNDMANAGER->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a < 0.15f ? worldColor.a : 0.15f);
+
+	if (sceneChange)
+	{
+
+	}
+	else
+	{
+
+	}
 
 	if (!SOUNDMANAGER->isValidKey("FormationLoop"))
 	{
@@ -108,15 +127,16 @@ void EquipScene::update()
 		break;
 	}
 
-	PLAYER->update();
+	//PLAYER->update();
 	if (CharaSlider.InfoDollID != -1)
 	{
 		auto& tacdoll = PLAYER->getPlayerTaticDoll().getAllTacDoll().at(CharaSlider.InfoDollID);
-		if (tacdoll->isFocus())
-		{
-			tacdoll->revFocus();
-			PLAYER->setCurFocusDoll(nullptr);
-		}
+
+		tacdoll->p_getCharacterPos()->x = WINSIZEX * 0.5f;
+		tacdoll->p_getCharacterPos()->y = WINSIZEY * 0.5f;
+			
+		if (!tacdoll->isSelect())
+			tacdoll->revSelect();
 	}
 }
 
@@ -139,8 +159,6 @@ void EquipScene::render()
 		State_EquipRender();
 		break;
 	}
-
-	PLAYER->render();
 }
 
 void EquipScene::State_MainUpdate()
@@ -151,8 +169,6 @@ void EquipScene::State_MainUpdate()
 		{
 			if (KEYMANAGER->isKeyDown(VK_LBUTTON))
 			{
-				it.second.ClickAction(this);
-
 				if (CharaSlider.InfoDollID != -1)
 				{
 					if (it.first.find("EQUIP") != string::npos)
@@ -170,6 +186,8 @@ void EquipScene::State_MainUpdate()
 
 					}
 				}
+
+				it.second.ClickAction(this);
 				break;
 			}
 		}
@@ -333,31 +351,54 @@ void EquipScene::State_MainRender()
 
 void EquipScene::State_EquipUpdate()
 {
+	//ImGui::Text("EquipNumber : %d", EquipNum);
+
 	auto& tacDoll = PLAYER->getPlayerTaticDoll().getAllTacDoll();
+
+	if (whlCount < 0)
+		whlCount = 0;
+
+	else if (whlCount > ((EquipNum / 4) * 460))
+		whlCount = ((EquipNum / 4) * 460);
+
 
 	if (KEYMANAGER->isKeyDown(VK_LBUTTON))
 	{
 		int i = 0;
 		for (auto& it : PLAYER->getPlayerEquip())
 		{
+			//	Equip TypeÀÌ °°´Ù¸é
 			if (it.second.equipType == SelectedEQ_Type)
 			{
-				FLOAT x = 150 + ((i % 4) * 265);
-				FLOAT y = 150 + ((i / 4) * 265);
-
-				if (ptInRect(D2D_RectMakeCenter(x, y, 128, 128), g_ptMouse))
+				if (!it.second.equip->isAttachAble(PLAYER->getPlayerTaticDoll().getAllTacDoll().at(CharaSlider.InfoDollID)->getWeaponType()))
 				{
-					if (it.second.num > 0)
-					{
-						tacDoll.at(CharaSlider.InfoDollID)->p_getEquip().at(SelectedEQ_Type) = it.second.equip;
-						tacDoll.at(CharaSlider.InfoDollID)->AttachEquipment();
-						state = ES_MAIN;
-					}
-
-					break;
+					//++i;
+					continue;
 				}
 				else
-					++i;
+				{
+					FLOAT x = 150 + ((i % 4) * 265);
+					FLOAT y = 450 + ((i / 4) * 450);
+					POINT vptMouse = g_ptMouse;
+					vptMouse.y += whlCount;
+
+					if (ptInRect(D2D_RectMakeCenter(x, y, 120, 211), vptMouse))
+					{
+						if (it.second.num > 0)
+						{
+							if (it.second.equip->isAttachAble(tacDoll.at(CharaSlider.InfoDollID)->getWeaponType()))
+							{
+								tacDoll.at(CharaSlider.InfoDollID)->p_getEquip().at(SelectedEQ_Type) = it.second.equip;
+								tacDoll.at(CharaSlider.InfoDollID)->AttachEquipment();
+								state = ES_MAIN;
+							}
+						}
+
+						break;
+					}
+					else
+						++i;
+				}
 			}
 		}
 
@@ -375,6 +416,8 @@ void EquipScene::State_EquipUpdate()
 		}
 
 	}
+
+	
 }
 
 void EquipScene::State_EquipRender()
@@ -384,29 +427,45 @@ void EquipScene::State_EquipRender()
 
 	int i = 0;
 	for (auto& it : PLAYER->getPlayerEquip())
-	{
+	{	
 		if (it.second.equipType == SelectedEQ_Type)
 		{
-			FLOAT x = 150 + ((i % 4) * 265);
-			FLOAT y = 150 + ((i / 4) * 265);
+			if (!it.second.equip->isAttachAble(PLAYER->getPlayerTaticDoll().getAllTacDoll().at(CharaSlider.InfoDollID)->getWeaponType()))
+				continue;
 
-			D2DX->renderRect(D2D_RectMakeCenter(x, y, 128, 128), ColorF(1, 0, 0));
+			else
+			{
+				FLOAT x = 150 + ((i % 4) * 265);
+				FLOAT y = 450 + ((i / 4) * 450);
 
-			it.second.equip->render(x, y - 50, 0.5f);
+				D2DX->renderRect(D2D_RectMakeCenter(x, y - whlCount, 120, 211), ColorF(1, 0, 0));
 
-			if (it.second.num < 1)
-				D2DX->renderRect(D2D_RectMakeCenter(x, y, 64, 30), ColorF(1, 0, 0));
-			
-			DRAW->render("NameLabel", DV2(128, 60), DV2(x, y + 67), DCR(1, 1, 1, 1), DV3(0, 0, 180.0f));
+				if (it.second.num < 1)
+					D2DX->renderRect(D2D_RectMakeCenter(x, y - whlCount, 64, 30), ColorF(1, 0, 0));
 
-			TEXT->Change_Text("CHARA_NAME", it.second.equip->getString().spec);
-			TEXT->TextRender("CHARA_NAME", x - 123, y + 25, 245, 40, ColorF(1, 1, 0), DWRITE_TEXT_ALIGNMENT_CENTER);
+				DRAW->render("EquipCardBk", DV2(116, 90), DV2(x, y - 81.5f - whlCount), DCR(1, 1, 1, 1));
+				DRAW->render("EquipCard", DV2(120, 211), DV2(x, y - whlCount), DCR(1, 1, 1, 1));
 
-			TEXT->Change_Text("EQUIP_EXP", it.second.equip->getString().explain);
-			TEXT->TextRender("EQUIP_EXP", x - 122, y + 62, 245, 100, ColorF(1, 1, 1), DWRITE_TEXT_ALIGNMENT_CENTER);
+				it.second.equip->render(x, y - 81.5f - whlCount, 0.65f);
 
-			++i;
+				TEXT->Change_Text("EQUIP_NAME", it.second.equip->getString().name);
+				TEXT->TextRender("EQUIP_NAME", x - 123, y + 35 - whlCount, 240, 40, ColorF(1, 1, 0), DWRITE_TEXT_ALIGNMENT_CENTER);
+
+				TEXT->Change_Text("EQUIP_EXP", it.second.equip->getString().native);
+				TEXT->TextRender("EQUIP_EXP", x - 122, y + 145 - whlCount, 240, 100, ColorF(1, 1, 1), DWRITE_TEXT_ALIGNMENT_CENTER);
+
+				TEXT->Change_Text("EQUIP_EXP", it.second.equip->getString().spec);
+				TEXT->TextRender("EQUIP_EXP", x - 122, y + 108 - whlCount, 240, 100, ColorF(1, 1, 1), DWRITE_TEXT_ALIGNMENT_CENTER);
+
+				++i;
+			}
 		}
+	}
+
+	if (i == 0)
+	{
+		TEXT->Change_Text("EQUIP_NAME", "Âø¿ë°¡´ÉÇÑ Àåºñ°¡ ¾ø½À´Ï´Ù");
+		TEXT->TextRender("EQUIP_NAME", 0, WINSIZEY * 0.5f, WINSIZEX, 50, ColorF(1, 1, 0), DWRITE_TEXT_ALIGNMENT_CENTER);
 	}
 
 	D2DX->renderRect(mButton["CANCLE"].box, ColorF(0, 0.8, 0.0), true);
@@ -521,13 +580,18 @@ void EquipScene::EquipmentSelect(void * obj)
 	{
 		object->EquipNum = 0;
 
+		whlCount = 0;
+
 		object->state = ES_EQUIP;
 
-		TEXT->Change_TextSize("CHARA_NAME", 12);
-
 		for (auto& it : PLAYER->getPlayerEquip())
+		{
 			if (it.second.equipType == object->SelectedEQ_Type)
-				++object->EquipNum;
+			{
+				if (it.second.equip->isAttachAble(PLAYER->getPlayerTaticDoll().getAllTacDoll().at(object->CharaSlider.InfoDollID)->getWeaponType()))
+					++object->EquipNum;
+			}
+		}
 	}
 }
 
@@ -547,6 +611,10 @@ void EquipScene::ReturnSelect(void * obj)
 
 		if (object->CharaSlider.InfoDollID != -1)
 			PLAYER->deleteTacDolToSquad(object->CharaSlider.InfoDollID, 1);
+
+
+		SOUNDMANAGER->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "FormationLoop");
+		object->sceneChange = true;
 
 		LOADMANAGER->setAutoInit(true);
 		LOADMANAGER->setNextScene("LOBBY");

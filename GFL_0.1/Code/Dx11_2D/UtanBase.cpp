@@ -72,8 +72,8 @@ HRESULT UtanBase::Create_Utan(float x, float y, float epx, float epy, float dgr,
 
 void UtanBase::update()
 {
-	ImGui::Text("Yutan Coord X : %.2f", posX);
-	ImGui::Text("Yutan Coord Y : %.2f", posY);
+	//ImGui::Text("Yutan Coord X : %.2f", posX);
+	//ImGui::Text("Yutan Coord Y : %.2f", posY);
 
 	if (!arrived && fired)
 	{

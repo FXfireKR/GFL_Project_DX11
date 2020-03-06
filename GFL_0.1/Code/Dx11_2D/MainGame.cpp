@@ -87,8 +87,8 @@ MainGame::MainGame()
 			&DepthEnable.depthStencilState);
 	}
 
-	ImGui::Create(g_hWnd, Device, DeviceContext);	// ImGui 생성
-	ImGui::StyleColorsDark();						// 스타일 선택
+	//ImGui::Create(g_hWnd, Device, DeviceContext);	// ImGui 생성
+	//ImGui::StyleColorsDark();						// 스타일 선택
 
 	// 매니져 초기화
 	KEYMANAGER->Init();
@@ -181,7 +181,7 @@ void MainGame::Render()
 
 		}
 
-	ImGui::Render();
+	//ImGui::Render();
 	SwapChain->Present(0, 0);
 }
 
@@ -220,5 +220,4 @@ void MainGame::Release()
 
 void MainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	
 }

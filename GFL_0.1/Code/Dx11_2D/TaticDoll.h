@@ -15,19 +15,6 @@ enum TATICDOLL_ALIANCE_TYPE
 	ALIANCE_PEREDEUS		//	페러데우스
 };
 
-//	전술인형의 무기 종류
-enum TATICDOLL_WEAPON_TYPE
-{
-	TWT_NONE = -1,
-	TWT_AR,
-	TWT_RF,
-	TWT_SR,
-	TWT_DMR,
-	TWT_SG,
-	TWT_HG,
-	TWT_SMG
-};
-
 //	전술인형의 ID
 struct DOGTAG_ID
 {
@@ -167,6 +154,8 @@ private:
 	void Limit_CharacterPosition();
 
 public:
+	inline TATICDOLL_WEAPON_TYPE getWeaponType() { return weaponType; }
+
 	inline bool isSelect() { return Select; }							//	Select를 반환해온다.
 	inline void revSelect() { Select = Select ? false : true; }			//	Select의 bool값을 역전시켜준다
 

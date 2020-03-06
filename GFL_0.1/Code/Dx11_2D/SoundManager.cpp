@@ -55,10 +55,10 @@ void SoundManager::release()
 
 void SoundManager::update()
 {
-	ImGui::DragFloat("TotalVol", &TotalVolume, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat("BgmVol", &BackMusicVolume, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat("EffectVol", &EffectVolume, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat("VoiceVol", &VoiceVolume, 0.01f, 0.0f, 1.0f);
+	//ImGui::DragFloat("TotalVol", &TotalVolume, 0.01f, 0.0f, 1.0f);
+	//ImGui::DragFloat("BgmVol", &BackMusicVolume, 0.01f, 0.0f, 1.0f);
+	//ImGui::DragFloat("EffectVol", &EffectVolume, 0.01f, 0.0f, 1.0f);
+	//ImGui::DragFloat("VoiceVol", &VoiceVolume, 0.01f, 0.0f, 1.0f);
 
 	for (auto& channel : mChannel)
 	{
