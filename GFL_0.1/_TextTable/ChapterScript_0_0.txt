@@ -1,6 +1,0 @@
-()<BIN>cg1</BIN><BGM>GF_EV6_G&K_pt3</BGM>||:[ 그리폰 임시 지휘부 작전통제실 ]< 11 : 14 >+지휘관 복귀후, 몇주뒤...
-
-《scene_TUTORIAL
-《script_TutorialScript
-
-ConvEND
