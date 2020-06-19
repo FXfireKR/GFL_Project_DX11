@@ -1,0 +1,10 @@
+# ignore ipch
+*.ipch
+*.aps
+*.ico
+*.user
+*.vcxproj
+*.filters
+*.rc
+*.pdb
+*.iobj
