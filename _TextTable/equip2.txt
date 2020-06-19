@@ -1,0 +1,112 @@
+<type>1,<name>OPTICAL
+1#equip-1,VFL-12X40
+2#equip-1,명중+10 화력+5 사속-5 치명타율+18%
+3#equip-1,RF, SR 착용가능
+4#equip-1,컴팩트하고 신뢰성있는 디자인과 특수한 조준점을 사용한 군용 조준경으로 전장에서 더욱 간편하고 간단하게 거리측정을 할 수 있습니다.
+
+
+</type>,</name>
+1#equip-2,VFL6-24X56
+2#equip-2,명중+5 화력+10 사속-5 치명타율+18%
+3#equip-2,RF, SR 착용가능
+4#equip-2,원거리 저격을 중점으로 제작한 우수한 조준경으로 최상의 재료와 광학부품을 사용해서 항상 최적의 성능을 보장합니다.
+
+
+</type>,<name>OPTICAL_16LAB
+1#equip-3,VFL16-48X80
+2#equip-3,명중+10 화력+10 사속-2 치명타율+20%
+3#equip-3,RF, SR 착용가능
+4#equip-3,VFL6-24X56을 모티브로 16LAB에서 제작된 전술인형용 광학조준경으로, 높은 소체 연동율과 연산량 감소효과를 보장해줍니다.
+
+
+<type>2,<name>EOTEC
+1#equip-4,EOT 516
+2#equip-4,명중+4 화력+2 사속-2
+3#equip-4,HG 착용불가
+4#equip-4,EOT사에서 생산한 518형 홀로그래픽 사이트로 멋져 보입니다.
+
+
+</type>,</name>
+1#equip-5,EOT 518
+2#equip-5,명중+2 화력+4 사속-2
+3#equip-5,HG 착용불가
+4#equip-5,EOT사에서 생산한 518형 홀로그래픽 사이트로 멋져 보입니다.
+
+
+<type>3,<name>REDDOT
+1#equip-6,AMP_COMPM4
+2#equip-6,명중+8 사속-4
+3#equip-6,HG 착용불가
+4#equip-6,AMP사에서 생산한 COMPML 레드 닷 사이트로 최적화된 디자인으로 더욱 튼튼해 졌습니다.
+
+
+</type>,</name>
+1#equip-7,COG_M150
+2#equip-7,명중+10 사속-5
+3#equip-7,HG 착용불가
+4#equip-7,COG사의 고급 레드 닷 사이트로 어떤 환경에서도 조준점을 밝히는데 배터리가 필요 없다는 게 최대 장점입니다.
+
+</type>,<name>REDDOT_16LAB
+1#equip-8,16LAB_COMPM150
+2#equip-8,명중+10 사속-3
+3#equip-8,HG 착용불가
+4#equip-8,16LAB에서 제작된, COG사와 AMP사의 레드 닷 사이트를 모티브로 제작되어 두개의 장점을 가지고있습니다.
+
+
+</type>,<name>REDDOT_16LAB2
+1#equip-9,16LAB_MARS
+2#equip-9,명중+8 화력+5 사속-3
+3#equip-9,HG 착용불가
+4#equip-9,16LAB에서 내놓은 일체화된 레드닷 사이트로써사격시야에 영향을 주지 않는 여러 기능이 통합됐고 킬 플래시가 장착되어 있습니다.
+
+<type>11,<name>APBULLET
+1#equip-10,Mk169철갑탄
+2#equip-10,관통+10
+3#equip-10,RF 착용가능
+4#equip-10,FCA 연구국의 협력을 받아 IOP가 개량한 MK169형 철갑탄으로 특제 텅스텐합금 탄심은 모든 적의 장갑을 꿰뚫고 데미지를 입힐 수 있습니다.
+
+
+</type>,<name>APBULLET_16LAB
+1#equip-11,Mk169강화철갑탄
+2#equip-11,관통+20 화력+10
+3#equip-11,RF, SR 착용가능
+4#equip-11,16LAB에서 MK169 철갑탄의 촉점부분의 관통력을 강화시킨 그리폰 보급형 탄환입니다.
+
+
+<type>12,<name>SPDBULLET
+1#equip-12,JSP고속탄
+2#equip-12,화력+3 사속+6
+3#equip-12,AR, SMG 착용가능
+4#equip-12,FCA 연구국의 돌격소총전용 JSP 고속탄입니다. 실험용으로 설계된 탄두를 채택해서 돌격소총의 위력을 더욱 향상시켰습니다.
+
+</type>,<name>SPDBULLET_16LAB
+1#equip-13,JHP고속탄
+2#equip-13,화력+6 사속+3
+3#equip-13,AR, SMG 착용가능
+4#equip-13,FCA 연구국의 돌격소총전용 JHP 고속탄입니다. 탄두 설계경험을 바탕으로 내놓은 개량형으로 손상효과를 극대화시켰습니다.
+
+</type>,<name>SSPBULLET
+1#equip-14,APCR고속탄
+2#equip-14,관통+5 화력+8 사속+5
+3#equip-14,AR, SMG 착용가능
+4#equip-14,FCA 연구국에서 개발한 돌격소총용의 실험형 APCR 고속탄으로 철갑탄의 설계이념과 결합해서 새로운 방식으로 살상효과를 높였습니다. 
+<type>35,<name>SPRESOR
+1#equip-14,AC4소음기
+2#equip-14,치명타율+5% 회피+10%
+3#equip-14,SMG, HG, SG, MG 착용가능
+4#equip-14,AC사에서 특수작전용으로 특별 생산한 소음기로 전술인형의 은폐성을 최대로 향상시키고 피탄확률을 감소시킵니다.
+
+
+</type>,<name>SPRESOR_16LAB2
+1#equip-15,AC16소음기
+2#equip-15,치명타율+10% 회피+5%
+3#equip-15,AR, SR, RF 착용가능
+4#equip-15,16LAB에서 AC사의 소음기모델을 표준으로 제작한 소음기로 전술인형의 은폐성을 조금더 높이고, 피탄확률을 소폭 희생합니다.
+
+
+<type>36,<name>SPRESOR_16LAB
+1#equip-16,16LAB연장총열
+2#equip-16,화력+5 치명타율+2% 이동속도-2%
+3#equip-16,SMG, AR 착용가능
+4#equip-16,16LAB에서 정규작전용으로 특별 생산한 총열로 총기의 집탄율 향상및 화력을 증대시킵니다.
+

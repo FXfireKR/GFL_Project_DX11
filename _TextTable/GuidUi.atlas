@@ -1,0 +1,7 @@
+normal:Guid_Atlas
+alpha:Guid_Atlas_alpha
+size:1024, 1024
+key:LobbyConv{
+	startpos : 31, 712
+	endpos : 620, 995
+}

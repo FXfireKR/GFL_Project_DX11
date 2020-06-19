@@ -1,0 +1,58 @@
+()<Speaker>지휘관</Speaker><BGM>GF_EV6_G&K_pt3</BGM>||:왜 안왔나했더니, 자율 연습장에 있었구나 SOP
+
+M4SOPMOD(1)<Speaker>SOPMODⅡ</Speaker>||:그럼 그럼~ 지휘관이 왔는데 이몸이 빠질수 없지!
+
+()<Speaker>지휘관</Speaker>||:그럼 이제 새로운 콘솔이 어떻게 변경된건지 설명해줄래?
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:예. 이전의 콘솔에서는 제한된 이동을 지원하는 형태였지만+이번에 통신효율이 크게 개선된 덕분에 유닛의 이동이 자유롭게 컨트롤이 가능합니다.
+
+()<Speaker>지휘관</Speaker>||:뭘로 움직이면 되는거야?
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:마우스로 드래그해서 Sop를 선택하세요.
+
+》plag : 1
+》quest :Drag
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:이제 아무 장소나 우클릭을 눌러 이동명령을 하달하시면 됩니다.
+
+》plag : 17
+》quest :Move
+
+M4SOPMOD(1)<Speaker>SOPMODⅡ</Speaker>||:오! 보여보여! 저기로 움직이면 되는거야? 그치?
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:좋습니다. 추가로 기동 도중에는 S키를 눌러 기동을 즉시 중단 할 수 있습니다.
+
+》add : 1, 1000, 450
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:그럼 훈련용 로봇으로 공격을 연습해보겠습니다.
+
+M4SOPMOD(0)<Speaker>SOPMODⅡ</Speaker>||:기본 공격은 나한테 맡겨 지휘관!
+
+》plag : 17
+》quest :Destory
+
+M4SOPMOD(0)<Speaker>SOPMODⅡ</Speaker>||:아하하! 완전 박살나버렸네~
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:잘하셨습니다.+이제 스킬 사용 훈련을 해보겠습니다.+스킬은 E 버튼을 누르면 시전 가능합니다.+좌표지정후 우클릭시 발동합니다.
+
+》add : 2, 1100, 400, 1100, 450
+
+M4SOPMOD(0)<Speaker>SOPMODⅡ</Speaker>||:나는 엄청 엄청쎈 유탄 발사하는게 주특기야!+콰앙! 하고 터지면 짜릿하잖아!
+
+()<Speaker>지휘관</Speaker>||:사거리는 크게 상관 없는거야?
+
+M4A1MOD(0)<Speaker>M4A1</Speaker>||:공격범위가 스킬의 사거리도 포함됩니다.
+
+()<Speaker>지휘관</Speaker>||:좋아...
+
+》plag : 273
+》quest :Destory
+
+M4SOPMOD(0)<Speaker>SOPMODⅡ</Speaker>||:콰앙! 콰앙! 아하하하하하!!
+
+()<Speaker>지휘관</Speaker>||:엄청 신나보이네...
+
+《scene_STORY
+《script_ChapterScript_0_1
+
+ConvEND
