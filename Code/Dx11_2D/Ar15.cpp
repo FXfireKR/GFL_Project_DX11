@@ -54,29 +54,29 @@ Ar15::~Ar15()
 void Ar15::LoadTray_SoundList()
 {
 	//	Character Voice Upload
-	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "../../_Assets/Characters/ar15mod/AR15Mod_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_BREAK, "../../_Assets/Characters/ar15mod/AR15Mod_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DEFENSE, "../../_Assets/Characters/ar15mod/AR15Mod_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE1, "../../_Assets/Characters/ar15mod/AR15Mod_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE2, "../../_Assets/Characters/ar15mod/AR15Mod_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE3, "../../_Assets/Characters/ar15mod/AR15Mod_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_FORMATION, "../../_Assets/Characters/ar15mod/AR15Mod_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_GOATTACK, "../../_Assets/Characters/ar15mod/AR15Mod_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_MEET, "../../_Assets/Characters/ar15mod/AR15Mod_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL1, "../../_Assets/Characters/ar15mod/AR15Mod_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL2, "../../_Assets/Characters/ar15mod/AR15Mod_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL3, "../../_Assets/Characters/ar15mod/AR15Mod_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_TITLECALL, "../../_Assets/Characters/ar15mod/AR15Mod_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_WIN, "../../_Assets/Characters/ar15mod/AR15Mod_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "Characters/ar15mod/AR15Mod_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_BREAK, "Characters/ar15mod/AR15Mod_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DEFENSE, "Characters/ar15mod/AR15Mod_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE1, "Characters/ar15mod/AR15Mod_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE2, "Characters/ar15mod/AR15Mod_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE3, "Characters/ar15mod/AR15Mod_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_FORMATION, "Characters/ar15mod/AR15Mod_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_GOATTACK, "Characters/ar15mod/AR15Mod_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_MEET, "Characters/ar15mod/AR15Mod_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL1, "Characters/ar15mod/AR15Mod_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL2, "Characters/ar15mod/AR15Mod_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL3, "Characters/ar15mod/AR15Mod_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_TITLECALL, "Characters/ar15mod/AR15Mod_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_WIN, "Characters/ar15mod/AR15Mod_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
 	//	Fortrait Image Load
-	LOAD->Add_LoadTray("pic_AR15MOD", "../../_Assets/Characters/ar15mod/pic_AR15MOD.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_AR15MOD_alpha", "../../_Assets/Characters/ar15mod/pic_AR15MOD_alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_AR15MOD_D", "../../_Assets/Characters/ar15mod/pic_AR15MOD_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_AR15MOD_D_alpha", "../../_Assets/Characters/ar15mod/pic_AR15MOD_D_alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_AR15MOD", "Characters/ar15mod/pic_AR15MOD.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_AR15MOD_alpha", "Characters/ar15mod/pic_AR15MOD_alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_AR15MOD_D", "Characters/ar15mod/pic_AR15MOD_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_AR15MOD_D_alpha", "Characters/ar15mod/pic_AR15MOD_D_alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
-	//LOAD->Add_LoadTray("KSG_N0", "../../_Assets/Characters/ar15mod/pic_ksg_n_0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	//LOAD->Add_LoadTray("KSG_N1", "../../_Assets/Characters/ar15mod/pic_ksg_n_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	//LOAD->Add_LoadTray("KSG_N0", "Characters/ar15mod/pic_ksg_n_0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	//LOAD->Add_LoadTray("KSG_N1", "Characters/ar15mod/pic_ksg_n_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	keys.original_key = "pic_AR15MOD";
 	keys.original_D_key = "pic_AR15MOD_D";

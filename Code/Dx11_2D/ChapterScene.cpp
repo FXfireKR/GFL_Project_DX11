@@ -207,7 +207,7 @@ void ChapterScene::Chapter2Button(void * obj)
 	object->SceneKey = "WORLD";
 	object->isSceneChanged = true;
 
-	MAP->Load_MapFile("../../_TextTable/MapTestFile.txt");
+	MAP->Load_MapFile("_TextTable/MapTestFile.txt");
 
 	LOAD->setAutoInit(true);
 	LOAD->setNextScene("WORLD");

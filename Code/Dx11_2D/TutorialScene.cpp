@@ -42,10 +42,10 @@ void TutorialScene::init()
 		LOAD->setStoryScriptPath("TutorialScript");
 		readScript();
 
-		LOAD->Add_LoadTray("arSound", "../../_SoundSource/Battle_AR.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-		LOAD->Add_LoadTray("mgSound1", "../../_SoundSource/Battle_170.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-		LOAD->Add_LoadTray("mgSound2", "../../_SoundSource/Battle_171.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-		LOAD->Add_LoadTray("AR_BLT", "../../_Assets/Texture2D/riflebullet.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+		LOAD->Add_LoadTray("arSound", "Battle_AR.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+		LOAD->Add_LoadTray("mgSound1", "Battle_170.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+		LOAD->Add_LoadTray("mgSound2", "Battle_171.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+		LOAD->Add_LoadTray("AR_BLT", "Texture2D/riflebullet.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 		DAMAGE->loadImageList();
 		DAMAGE->AllocateMemory();
@@ -86,6 +86,9 @@ void TutorialScene::init()
 
 		curTacDoll->p_getCharacterPos()->x = 150;
 		curTacDoll->p_getCharacterPos()->y = WINSIZEY * 0.5f;
+
+		string str = BTLMAP->imgKey;
+		string str2 = BTLMAP->imgPath;
 
 		LOAD->Add_LoadTray(BTLMAP->imgKey, BTLMAP->imgPath, LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
@@ -462,7 +465,7 @@ void TutorialScene::readScript()
 {
 	ifstream file;
 	string path;
-	path.append("../../_TextTable/");
+	path.append("_TextTable/");
 	path.append(LOAD->getStoryScriptPath());
 	path.append(".txt");
 
@@ -507,7 +510,7 @@ void TutorialScene::readScript()
 			path.append(temp.bkKey);
 			path += ".png";*/
 
-			path = "../../_Assets/CG/";
+			path = "CG/";
 			path.append(temp.bkKey);
 			path += ".ab";
 
@@ -529,7 +532,7 @@ void TutorialScene::readScript()
 
 			if (temp.curSound.compare("STOP") != 0)
 			{
-				path = "../../_SoundSource/";
+				path = "";
 				path.append(temp.curSound);
 				path += ".ab";
 
@@ -559,7 +562,7 @@ void TutorialScene::readScript()
 					imgKey.append(buffer, 0, buffer.find("("));
 					temp.vImageKey.push_back(imgKey);
 
-					path = "../../_Assets/Characters/";
+					path = "Characters/";
 					path.append(key, 0, key.find("("));
 					path += "/";
 					path.append(imgKey, 0, imgKey.size());
@@ -576,7 +579,7 @@ void TutorialScene::readScript()
 					key.append(buffer, 0, buffer.find(")") + 1);
 					temp.vImageKey.push_back(key);
 
-					path = "../../_Assets/Characters/";
+					path = "Characters/";
 					path.append(key, 0, key.find("("));
 					path += "/";
 					path.append(key, 0, key.size());
@@ -633,7 +636,7 @@ void TutorialScene::readScript()
 			else if (buffer.find("map_"))
 			{
 				nextReadFile.clear();
-				nextReadFile = "../../_TextTable/";
+				nextReadFile = "_TextTable/";
 				nextReadFile.append(buffer, buffer.find_first_of("_") + 1, buffer.find_last_of('\n'));
 				nextReadFile.append("txt");
 			}

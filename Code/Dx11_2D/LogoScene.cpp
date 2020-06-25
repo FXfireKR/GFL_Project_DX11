@@ -13,11 +13,11 @@ LogoScene::LogoScene()
 	BGM_VOLUME_SPEED = DELTA() * 0.1f;
 	ALPHA_SPEED = DELTA() * 0.8f;
 
-	uiAtlasLoader::LoadUiAtlasData("../../_TextTable/LoginUi.atlas");
-	uiAtlasLoader::LoadUiAtlasData("../../_TextTable/LobbyUi.atlas");
-	uiAtlasLoader::LoadUiAtlasData("../../_TextTable/GuidUi.atlas");
-	uiAtlasLoader::LoadUiAtlasData("../../_TextTable/AvgUi.atlas");
-	uiAtlasLoader::LoadUiAtlasData("../../_TextTable/SlotUi.atlas");
+	uiAtlasLoader::LoadUiAtlasData("LoginUi.atlas");
+	uiAtlasLoader::LoadUiAtlasData("LobbyUi.atlas");
+	uiAtlasLoader::LoadUiAtlasData("GuidUi.atlas");
+	uiAtlasLoader::LoadUiAtlasData("AvgUi.atlas");
+	uiAtlasLoader::LoadUiAtlasData("SlotUi.atlas");
 
 	PLAYER->testCreate();
 }
@@ -33,20 +33,20 @@ void LogoScene::init()
 	for (auto& it : PLAYER->getPlayerTaticDoll().getAllDolls())
 		it.second->LoadTray_SoundList();
 
-	LOAD->Add_LoadTray("ShootRange", "../../_Assets/CG/17xh-shootingrange.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 사격장, 배치 로드 이미지
-	LOAD->Add_LoadTray("LobbyBackGround", "../../_Assets/Texture2D/LobbyBG.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 로비 메인화면
+	LOAD->Add_LoadTray("ShootRange", "CG/17xh-shootingrange.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 사격장, 배치 로드 이미지
+	LOAD->Add_LoadTray("LobbyBackGround", "Texture2D/LobbyBG.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 로비 메인화면
 
-	LOAD->Add_LoadTray("ChapterImage_1", "../../_Assets/Texture2D/ChapterImage_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
-	LOAD->Add_LoadTray("ChapterImage_2", "../../_Assets/Texture2D/ChapterImage_2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
-	LOAD->Add_LoadTray("ChapterImage_3", "../../_Assets/Texture2D/ChapterImage_3.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
-	LOAD->Add_LoadTray("ChapterImage_4", "../../_Assets/Texture2D/ChapterImage_4.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
-	LOAD->Add_LoadTray("ChapterImage_5", "../../_Assets/Texture2D/ChapterImage_5.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+	LOAD->Add_LoadTray("ChapterImage_1", "Texture2D/ChapterImage_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+	LOAD->Add_LoadTray("ChapterImage_2", "Texture2D/ChapterImage_2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+	LOAD->Add_LoadTray("ChapterImage_3", "Texture2D/ChapterImage_3.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+	LOAD->Add_LoadTray("ChapterImage_4", "Texture2D/ChapterImage_4.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+	LOAD->Add_LoadTray("ChapterImage_5", "Texture2D/ChapterImage_5.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
 
 
-	LOAD->Add_LoadTray("LobbyLoop", "../../_SoundSource/LobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);					//	LobbyTheme
-	LOAD->Add_LoadTray("TitleLoop", "../../_SoundSource/TitleLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);					//	TitleTheme
-	LOAD->Add_LoadTray("ChapterLoop", "../../_SoundSource/ChapterLobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	ChapterTheme
-	LOAD->Add_LoadTray("FormationLoop", "../../_SoundSource/GF_Achieve_loop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	FormationTheme
+	LOAD->Add_LoadTray("LobbyLoop", "LobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);					//	LobbyTheme
+	LOAD->Add_LoadTray("TitleLoop", "TitleLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);					//	TitleTheme
+	LOAD->Add_LoadTray("ChapterLoop", "ChapterLobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	ChapterTheme
+	LOAD->Add_LoadTray("FormationLoop", "GF_Achieve_loop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	FormationTheme
 
 	//DAMAGE->loadImageList();
 	//DAMAGE->AllocateMemory();

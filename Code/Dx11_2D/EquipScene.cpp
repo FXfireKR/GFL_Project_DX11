@@ -66,13 +66,13 @@ void EquipScene::init()
 	EquipNum = -1;
 
 	//	Loading List Setting
-	LOAD->Add_LoadTray("NameLabel", "../../_Assets/Texture2D/NameLabel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("EquipBarBack", "../../_Assets/Texture2D/EquipBarBack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("editSceneBk", "../../_Assets/Texture2D/editSceneBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("NameLabel", "Texture2D/NameLabel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("EquipBarBack", "Texture2D/EquipBarBack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("editSceneBk", "Texture2D/editSceneBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
-	LOAD->Add_LoadTray("EquipCard", "../../_Assets/Texture2D/EquipCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("EquipOut", "../../_Assets/Texture2D/EquipOut.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("EquipCardBk", "../../_Assets/Texture2D/EquipCardBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("EquipCard", "Texture2D/EquipCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("EquipOut", "Texture2D/EquipOut.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("EquipCardBk", "Texture2D/EquipCardBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	//EQUIP->AddTray_EquipImage();										//	get List of Equip
 

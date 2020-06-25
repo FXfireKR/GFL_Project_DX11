@@ -104,8 +104,16 @@ void SoundManager::InsertSoundBianry(string key, string _path)
 			auto THREADPOOL = LOAD->pGetThreadPool();
 
 			THREADPOOL->ClearBeforeStart();
+			string originPath;
 
-			FILE* f = fopen(_path.c_str(), "rb");
+#ifdef _DEBUG
+			originPath = "_SoundSource/";
+#else
+			originPath = "_SoundSource/";
+#endif
+			originPath += _path;
+
+			FILE* f = fopen(originPath.c_str(), "rb");
 			string fileName;
 			fseek(f, 0, SEEK_END);
 			int size = ftell(f) - 32;

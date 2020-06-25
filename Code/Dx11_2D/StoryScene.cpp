@@ -217,7 +217,7 @@ void StoryScene::ReadScript()
 {
 	ifstream file;
 	string path;
-	path.append("../../_TextTable/");
+	path.append("_TextTable/");
 	path.append(LOAD->getStoryScriptPath());
 	path.append(".txt");
 
@@ -258,7 +258,7 @@ void StoryScene::ReadScript()
 			path.append(temp.bkKey);
 			path += ".png";*/
 
-			path = "../../_Assets/CG/";
+			path = "CG/";
 			path.append(temp.bkKey);
 			path += ".ab";
 
@@ -280,7 +280,7 @@ void StoryScene::ReadScript()
 
 			if (temp.curSound.compare("STOP") != 0)
 			{
-				path = "../../_SoundSource/";
+				path = "";
 				path.append(temp.curSound);
 				path += ".ab";
 
@@ -310,7 +310,7 @@ void StoryScene::ReadScript()
 					imgKey.append(buffer, 0, buffer.find("("));
 					temp.vImageKey.push_back(imgKey);
 
-					path = "../../_Assets/Characters/";
+					path = "Characters/";
 					path.append(key, 0, key.find("("));
 					path += "/";
 					path.append(imgKey, 0, imgKey.size());
@@ -327,7 +327,7 @@ void StoryScene::ReadScript()
 					key.append(buffer, 0, buffer.find(")") + 1);
 					temp.vImageKey.push_back(key);
 
-					path = "../../_Assets/Characters/";
+					path = "Characters/";
 					path.append(key, 0, key.find("("));
 					path += "/";
 					path.append(key, 0, key.size());
@@ -384,7 +384,7 @@ void StoryScene::ReadScript()
 			else if (buffer.find("map_") != string::npos)
 			{
 				nextReadFile.clear();
-				nextReadFile = "../../_TextTable/";
+				nextReadFile = "_TextTable/";
 				nextReadFile.append(buffer, buffer.find_first_of("_") + 1, buffer.find_last_of('\n'));
 				nextReadFile.append("txt");
 			}
@@ -392,7 +392,7 @@ void StoryScene::ReadScript()
 			else if (buffer.find("script_") != string::npos)
 			{
 				nextReadFile.clear();
-				nextReadFile = "../../_TextTable/";
+				nextReadFile = "_TextTable/";
 				nextReadFile.append(buffer, buffer.find_first_of("_") + 1, buffer.find_last_of('\n'));
 				nextReadFile.append("txt");
 			}

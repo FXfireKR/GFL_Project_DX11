@@ -33,9 +33,7 @@ void EllipseBase::Release_Ellipse()
 	CenterY = NULL;
 }
 
-void EllipseBase::Update_Ellipse()
-{
-}
+void EllipseBase::Update_Ellipse(){}
 
 void EllipseBase::Rend_Ellipse()
 {

@@ -11,31 +11,31 @@ DamageManager::~DamageManager()
 
 void DamageManager::loadImageList()
 {
-	LOAD->Add_LoadTray("0", "../../_Assets/Texture2D/Font/0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("1", "../../_Assets/Texture2D/Font/1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("2", "../../_Assets/Texture2D/Font/2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("3", "../../_Assets/Texture2D/Font/3.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("4", "../../_Assets/Texture2D/Font/4.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("5", "../../_Assets/Texture2D/Font/5.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("6", "../../_Assets/Texture2D/Font/6.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("7", "../../_Assets/Texture2D/Font/7.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("8", "../../_Assets/Texture2D/Font/8.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("9", "../../_Assets/Texture2D/Font/9.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("0", "Texture2D/Font/0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("1", "Texture2D/Font/1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("2", "Texture2D/Font/2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("3", "Texture2D/Font/3.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("4", "Texture2D/Font/4.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("5", "Texture2D/Font/5.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("6", "Texture2D/Font/6.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("7", "Texture2D/Font/7.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("8", "Texture2D/Font/8.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("9", "Texture2D/Font/9.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	
-	LOAD->Add_LoadTray("0a", "../../_Assets/Texture2D/Font/0a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("1a", "../../_Assets/Texture2D/Font/1a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("2a", "../../_Assets/Texture2D/Font/2a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("3a", "../../_Assets/Texture2D/Font/3a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("4a", "../../_Assets/Texture2D/Font/4a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("5a", "../../_Assets/Texture2D/Font/5a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("6a", "../../_Assets/Texture2D/Font/6a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("7a", "../../_Assets/Texture2D/Font/7a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("8a", "../../_Assets/Texture2D/Font/8a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("9a", "../../_Assets/Texture2D/Font/9a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("0a", "Texture2D/Font/0a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("1a", "Texture2D/Font/1a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("2a", "Texture2D/Font/2a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("3a", "Texture2D/Font/3a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("4a", "Texture2D/Font/4a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("5a", "Texture2D/Font/5a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("6a", "Texture2D/Font/6a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("7a", "Texture2D/Font/7a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("8a", "Texture2D/Font/8a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("9a", "Texture2D/Font/9a.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	
-	LOAD->Add_LoadTray("miss", "../../_Assets/Texture2D/Font/MISS.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("amo", "../../_Assets/Texture2D/Font/Armo.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("bamo", "../../_Assets/Texture2D/Font/bArmo.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("miss", "Texture2D/Font/MISS.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("amo", "Texture2D/Font/Armo.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("bamo", "Texture2D/Font/bArmo.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 }
 
 void DamageManager::AllocateMemory()

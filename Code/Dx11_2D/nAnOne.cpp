@@ -30,26 +30,26 @@ nAnOne::~nAnOne()
 void nAnOne::LoadTray_SoundList()
 {
 	//	Character Voice Upload
-	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "../../_Assets/Characters/9a91/9A91_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_BREAK, "../../_Assets/Characters/9a91/9A91_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DEFENSE, "../../_Assets/Characters/9a91/9A91_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE1, "../../_Assets/Characters/9a91/9A91_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE2, "../../_Assets/Characters/9a91/9A91_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE3, "../../_Assets/Characters/9a91/9A91_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_FORMATION, "../../_Assets/Characters/9a91/9A91_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_GOATTACK, "../../_Assets/Characters/9a91/9A91_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_MEET, "../../_Assets/Characters/9a91/9A91_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL1, "../../_Assets/Characters/9a91/9A91_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL2, "../../_Assets/Characters/9a91/9A91_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL3, "../../_Assets/Characters/9a91/9A91_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_TITLECALL, "../../_Assets/Characters/9a91/9A91_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_WIN, "../../_Assets/Characters/9a91/9A91_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "Characters/9a91/9A91_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_BREAK, "Characters/9a91/9A91_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DEFENSE, "Characters/9a91/9A91_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE1, "Characters/9a91/9A91_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE2, "Characters/9a91/9A91_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE3, "Characters/9a91/9A91_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_FORMATION, "Characters/9a91/9A91_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_GOATTACK, "Characters/9a91/9A91_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_MEET, "Characters/9a91/9A91_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL1, "Characters/9a91/9A91_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL2, "Characters/9a91/9A91_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL3, "Characters/9a91/9A91_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_TITLECALL, "Characters/9a91/9A91_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_WIN, "Characters/9a91/9A91_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
 	//	Fortrait Image Load
-	LOAD->Add_LoadTray("pic_9A91", "../../_Assets/Characters/9a91/pic_9A91.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_9A91_alpha", "../../_Assets/Characters/9a91/pic_9A91_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_9A91_D", "../../_Assets/Characters/9a91/pic_9A91_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_9A91_D_alpha", "../../_Assets/Characters/9a91/pic_9A91_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_9A91", "Characters/9a91/pic_9A91.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_9A91_alpha", "Characters/9a91/pic_9A91_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_9A91_D", "Characters/9a91/pic_9A91_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_9A91_D_alpha", "Characters/9a91/pic_9A91_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	keys.original_key = "pic_9A91";
 	keys.original_D_key = "pic_9A91_D";

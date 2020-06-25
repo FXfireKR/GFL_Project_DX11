@@ -49,7 +49,7 @@ HRESULT GriffonDoll::createIOPtacDoll(GRFDOLL_NAME name)
 	{
 		//AK12* _new = new AK12;
 		//_new->getID()->All_ID = seed;
-		//mAlltacDoll.insert(make_pair(_new->getID()->All_ID, _new));
+		//mAllDoll.insert(make_pair(_new->getID()->All_ID, _new));
 	}
 	break;
 
@@ -87,9 +87,9 @@ HRESULT GriffonDoll::createIOPtacDoll(GRFDOLL_NAME name)
 
 	case GRF_NTW20:
 	{
-		//Ntw20* _new = new Ntw20;
-		//_new->getID()->All_ID = seed;
-		//mAlltacDoll.insert(make_pair(_new->getID()->All_ID, _new));
+		Ntw20* _new = new Ntw20;
+		_new->getID()->All_ID = seed;
+		mAllDoll.insert(make_pair(_new->getID()->All_ID, _new));
 	}
 	break;
 
@@ -97,7 +97,7 @@ HRESULT GriffonDoll::createIOPtacDoll(GRFDOLL_NAME name)
 	{
 		//AN94* _new = new AN94;
 		//_new->getID()->All_ID = seed;
-		//mAlltacDoll.insert(make_pair(_new->getID()->All_ID, _new));
+		//mAllDoll.insert(make_pair(_new->getID()->All_ID, _new));
 	}
 	break;
 

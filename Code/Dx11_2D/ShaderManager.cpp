@@ -4,12 +4,12 @@
 ShaderManager::ShaderManager()
 {
 	//	define shader file
-	CreateShader("PTBase_noWorldColor", PTElementDesc, PTElementCount, L"../../_Shader/TextureBase2.hlsl");
-	CreateShader("PTBase", PTElementDesc, PTElementCount, L"../../_Shader/TextureBase.hlsl");
-	CreateShader("PT_Noise", PTElementDesc, PTElementCount, L"../../_Shader/NoiseTexture.hlsl");
-	CreateShader("PT_Alpha", PTElementDesc, PTElementCount, L"../../_Shader/AlphaChannel.hlsl");
-	CreateShader("PT_Alpha2", PTElementDesc, PTElementCount, L"../../_Shader/AlphaChannel2.hlsl");
-	CreateShader("PT", PTElementDesc, PTElementCount, L"../../_Shader/Texture.hlsl");
+	CreateShader("PTBase_noWorldColor", PTElementDesc, PTElementCount, L"_Shader/TextureBase2.hlsl");
+	CreateShader("PTBase", PTElementDesc, PTElementCount, L"_Shader/TextureBase.hlsl");
+	CreateShader("PT_Noise", PTElementDesc, PTElementCount, L"_Shader/NoiseTexture.hlsl");
+	CreateShader("PT_Alpha", PTElementDesc, PTElementCount, L"_Shader/AlphaChannel.hlsl");
+	CreateShader("PT_Alpha2", PTElementDesc, PTElementCount, L"_Shader/AlphaChannel2.hlsl");
+	CreateShader("PT", PTElementDesc, PTElementCount, L"_Shader/Texture.hlsl");
 }
 
 ShaderManager::~ShaderManager()

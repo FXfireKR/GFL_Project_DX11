@@ -5,8 +5,13 @@
 class EquipLoader : public singleton<EquipLoader>
 {
 private:
-	const string EQUIP_DATA_PATH = "../../_TextTable/equip2.txt";
-	const string EQUIP_IMAGE_PATH = "../../_Assets/Equip/";
+#ifdef _DEBUG
+	const string EQUIP_DATA_PATH = "_TextTable/equip2.txt";
+	const string EQUIP_IMAGE_PATH = "Equip/";
+#else
+	const string EQUIP_DATA_PATH = "_TextTable/equip2.txt";
+	const string EQUIP_IMAGE_PATH = "Equip/";
+#endif
 
 	//	private Value
 private:

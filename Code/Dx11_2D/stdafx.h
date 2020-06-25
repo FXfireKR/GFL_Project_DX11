@@ -9,7 +9,7 @@
 #pragma warning(disable : 4189)		//	초기화 되었으나, 사용되지않은 선언 입니다.
 
 #else
-#define IMGUIAPI_DEBUG
+//#define IMGUIAPI_DEBUG
 #pragma warning(disable : 4996)
 #pragma warning(disable : 4100)		//	참조되지 않은 선언 입니다.
 #pragma warning(disable : 4189)		//	초기화 되었으나, 사용되지않은 선언 입니다.

@@ -38,12 +38,12 @@ void worldMapScene::init()
 		Turn = 0;
 		turnAliance = ALIANCE_GRIFFON;
 
-		LOAD->Add_LoadTray("Panel_Normal", "../../_Assets/Texture2D/Panel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-		LOAD->Add_LoadTray("Panel_Heli", "../../_Assets/Texture2D/Heliport.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-		LOAD->Add_LoadTray("Panel_Hq", "../../_Assets/Texture2D/HQ.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-		LOAD->Add_LoadTray("WAY", "../../_Assets/Texture2D/waypoint.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-		LOAD->Add_LoadTray("SquadBar", "../../_Assets/Texture2D/SquadBar.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					 
-		LOAD->Add_LoadTray("SquadBar_s", "../../_Assets/Texture2D/SquadBar_select.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+		LOAD->Add_LoadTray("Panel_Normal", "Texture2D/Panel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+		LOAD->Add_LoadTray("Panel_Heli", "Texture2D/Heliport.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+		LOAD->Add_LoadTray("Panel_Hq", "Texture2D/HQ.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+		LOAD->Add_LoadTray("WAY", "Texture2D/waypoint.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+		LOAD->Add_LoadTray("SquadBar", "Texture2D/SquadBar.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					 
+		LOAD->Add_LoadTray("SquadBar_s", "Texture2D/SquadBar_select.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 		CAMERA->CameraReset();
 
@@ -63,10 +63,13 @@ void worldMapScene::init()
 
 		//	@ 임시로 적 분대 생성 해서, 전투하기
 		{
-			BDATA->getSquadSNV()->insertSquadMember(1, new Strelet);
+			BDATA->getSquadSNV()->insertSquadMember(1, new Strelet, false);
+
 			BDATA->getSquadSNV()->callSquad(1)->squadLeader = BDATA->getSquadSNV()->callSquadMember(1, BDATA->getSquadSNV()->callSquad(1)->squadLeaderID);
-			BDATA->getSquadSNV()->callSquad(1)->nowNodeID = 11;
+			BDATA->getSquadSNV()->callSquad(1)->nowNodeID = 1;
 			mInstSquad[ALIANCE_PEREDEUS].push_back(1);
+
+
 
 			BDATA->getSquadSNV()->insertSquadMember(2, new Strelet);
 			BDATA->getSquadSNV()->callSquad(2)->squadLeader = BDATA->getSquadSNV()->callSquadMember(2, BDATA->getSquadSNV()->callSquad(2)->squadLeaderID);
@@ -202,6 +205,10 @@ void worldMapScene::update()
 				//	해당 분대 ID로 전투 설정
 				BDATA->getEngageSquadID() = enemyID;
 				PLAYER->getCurrentSquad() = it;
+
+				SOUND->Play_Effect(SOUND_CHANNEL::CH_VOICE, MAP->pGetMissionFlag().battlePlag < 5 ? 
+					PLAYER->getPlayerSquad(it)->squadLeader->keys.SOUND_MEET : 
+					PLAYER->getPlayerSquad(it)->squadLeader->keys.SOUND_DEFENSE , 0.15f);
 
 				squadInit = false;
 
@@ -513,17 +520,20 @@ void worldMapScene::InsertSquad_Select(void * obj)
 	objectPtr = static_cast<worldMapScene*>(obj);
 
 	//	이미 배치된 분대가 아니라면 노드로 소환한다.
-	if (objectPtr->Find_SquadInWorld(ALIANCE_GRIFFON, objectPtr->Spawn_Squad) == false) {
+	if (objectPtr->Find_SquadInWorld(ALIANCE_GRIFFON, objectPtr->Spawn_Squad) == false &&
+		PLAYER->getPlayerSquad(objectPtr->Spawn_Squad)->squadMember.size() != 0) {
 
 		objectPtr->mInstSquad.find(ALIANCE_GRIFFON)->second.push_back(objectPtr->Spawn_Squad);
 
 		PLAYER->getPlayerSquad(objectPtr->Spawn_Squad)->nowNodeID = objectPtr->Spawn_PanelID;
 
-		PLAYER->getPlayerSquad(objectPtr->mInstSquad.find(ALIANCE_GRIFFON)->second.back())->squadLeader->p_getCharacterPos()->x =
-			MAP->pManager->findPanel(objectPtr->Spawn_PanelID)->getPanelPos().x;
+		BaseTaticDoll* squadLeader = PLAYER->getPlayerSquad(objectPtr->mInstSquad.find(ALIANCE_GRIFFON)->second.back())->squadLeader;
+		Panel* curPanel = MAP->pManager->findPanel(objectPtr->Spawn_PanelID);
 
-		PLAYER->getPlayerSquad(objectPtr->mInstSquad.find(ALIANCE_GRIFFON)->second.back())->squadLeader->p_getCharacterPos()->y =
-			MAP->pManager->findPanel(objectPtr->Spawn_PanelID)->getPanelPos().y;
+		squadLeader->p_getCharacterPos()->x = curPanel->getPanelPos().x;
+		squadLeader->p_getCharacterPos()->y = curPanel->getPanelPos().y;
+
+		SOUND->Play_Effect(SOUND_CHANNEL::CH_VOICE, squadLeader->keys.SOUND_GOATTACK, 0.15f);
 
 		objectPtr->rendSquad = false;
 		objectPtr->isInsertSquad = false;

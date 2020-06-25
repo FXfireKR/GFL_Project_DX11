@@ -138,14 +138,16 @@ void PlayerData::changeFocusDoll()
 		{
 			if (vMultiSelect.size() < 1)
 			{
-				if (curFocusDol->isFocus())
-					curFocusDol->revFocus();
+				if (curFocusDol != nullptr) {
+					if (curFocusDol->isFocus())
+						curFocusDol->revFocus();
 
-				if (curFocusDol->isSelect())
-					curFocusDol->revSelect();
+					if (curFocusDol->isSelect())
+						curFocusDol->revSelect();
 
-				curFocusDol = nullptr;
-				cameraFocus = false;
+					curFocusDol = nullptr;
+					cameraFocus = false;
+				}
 			}
 
 			else
@@ -344,14 +346,20 @@ void PlayerData::changeFocusDoll(SINT memID)
 		//	현재 포커싱중인 전술인형과 다른경우
 		if (curFocusDol != calledDoll)
 		{
-			if (curFocusDol != nullptr)
-				curFocusDol->revFocus();
+			if (curFocusDol != nullptr) {
+
+				if(curFocusDol->isFocus())
+					curFocusDol->revFocus();
+				if (curFocusDol->isSelect())
+					curFocusDol->revSelect();
+			}
 
 			cameraFocus = false;
 			curFocusDol = calledDoll;
 
 			//Select FocusTacDoll
-			curFocusDol->revSelect();
+			if (!curFocusDol->isSelect())
+				curFocusDol->revSelect();
 		}
 
 		//	현재 포커싱중인 전술인형과 동일한 경우
@@ -398,20 +406,22 @@ void PlayerData::loadRemUnit(int padID)
 	//해당 부분이 존재하고있을 경우
 	if ((miRemUnit = mRemUnit.find(padID)) != mRemUnit.end())
 	{
-		//단일 유닛인 경우 -> 해당유닛으로 포커싱 변동
+		//	단일 유닛인 경우 -> 해당유닛으로 포커싱 변동
 		if (miRemUnit->second.size() == 1)
 		{
 			if (vMultiSelect.size() > 0)
 			{
-				for (auto& it : vMultiSelect)
-					this->getIOPdoll_crntSquad(it)->revSelect();
+				for (auto& it : vMultiSelect) {
+					if (this->getIOPdoll_crntSquad(it)->isSelect())
+						this->getIOPdoll_crntSquad(it)->revSelect();
+				}
 				vMultiSelect.clear();
 			}
 
 			changeFocusDoll(*(miRemUnit->second.begin()));
 		}
 
-		//다중 유닛인경우
+		//	다중 유닛인경우
 		else if (miRemUnit->second.size() > 1)
 		{
 			if (vMultiSelect.size() < 1)
@@ -428,15 +438,19 @@ void PlayerData::loadRemUnit(int padID)
 
 			else
 			{
-				for (auto& it : vMultiSelect)
-					this->getIOPdoll_crntSquad(it)->revSelect();
+				for (auto& it : vMultiSelect) {
+					if (this->getIOPdoll_crntSquad(it)->isSelect())
+						this->getIOPdoll_crntSquad(it)->revSelect();
+				}
 				vMultiSelect.clear();
 			}
 
 			vMultiSelect = miRemUnit->second;
 
-			for (auto& it2 : vMultiSelect)
-				getIOPdoll_crntSquad(it2)->revSelect();
+			for (auto& it2 : vMultiSelect) {
+				if (!getIOPdoll_crntSquad(it2)->isSelect())
+					getIOPdoll_crntSquad(it2)->revSelect();
+			}
 		}
 
 	}
@@ -496,6 +510,7 @@ void PlayerData::deleteDollToSquad(SINT squadID, SINT memID)
 
 void PlayerData::testCreate()
 {
+	tacDoll->createIOPtacDoll(GRF_NTW20);
 	tacDoll->createIOPtacDoll(GRF_KSG);
 	//tacDoll->createIOPtacDoll(GRF_9A91);
 	//tacDoll->createIOPtacDoll(GRF_AR15);

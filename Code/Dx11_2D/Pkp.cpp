@@ -55,29 +55,29 @@ Pkp::~Pkp()
 void Pkp::LoadTray_SoundList()
 {
 	//	Character Voice Upload
-	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "../../_Assets/Characters/pkp/PKP_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_BREAK, "../../_Assets/Characters/pkp/PKP_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DEFENSE, "../../_Assets/Characters/pkp/PKP_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE1, "../../_Assets/Characters/pkp/PKP_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE2, "../../_Assets/Characters/pkp/PKP_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE3, "../../_Assets/Characters/pkp/PKP_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_FORMATION, "../../_Assets/Characters/pkp/PKP_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_GOATTACK, "../../_Assets/Characters/pkp/PKP_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_MEET, "../../_Assets/Characters/pkp/PKP_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL1, "../../_Assets/Characters/pkp/PKP_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL2, "../../_Assets/Characters/pkp/PKP_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL3, "../../_Assets/Characters/pkp/PKP_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_TITLECALL, "../../_Assets/Characters/pkp/PKP_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_WIN, "../../_Assets/Characters/pkp/PKP_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "Characters/pkp/PKP_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_BREAK, "Characters/pkp/PKP_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DEFENSE, "Characters/pkp/PKP_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE1, "Characters/pkp/PKP_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE2, "Characters/pkp/PKP_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE3, "Characters/pkp/PKP_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_FORMATION, "Characters/pkp/PKP_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_GOATTACK, "Characters/pkp/PKP_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_MEET, "Characters/pkp/PKP_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL1, "Characters/pkp/PKP_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL2, "Characters/pkp/PKP_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL3, "Characters/pkp/PKP_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_TITLECALL, "Characters/pkp/PKP_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_WIN, "Characters/pkp/PKP_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
 	//	Fortrait Image Load
-	LOAD->Add_LoadTray("pic_PKP", "../../_Assets/Characters/pkp/pic_PKP.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_PKP_alpha", "../../_Assets/Characters/pkp/pic_PKP_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_PKP_D", "../../_Assets/Characters/pkp/pic_PKP_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_PKP_D_alpha", "../../_Assets/Characters/pkp/pic_PKP_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_PKP", "Characters/pkp/pic_PKP.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_PKP_alpha", "Characters/pkp/pic_PKP_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_PKP_D", "Characters/pkp/pic_PKP_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_PKP_D_alpha", "Characters/pkp/pic_PKP_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
-	LOAD->Add_LoadTray("PKP_N0", "../../_Assets/Characters/pkp/pic_pkp_n_0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("PKP_N1", "../../_Assets/Characters/pkp/pic_pkp_n_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("PKP_N0", "Characters/pkp/pic_pkp_n_0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("PKP_N1", "Characters/pkp/pic_pkp_n_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	keys.original_key = "pic_PKP";
 	keys.original_D_key = "pic_PKP_D";

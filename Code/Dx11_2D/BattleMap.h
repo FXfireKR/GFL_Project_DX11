@@ -38,7 +38,7 @@ public:
 	void testRender(const vector<POINT>& _rendList);
 
 private:
-	const string BTM_FILE_PATH_BASE = "../../_Assets/BattleMap/";
+	const string BTM_FILE_PATH_BASE = "BattleMap/";
 
 public:
 	string						imgPath;

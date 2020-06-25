@@ -25,9 +25,9 @@ MainGame::MainGame()
 	D2D, SOUND, SCENE, CAMERA, KEYMANAGER, IMAGEMAP, LOAD, DWRITE, BULLET, EFFECT, BDATA, EQUIP, MAP;
 
 	//	Prepare the background images
-	IMAGEMAP->InsertImageFile("bkGuard", "../../_Assets/bkGuard.png");
-	IMAGEMAP->InsertImageFile("LoadLogo", "../../_Assets/LoadLogo.png");
-	IMAGEMAP->InsertImageFile("Logo", "../../_Assets/Logo.png");
+	IMAGEMAP->InsertImageFile("bkGuard", "bkGuard.png");
+	IMAGEMAP->InsertImageFile("LoadLogo", "LoadLogo.png");
+	IMAGEMAP->InsertImageFile("Logo", "Logo.png");
 }
 
 MainGame::~MainGame()

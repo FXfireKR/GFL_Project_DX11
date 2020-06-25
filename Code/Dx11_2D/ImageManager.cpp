@@ -38,7 +38,18 @@ void ImageManager::InsertImageFile(string key, const char * _path)
 		info->fileSize = 0;
 
 		ifstream file;
-		file.open(_path, ios::in | ios::binary);
+
+		string originPath;
+
+#ifdef _DEBUG
+		originPath = "_Assets/";
+#else
+		originPath = "_Assets/";
+#endif
+		originPath += _path;
+
+
+		file.open(originPath, ios::in | ios::binary);
 
 		if (file.is_open())
 		{
@@ -105,7 +116,7 @@ void ImageManager::InsertImageFile(string key, const char * _path)
 
 		locker.lock();
 		HRESULT hr;
-		D3DX11CreateShaderResourceViewFromFileA(Device, _path, NULL, NULL,
+		D3DX11CreateShaderResourceViewFromFileA(Device, originPath.c_str(), NULL, NULL,
 			&info->texture, &hr);
 		assert(SUCCEEDED(hr));
 
@@ -124,7 +135,16 @@ void ImageManager::InsertImageBinary(string key, string _path, SINT _frameX, SIN
 
 		THREADPOOL->ClearBeforeStart();
 
-		FILE* f = fopen(_path.c_str(), "rb");
+		string originPath;
+
+#ifdef _DEBUG
+		originPath = "_Assets/";
+#else
+		originPath = "_Assets/";
+#endif
+		originPath += _path;
+
+		FILE* f = fopen(originPath.c_str(), "rb");
 		string fileName;
 		fseek(f, 0, SEEK_END);
 		int size = ftell(f) - 32;
@@ -134,7 +154,7 @@ void ImageManager::InsertImageBinary(string key, string _path, SINT _frameX, SIN
 
 		//Tokenize File Name
 		{
-			fileName = _path;
+			fileName = originPath;
 
 			if (fileName.find_last_of("/") != string::npos)
 				fileName.erase(0, fileName.find_last_of("/") + 1);
@@ -290,17 +310,27 @@ void ImageManager::InsertImageBinary(ThreadPool* _trdPol, string key, string _pa
 
 			_trdPol->ClearBeforeStart();
 
-			FILE* f = fopen(_path.c_str(), "rb");
+			string originPath;
+
+#ifdef _DEBUG
+			originPath = "_Assets/";
+#else
+			originPath = "_Assets/";
+#endif
+			originPath += _path;
+
+			FILE* f = fopen(originPath.c_str(), "rb");
 			string fileName;
 			fseek(f, 0, SEEK_END);
 			int size = ftell(f) - 32;
 			fseek(f, 0, SEEK_SET);
 
+
 			_trdPol->ResizeBeforeStart(size);
 
 			//Tokenize File Name
 			{
-				fileName = _path;
+				fileName = originPath;
 
 				if (fileName.find_last_of("/") != string::npos)
 					fileName.erase(0, fileName.find_last_of("/") + 1);

@@ -52,26 +52,26 @@ void TestScene::update()
 	//temp->Update_DrawPos();
 	//motion->update(spineDelta);
 
-	ImGui::Text("CurrentTime %.3f", motion->getCurTime());
-	ImGui::Text("EndTime %.3f", motion->getEndTime());
-	ImGui::Text("TimeScale %.3f", motion->base->getTrackEntry()->timeScale);
-
-	ImGui::Text("%s", motion->base->getSkeleton()->data->animations[motionCounter]->name);
-	ImGui::SameLine(150);
-	ImGui::InputInt(" ", &motionCounter);
+	//ImGui::Text("CurrentTime %.3f", motion->getCurTime());
+	//ImGui::Text("EndTime %.3f", motion->getEndTime());
+	//ImGui::Text("TimeScale %.3f", motion->base->getTrackEntry()->timeScale);
+	//
+	//ImGui::Text("%s", motion->base->getSkeleton()->data->animations[motionCounter]->name);
+	//ImGui::SameLine(150);
+	//ImGui::InputInt(" ", &motionCounter);
 
 	if (motionCounter < 0)
 		motionCounter = 0;
 	else if (motionCounter > motionLimit)
 		motionCounter = motionLimit;
 
-	ImGui::Checkbox("spine Mix", &isMix);
-	ImGui::Checkbox("spine Loop", &isLoop);
-
-	ImGui::Checkbox("ChangeMotion", &changeMotion);
-
-	ImGui::DragFloat("spine Delta", &spineDelta, 0.01f, 0.001f, 0.8f);
-	ImGui::DragFloat("spine mixTimer", &mixTimer, 0.01f, 0.001f, 0.2f);
+	//ImGui::Checkbox("spine Mix", &isMix);
+	//ImGui::Checkbox("spine Loop", &isLoop);
+	//
+	//ImGui::Checkbox("ChangeMotion", &changeMotion);
+	//
+	//ImGui::DragFloat("spine Delta", &spineDelta, 0.01f, 0.001f, 0.8f);
+	//ImGui::DragFloat("spine mixTimer", &mixTimer, 0.01f, 0.001f, 0.2f);
 
 	if (changeMotion) {
 		motion->changeMotion(motion->base->getSkeleton()->data->animations[motionCounter]->name, isLoop, isMix, mixTimer);

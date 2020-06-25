@@ -23,7 +23,7 @@ spineMotion::~spineMotion()
 
 void spineMotion::loadImage_FromFile(const char * _path)
 {
-	string imgPath; imgPath = "../../_Assets/Characters/";
+	string imgPath; imgPath = "Characters/";
 	imgPath += _path; imgPath += "/"; imgPath += _path; imgPath += ".ab";
 	string pngKey = _path;
 	LOAD->Add_LoadTray(pngKey, imgPath.c_str(), RESOURCE_IMAGE);
@@ -31,8 +31,8 @@ void spineMotion::loadImage_FromFile(const char * _path)
 
 void spineMotion::loadSpine_FromJsonFile(const char * _path)
 {
-	string atlasPath = SPINE_BASE_PATH;
-	string jsonPath = SPINE_BASE_PATH;
+	string atlasPath = SPINE_OTHER_PATH;
+	string jsonPath = SPINE_OTHER_PATH;
 	imgPath = SPINE_BASE_PATH;
 
 	atlasPath += _path; atlasPath += "/"; atlasPath += _path; atlasPath += ".atlas";

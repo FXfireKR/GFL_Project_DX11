@@ -50,8 +50,8 @@ HRESULT Strelet::init()
 		motion->init();
 	}
 
-	Pos.x = 600.0f;
-	Pos.y = 500.0f;
+	Pos.x = rand() % 2000;
+	Pos.y = 300 + (rand() % 450);
 
 	if (mCollision.count("SELF") == 0)
 		mCollision.insert(make_pair("SELF", new EllipseBase(&Pos.x, &Pos.y, 30, 5)));
@@ -116,14 +116,27 @@ void Strelet::Use_ActiveSkill()
 
 void Strelet::MotionUpdate()
 {
-	//static float mixTime = 0.0f;
-	//ImGui::DragFloat("MixTime", &mixTime, 0.01F, 0.0F);
+	//ImGui::Text("CurTime : %.3f", motion->getCurTime());
+	//ImGui::Text("MixTime : %.3f", motion->getMixTime());
+	//ImGui::Text("EndTime : %.3f", motion->getEndTime());
 
 	if (curState.HitPoint.curr < 1)
 	{
-		if (!motion->isCurrent("die"))
-		{
-			motion->changeMotion("die", false, true);
+		if (motion->getCurrentMotionKey().find("die") == string::npos) {
+
+			switch (rand() % 3)
+			{
+			case 0:
+				motion->changeMotion("die", false, true);
+				break;
+			case 1:
+				motion->changeMotion("die2", false, true);
+				break;
+			case 2:
+				motion->changeMotion("die3", false, true);
+				break;
+			}
+			
 			isAlive = false;
 			TargetID = -1;
 		}
@@ -148,7 +161,7 @@ void Strelet::MotionUpdate()
 		{
 			if (motion->isCurrent("attack"))
 			{
-				motion->changeMotion("wait", false, true);
+				motion->changeMotion("wait", true, true);
 				safeTirgger = 0;
 			}
 		}
@@ -212,9 +225,9 @@ void Strelet::Strelet_Attack_Action(void * _this)
 		float curTime = motion->getCurTime();
 
 		//	1
-		if (curTime < 0.1333f && curTime > 0.1333f - DELTA())
+		if (curTime < 0.033f && curTime > 0.033f - DELTA())
 		{
-			if (object->safeTirgger == 0)
+			if (object->safeTirgger < 1)
 			{
 				BULLET->CreateBullet("AR_BLT", object->Pos.x, object->Pos.y - 65, object->TargetID, object->curState, object->alianceType, 1100.0f);
 				SOUND->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.05f);
@@ -223,9 +236,9 @@ void Strelet::Strelet_Attack_Action(void * _this)
 		}
 
 		//	2
-		else if (curTime < 0.19997f && curTime > 0.19997f - DELTA())
+		else if (curTime < 0.137f && curTime > 0.137f - DELTA())
 		{
-			if (object->safeTirgger == 1)
+			if (object->safeTirgger < 2)
 			{
 				BULLET->CreateBullet("AR_BLT", object->Pos.x, object->Pos.y - 65, object->TargetID, object->curState, object->alianceType, 1100.0f);
 				SOUND->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.05f);
@@ -234,9 +247,9 @@ void Strelet::Strelet_Attack_Action(void * _this)
 		}
 
 		//	3
-		else if (curTime < 0.2666f && curTime > 0.2666f - DELTA())
+		else if (curTime < 0.234f && curTime > 0.234f - DELTA())
 		{
-			if (object->safeTirgger == 2)
+			if (object->safeTirgger < 3)
 			{
 				BULLET->CreateBullet("AR_BLT", object->Pos.x, object->Pos.y - 65, object->TargetID, object->curState, object->alianceType, 1100.0f);
 				SOUND->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "arSound", 0.05f);

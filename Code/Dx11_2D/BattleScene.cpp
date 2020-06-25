@@ -4,6 +4,8 @@
 BattleScene::BattleScene()
 {
 	BDATA->init();
+	DWRITE->Create_TextField("CONQUER", L"맑은고딕", "N/A", 40, DWRITE_FONT_WEIGHT_BOLD);
+
 	//PLAYER->test_setting();
 }
 
@@ -17,20 +19,20 @@ void BattleScene::init()
 	DAMAGE->loadImageList();
 	DAMAGE->AllocateMemory();
 
-	LOAD->Add_LoadTray("arSound", "../../_SoundSource/Battle_AR.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("mgSound1", "../../_SoundSource/Battle_170.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("mgSound2", "../../_SoundSource/Battle_171.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("mgReload", "../../_SoundSource/mgReload.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("srSound1", "../../_SoundSource/Battle_179.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("srSound2", "../../_SoundSource/Battle_180.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("srSound3", "../../_SoundSource/Battle_181.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("sgSound", "../../_SoundSource/SG_shot.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("sgReload", "../../_SoundSource/SG_re.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("arSound", "Battle_AR.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("mgSound1", "Battle_170.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("mgSound2", "Battle_171.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("mgReload", "mgReload.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("srSound1", "Battle_179.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("srSound2", "Battle_180.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("srSound3", "Battle_181.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("sgSound", "SG_shot.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("sgReload", "SG_re.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
-	LOAD->Add_LoadTray("SG_BLT", "../../_Assets/Texture2D/fire1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 5, 1);
-	LOAD->Add_LoadTray("sgmm", "../../_Assets/Texture2D/slugmm.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("AR_BLT", "../../_Assets/Texture2D/riflebullet.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("MG_BLT", "../../_Assets/Texture2D/mgBullet.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("SG_BLT", "Texture2D/fire1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 5, 1);
+	LOAD->Add_LoadTray("sgmm", "Texture2D/slugmm.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("AR_BLT", "Texture2D/riflebullet.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("MG_BLT", "Texture2D/mgBullet.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	LOAD->Add_LoadTray(BTLMAP->imgKey, BTLMAP->imgPath, LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
@@ -53,6 +55,28 @@ void BattleScene::init()
 
 	vRendList.clear();
 
+	if (conquerArea.size() > 0) {
+		for (auto& iter : conquerArea) {
+			if (iter != nullptr) {
+				iter->Release_Ellipse();
+				SAFE_DELETE(iter);
+			}
+		}
+		conquerArea.clear();
+	}
+
+	size_t protectObjSize;
+	if ((protectObjSize = MAP->getMissionFlag().protectObjectNumber) != 0) {
+
+		conquerArea.reserve(protectObjSize);
+
+		for (size_t i = 0; i < MAP->getMissionFlag().protectObjectNumber; ++i) {
+			conquerArea.push_back(new EllipseBase(&(MAP->pGetMissionFlag().protectArea[i].AreaCenter.x), &(MAP->pGetMissionFlag().protectArea[i].AreaCenter.y),
+				MAP->pGetMissionFlag().protectArea[i].AreaRaius.x, MAP->pGetMissionFlag().protectArea[i].AreaRaius.y));
+		}
+	}
+	conquerTimer = MAP->getMissionFlag().battlePlag & PROTECT_AREA ? MAX_CONQUER_TIME : 0.0f;
+
 	LOAD->setAutoInit(false);
 	LOAD->setNextScene("BATTLE");
 
@@ -61,6 +85,11 @@ void BattleScene::init()
 
 	resultTimer = 0.0f;
 	battleOver = false;
+
+	floatingTimer = 0.0f;
+	highLightScale = 0.0f;
+	nextFloatTimer = 0.0f;
+	highlight = false;
 }
 
 void BattleScene::release()
@@ -105,11 +134,26 @@ void BattleScene::update()
 
 	EFFECT->update();
 	DAMAGE->update();
+
+	//	점령일경우 활성화
+	if (conquerArea.size() > 0) {
+		floatingTimer = floatingTimer > 0.0f ? floatingTimer - DELTA() : 0.0f;
+		highLightScale = highLightScale > 0.0f ? highLightScale - 0.5f : 0.0f;
+
+		float val = 40 + highLightScale;
+		string str = DWRITE->getProperty("CONQUER")->getText();
+		DWRITE->Create_TextField("CONQUER", L"맑은고딕", str, val, DWRITE_FONT_WEIGHT_BOLD);
+	}
 }
 
 void BattleScene::render()
 {
 	BTLMAP->testRender(vRendList);
+
+	for (auto& iter : conquerArea) {
+		iter->Rend_Ellipse(D3DXCOLOR(0, 1, 0, 0.5));
+	}
+
 	BULLET->render();
 
 	for (auto& it : vRendList)
@@ -141,6 +185,22 @@ void BattleScene::render()
 	PLAYER->render();
 	EFFECT->render();
 	DAMAGE->render();
+
+	if (MAP->getMissionFlag().battlePlag & CONQUER_AREA || MAP->getMissionFlag().battlePlag & PROTECT_AREA) {
+		
+		if (conquerTimer > 0.0f)
+			conquerColor = ColorF(0.0f, 0.5f, 0.5f);
+
+		else if (conquerTimer < 0.0f)
+			conquerColor = ColorF(0.8f, 0.0f, 0.0f);
+
+		D2D->renderRect(D2DRectMake(WINSIZEX*0.5, 150, conquerTimer, 50), conquerColor, true);
+
+		if (conquerState == CONQUERSTATE::ENEMY_CONQUERING ||
+			conquerState == CONQUERSTATE::REPLACE_CONQUER)
+			DWRITE->TextRender("CONQUER", 0, 10, WINSIZEX, 200, conquerTextColor, DWRITE_TEXT_ALIGNMENT_CENTER);
+		
+	}
 }
 
 void BattleScene::ZOrder_Sort()
@@ -205,8 +265,11 @@ void BattleScene::ZOrder_Sort()
 
 void BattleScene::check_BattlePlag()
 {
-	//	Check Battle Plag
-	if (MAP->getMissionFlag().battlePlag & ANNIHILATION && MAP->getMissionFlag().protectObjectNumber == 0)
+	//	======== Check Battle Plag ========  //
+
+
+	//	@ 섬멸
+	if (MAP->getMissionFlag().battlePlag & ANNIHILATION)
 	{
 		bool enemyDie = true;
 		for (auto enemy : BDATA->getCurrUnits())
@@ -242,4 +305,82 @@ void BattleScene::check_BattlePlag()
 			}
 		}
 	}
+
+
+	//	@ 지역 방어
+	if (MAP->getMissionFlag().battlePlag & PROTECT_AREA)
+	{
+		if (conquerTimer <= M_MAX_CONQUER_TIME) {
+			battleOver = true;
+			resultTimer = 240.0f * DELTA();
+		}
+
+		else {
+			int conq = 0;
+			bool replacing = false;
+			conquerState = CONQUERSTATE::NON_CONQUERING;
+			DWRITE->ChangeText("CONQUER", " ");
+
+			//	적군이 방어지역을 점령중인가?
+			for (auto& iter : conquerArea) {
+				for (auto& enemy : BDATA->getCurrUnits()) {
+					if (!enemy->getAlive()) continue;
+					if (iter->PointCollision_Check(enemy->getCharacterPos().x, 
+						enemy->getCharacterPos().y)) {
+						++conq;
+						replacing = true;
+					}
+				}
+
+				for (auto& alli : PLAYER->getPlayerSquad(PLAYER->getCurrentSquad())->squadMember) {
+					if (!alli.second->getAlive()) continue;
+					if (iter->PointCollision_Check(alli.second->getCharacterPos().x, 
+						alli.second->getCharacterPos().y)) {
+						--conq;
+						replacing = true;
+					}
+				}
+			}
+
+			if (conq >= static_cast<int>(conquerArea.size())) {
+
+				conquerState = CONQUERSTATE::ENEMY_CONQUERING;
+				DWRITE->ChangeText("CONQUER", "적군이 점령중입니다 !");
+				conquerTextColor = ColorF(0.9, 0.1, 0, 1);
+				if (highLightScale < DELTA())
+					highLightScale = 20.0f;
+
+				conquerTimer -= DELTA() * conq * 10.0f;
+			}
+
+			else {
+				if (conq < 0) {
+					if (conquerTimer < MAX_CONQUER_TIME) {
+						conquerTimer += DELTA() * fabsf(static_cast<float>(conq)) * 10.0f;
+						conquerState = CONQUERSTATE::FRIENDLY_CONQUERING;
+					}
+					else {
+						conquerTimer = MAX_CONQUER_TIME;
+						conquerState = CONQUERSTATE::FRIENDLY_CONQ_COMPLETE;
+					}
+				}
+				else {
+					if (replacing) {
+						conquerState = CONQUERSTATE::REPLACE_CONQUER;
+						DWRITE->ChangeText("CONQUER", "점령구역 대치중입니다 !");
+						conquerTextColor = ColorF(0.9, 0.9, 0, 1);
+						if (highLightScale < DELTA())
+							highLightScale = 20.0f;
+					}
+				}
+			}
+		}
+	}
+
+
+	//	@ 지역 점령
+
+
+
+	//	@ 유닛 보호
 }

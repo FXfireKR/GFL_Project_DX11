@@ -38,7 +38,9 @@ public:
 	inline int getMaxActionPoint() { return MaxActionPoint; }
 	inline void plsMaxActionPoint(int pls) { MaxActionPoint += pls; }
 
-	inline BattleMap* getBattleMap() { return battleMap; }
+	inline BattleMap* getBattleMap() { 
+		return battleMap;
+	}
 
 	inline const BattlePlagData& getMissionFlag() { return missionFlag; }
 	inline BattlePlagData& pGetMissionFlag() { return missionFlag; }

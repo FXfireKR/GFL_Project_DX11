@@ -73,9 +73,18 @@ void uiAtlasLoader::LoadUiAtlasData(const char * _path)
 		_newDataBase = new unordered_map<string, uiAtlas*>;
 
 	string normalKey, AlphaKey;
+	string originPath;
 	POINT imgSize;
 
-	FILE* file = fopen(_path, "rb");
+#ifdef _DEBUG
+	originPath = "_TextTable/";
+#else
+	originPath = "_TextTable/";
+#endif
+
+	originPath += _path;
+
+	FILE* file = fopen(originPath.c_str(), "rb");
 	if (file != NULL)
 	{
 		//	Normal Image Key
@@ -83,13 +92,24 @@ void uiAtlasLoader::LoadUiAtlasData(const char * _path)
 		AlphaKey = readString(file);
 		imgSize = read2Integer(file);
 
-		string path = "../../_Assets/Texture2D/";
+		string path;
+
+#ifdef _DEBUG
+		path = "Texture2D/";
+#else
+		path = "Texture2D/";
+#endif
 		path.append(normalKey);
 		path.append(".ab");
 		LOAD->Add_LoadTray(normalKey, path.c_str(), LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 		path.clear();
 
-		path = "../../_Assets/Texture2D/";
+
+#ifdef _DEBUG
+		path = "Texture2D/";
+#else
+		path = "Texture2D/";
+#endif
 		path.append(AlphaKey);
 		path.append(".ab");
 		LOAD->Add_LoadTray(AlphaKey, path.c_str(), LOADRESOURCE_TYPE::RESOURCE_IMAGE);
@@ -139,14 +159,23 @@ const unordered_map<string, uiAtlas*>& uiAtlasLoader::LoadUiAtlasData(const char
 		normalKey = readString(file);
 		AlphaKey = readString(file);
 		imgSize = read2Integer(file);
+		string path;
 
-		string path = "../../_Assets/Texture2D/";
+#ifdef _DEBUG
+		path = "Texture2D/";
+#else
+		path = "Texture2D/";
+#endif
 		path.append(normalKey);
 		path.append(".ab");
 		LOAD->Add_LoadTray(normalKey, path.c_str(), LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 		path.clear();
 
-		path = "../../_Assets/Texture2D/";
+#ifdef _DEBUG
+		path = "Texture2D/";
+#else
+		path = "Texture2D/";
+#endif
 		path.append(AlphaKey);
 		path.append(".ab");
 		LOAD->Add_LoadTray(normalKey, path.c_str(), LOADRESOURCE_TYPE::RESOURCE_IMAGE);

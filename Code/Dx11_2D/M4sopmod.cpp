@@ -56,30 +56,30 @@ M4sopmod::~M4sopmod()
 void M4sopmod::LoadTray_SoundList()
 {
 	//	Character Voice Upload
-	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "../../_Assets/Characters/m4sopmod/M4SOPMOD_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_BREAK, "../../_Assets/Characters/m4sopmod/M4SOPMOD_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DEFENSE, "../../_Assets/Characters/m4sopmod/M4SOPMOD_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE1, "../../_Assets/Characters/m4sopmod/M4SOPMOD_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE2, "../../_Assets/Characters/m4sopmod/M4SOPMOD_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE3, "../../_Assets/Characters/m4sopmod/M4SOPMOD_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_FORMATION, "../../_Assets/Characters/m4sopmod/M4SOPMOD_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_GOATTACK, "../../_Assets/Characters/m4sopmod/M4SOPMOD_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_MEET, "../../_Assets/Characters/m4sopmod/M4SOPMOD_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL1, "../../_Assets/Characters/m4sopmod/M4SOPMOD_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL2, "../../_Assets/Characters/m4sopmod/M4SOPMOD_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL3, "../../_Assets/Characters/m4sopmod/M4SOPMOD_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_TITLECALL, "../../_Assets/Characters/m4sopmod/M4SOPMOD_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_WIN, "../../_Assets/Characters/m4sopmod/M4SOPMOD_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "Characters/m4sopmod/M4SOPMOD_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_BREAK, "Characters/m4sopmod/M4SOPMOD_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DEFENSE, "Characters/m4sopmod/M4SOPMOD_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE1, "Characters/m4sopmod/M4SOPMOD_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE2, "Characters/m4sopmod/M4SOPMOD_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE3, "Characters/m4sopmod/M4SOPMOD_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_FORMATION, "Characters/m4sopmod/M4SOPMOD_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_GOATTACK, "Characters/m4sopmod/M4SOPMOD_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_MEET, "Characters/m4sopmod/M4SOPMOD_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL1, "Characters/m4sopmod/M4SOPMOD_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL2, "Characters/m4sopmod/M4SOPMOD_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL3, "Characters/m4sopmod/M4SOPMOD_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_TITLECALL, "Characters/m4sopmod/M4SOPMOD_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_WIN, "Characters/m4sopmod/M4SOPMOD_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
 	//	Fortrait Image Load
-	LOAD->Add_LoadTray("pic_M4SOPMOD", "../../_Assets/Characters/m4sopmod/pic_M4SOPMOD.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_M4SOPMOD_alpha", "../../_Assets/Characters/m4sopmod/pic_M4SOPMOD_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_M4SOPMOD_D", "../../_Assets/Characters/m4sopmod/pic_M4SOPMOD_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_M4SOPMOD_D_alpha", "../../_Assets/Characters/m4sopmod/pic_M4SOPMOD_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("M4SOPMOD(1)_alpha", "../../_Assets/Characters/m4sopmod/M4SOPMOD(1)_alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_M4SOPMOD", "Characters/m4sopmod/pic_M4SOPMOD.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_M4SOPMOD_alpha", "Characters/m4sopmod/pic_M4SOPMOD_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_M4SOPMOD_D", "Characters/m4sopmod/pic_M4SOPMOD_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_M4SOPMOD_D_alpha", "Characters/m4sopmod/pic_M4SOPMOD_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("M4SOPMOD(1)_alpha", "Characters/m4sopmod/M4SOPMOD(1)_alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
-	LOAD->Add_LoadTray("M4SOPMOD_N0", "../../_Assets/Characters/m4sopmod/pic_m4sopmod_n_0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("M4SOPMOD_N1", "../../_Assets/Characters/m4sopmod/pic_m4sopmod_n_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("M4SOPMOD_N0", "Characters/m4sopmod/pic_m4sopmod_n_0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("M4SOPMOD_N1", "Characters/m4sopmod/pic_m4sopmod_n_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	keys.original_key = "pic_M4SOPMOD";
 	keys.original_D_key = "pic_M4SOPMOD_D";
@@ -90,7 +90,7 @@ void M4sopmod::LoadTray_SoundList()
 
 void M4sopmod::LoadTray_ImageList()
 {
-	LOAD->Add_LoadTray("utan_1", "../../_Assets/Texture2D/Utan.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("utan_1", "Texture2D/Utan.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	this->init();
 }
 

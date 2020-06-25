@@ -39,8 +39,7 @@ HRESULT TextBase::ReLoadTextBase(IDWriteFactory **factory, LPCWSTR _fntName)
 {
 	if (dwFactory != nullptr)
 	{
-		if (pTextFormat != nullptr && pTextLayout != nullptr)
-		{
+		if (pTextFormat != nullptr && pTextLayout != nullptr) {
 			SAFE_RELEASE(pTextFormat);
 			Init(_fntName, fontSize, &dwFactory, &pTextFormat, weight, style, stretch);
 		}

@@ -55,29 +55,29 @@ Ksg::~Ksg()
 void Ksg::LoadTray_SoundList()
 {
 	//	Character Voice Upload
-	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "../../_Assets/Characters/ksg/KSG_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_BREAK, "../../_Assets/Characters/ksg/KSG_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DEFENSE, "../../_Assets/Characters/ksg/KSG_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE1, "../../_Assets/Characters/ksg/KSG_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE2, "../../_Assets/Characters/ksg/KSG_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE3, "../../_Assets/Characters/ksg/KSG_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_FORMATION, "../../_Assets/Characters/ksg/KSG_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_GOATTACK, "../../_Assets/Characters/ksg/KSG_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_MEET, "../../_Assets/Characters/ksg/KSG_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL1, "../../_Assets/Characters/ksg/KSG_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL2, "../../_Assets/Characters/ksg/KSG_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_SKILL3, "../../_Assets/Characters/ksg/KSG_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_TITLECALL, "../../_Assets/Characters/ksg/KSG_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray(keys.SOUND_WIN, "../../_Assets/Characters/ksg/KSG_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "Characters/ksg/KSG_ATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_BREAK, "Characters/ksg/KSG_BREAK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DEFENSE, "Characters/ksg/KSG_DEFENSE_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE1, "Characters/ksg/KSG_DIALOGUE1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE2, "Characters/ksg/KSG_DIALOGUE2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_DIALOGUE3, "Characters/ksg/KSG_DIALOGUE3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_FORMATION, "Characters/ksg/KSG_FORMATION_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_GOATTACK, "Characters/ksg/KSG_GOATTACK_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_MEET, "Characters/ksg/KSG_MEET_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL1, "Characters/ksg/KSG_SKILL1_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL2, "Characters/ksg/KSG_SKILL2_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_SKILL3, "Characters/ksg/KSG_SKILL3_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_TITLECALL, "Characters/ksg/KSG_TITLECALL_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray(keys.SOUND_WIN, "Characters/ksg/KSG_WIN_JP.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
 	//	Fortrait Image Load
-	LOAD->Add_LoadTray("pic_KSG", "../../_Assets/Characters/ksg/pic_KSG.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_KSG_alpha", "../../_Assets/Characters/ksg/pic_KSG_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_KSG_D", "../../_Assets/Characters/ksg/pic_KSG_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("pic_KSG_D_alpha", "../../_Assets/Characters/ksg/pic_KSG_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_KSG", "Characters/ksg/pic_KSG.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_KSG_alpha", "Characters/ksg/pic_KSG_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_KSG_D", "Characters/ksg/pic_KSG_D.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("pic_KSG_D_alpha", "Characters/ksg/pic_KSG_D_Alpha.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
-	LOAD->Add_LoadTray("KSG_N0", "../../_Assets/Characters/ksg/pic_ksg_n_0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
-	LOAD->Add_LoadTray("KSG_N1", "../../_Assets/Characters/ksg/pic_ksg_n_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("KSG_N0", "Characters/ksg/pic_ksg_n_0.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("KSG_N1", "Characters/ksg/pic_ksg_n_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	keys.original_key = "pic_KSG";
 	keys.original_D_key = "pic_KSG_D";

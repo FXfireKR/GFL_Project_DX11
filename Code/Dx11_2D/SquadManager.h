@@ -48,7 +48,7 @@ public:
 	SquadManager(int SquadNumber = 3);		//	최소 3개의 빈 분대를 창설한다.
 	~SquadManager();						//	deleter
 
-	bool insertSquadMember(SINT squadID, void* mem);
+	bool insertSquadMember(SINT squadID, void* mem, bool sameCheck = true);
 	void emitSquadMember(SINT squadID, SINT memID);
 	void release();
 	BaseTaticDoll* callSquadMember(SINT squadID, SINT memID);
@@ -60,7 +60,7 @@ public:
 	}
 
 	inline int getTotalSquadSize() {
-		return mManager.size();
+		return static_cast<int>(mManager.size());
 	}
 
 	inline const bool getValidSquad(SINT squadID) {

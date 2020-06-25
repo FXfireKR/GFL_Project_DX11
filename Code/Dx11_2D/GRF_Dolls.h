@@ -8,6 +8,7 @@
 #include "Ar15.h"
 #include "Pkp.h"
 #include "M4sopmod.h"
+#include "Ntw20.h"
 
 
 //	enum key

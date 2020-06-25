@@ -24,7 +24,7 @@ public:
 	void update(float delta);
 	void render();
 
-
+	
 	void changeMotion(string _aniKey, bool loop = false, bool _mix = false, float _dur = 0.1f);
 	void reload_SpineImage();
 
@@ -73,7 +73,12 @@ public:
 	unordered_map<string, MotionAct>::iterator	callMotionAct;
 	
 private:
-	const string SPINE_BASE_PATH = "../../_Assets/Characters/";
+	const string SPINE_BASE_PATH = "Characters/";
 
+#ifdef _DEBUG
+	const string SPINE_OTHER_PATH = "_Assets/Characters/";
+#else
+	const string SPINE_OTHER_PATH = "_Assets/Characters/";
+#endif
 };
 #endif

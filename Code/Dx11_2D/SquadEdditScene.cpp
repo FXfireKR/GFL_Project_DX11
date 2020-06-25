@@ -11,26 +11,26 @@ SquadEdditScene::~SquadEdditScene()
 
 void SquadEdditScene::init()
 {
-	LOAD->Add_LoadTray("Squad_1_Already", "../../_Assets/Texture2D/Squad1Already.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 1 제대 배치중
-	LOAD->Add_LoadTray("Squad_2_Already", "../../_Assets/Texture2D/Squad2Already.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 2 제대 배치중
-	LOAD->Add_LoadTray("Squad_3_Already", "../../_Assets/Texture2D/Squad3Already.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 3 제대 배치중
+	LOAD->Add_LoadTray("Squad_1_Already", "Texture2D/Squad1Already.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 1 제대 배치중
+	LOAD->Add_LoadTray("Squad_2_Already", "Texture2D/Squad2Already.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 2 제대 배치중
+	LOAD->Add_LoadTray("Squad_3_Already", "Texture2D/Squad3Already.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 3 제대 배치중
 	
-	LOAD->Add_LoadTray("Squad_1_Leader", "../../_Assets/Texture2D/Squad1Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
-	LOAD->Add_LoadTray("Squad_2_Leader", "../../_Assets/Texture2D/Squad2Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
-	LOAD->Add_LoadTray("Squad_3_Leader", "../../_Assets/Texture2D/Squad3Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
+	LOAD->Add_LoadTray("Squad_1_Leader", "Texture2D/Squad1Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
+	LOAD->Add_LoadTray("Squad_2_Leader", "Texture2D/Squad2Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
+	LOAD->Add_LoadTray("Squad_3_Leader", "Texture2D/Squad3Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
 	
-	LOAD->Add_LoadTray("SquadEmit", "../../_Assets/Texture2D/SquadEmit.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 
+	LOAD->Add_LoadTray("SquadEmit", "Texture2D/SquadEmit.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 
 	
-	LOAD->Add_LoadTray("SquadBar", "../../_Assets/Texture2D/SquadBar.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 
-	LOAD->Add_LoadTray("SquadBar_s", "../../_Assets/Texture2D/SquadBar_select.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
+	LOAD->Add_LoadTray("SquadBar", "Texture2D/SquadBar.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 
+	LOAD->Add_LoadTray("SquadBar_s", "Texture2D/SquadBar_select.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
 	
-	LOAD->Add_LoadTray("editSceneBk", "../../_Assets/Texture2D/editSceneBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				// 
+	LOAD->Add_LoadTray("editSceneBk", "Texture2D/editSceneBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				// 
 	
-	LOAD->Add_LoadTray("gradiantBlack", "../../_Assets/Texture2D/gradiantBlack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
-	LOAD->Add_LoadTray("SlotSquad", "../../_Assets/Texture2D/SlotSquad.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 
+	LOAD->Add_LoadTray("gradiantBlack", "Texture2D/gradiantBlack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
+	LOAD->Add_LoadTray("SlotSquad", "Texture2D/SlotSquad.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 
 	
-	LOAD->Add_LoadTray("HomeButton", "../../_Assets/Texture2D/HomeButton.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				// 
-	LOAD->Add_LoadTray("AllCard", "../../_Assets/Texture2D/AllCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);						// 
+	LOAD->Add_LoadTray("HomeButton", "Texture2D/HomeButton.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				// 
+	LOAD->Add_LoadTray("AllCard", "Texture2D/AllCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);						// 
 
 	worldColor.a = 0.0f;
 

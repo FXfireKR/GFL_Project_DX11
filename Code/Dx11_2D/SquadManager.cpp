@@ -26,7 +26,7 @@ SquadManager::~SquadManager()
 	}
 }
 
-bool SquadManager::insertSquadMember(SINT squadID, void * mem)
+bool SquadManager::insertSquadMember(SINT squadID, void * mem, bool sameCheck)
 {
 	if ((miManager = mManager.find(squadID)) != mManager.end()){
 		bool sameID = false;
@@ -36,11 +36,12 @@ bool SquadManager::insertSquadMember(SINT squadID, void * mem)
 		//	소속이 없다는 뜻이다.
 		if (curId->SquadMem_ID == -1) {
 
-			//	동일한 시드 찾기
-			for (auto& it : miManager->second->squadMember) {
-				if (it.second->getID()->All_ID == curDoll->getID()->All_ID) {
-					sameID = true;
-					break;
+			if (sameCheck) {	//	동일한 시드 찾기
+				for (auto& it : miManager->second->squadMember) {
+					if (it.second->getID()->All_ID == curDoll->getID()->All_ID) {
+						sameID = true;
+						break;
+					}
 				}
 			}
 

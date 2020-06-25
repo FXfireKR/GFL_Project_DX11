@@ -8,7 +8,7 @@ MapManager::MapManager()
 	battleMap = nullptr;
 
 	BTM_Loader* loader = new BTM_Loader;
-	battleMap = loader->LoadBTM("../../_Assets/BattleMap/bg2.btm");
+	battleMap = loader->LoadBTM("_Assets/BattleMap/bg2.btm");
 
 	//	require 
 	//IMAGEMAP->InsertImage_FromeFile("bg2", "../../_Assets/bg2.png");
@@ -184,7 +184,7 @@ void MapManager::Load_MapFile(string path)
 								newPanel->setPanelAlience(readAlianceClass(buffer));
 							}
 
-							//	read Linked Pnale ID List of Panel
+							//	read Linked Panel ID List of Panel
 							else if (buffer.find("ls ") != string::npos)
 							{
 								buffer.erase(0, buffer.find_last_of(" ") + 1);
@@ -257,7 +257,7 @@ void MapManager::Load_MapFile(string path)
 		fclose(file);
 	}
 
-	string image = "../../_Assets/BattleMap/" + mapImageFileName + ".ab";
+	string image = "BattleMap/" + mapImageFileName + ".ab";
 	LOAD->Add_LoadTray(mapImageFileName, image.c_str(), LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	for (auto& iter : pManager->getAllLink())
