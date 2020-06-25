@@ -94,10 +94,14 @@ void EquipScene::update()
 	worldColor.a = worldColor.a < 1.0f ? worldColor.a + DELTA() : 1.0f;
 	SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a < 0.15f ? worldColor.a : 0.15f);
 
+	CAMERA->setCameraFix(true);
+	CAMERA->CameraReset();
+
 	if (sceneChange)
 	{
 
 	}
+
 	else
 	{
 
@@ -110,9 +114,6 @@ void EquipScene::update()
 			SOUND->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "FormationLoop", 0.25f);
 		}
 	}
-
-	CAMERA->setCameraFix(true);
-	CAMERA->CameraReset();
 
 	switch (state)
 	{
@@ -144,8 +145,8 @@ void EquipScene::update()
 
 void EquipScene::render()
 {
-	DRAW->render("editSceneBk", VEC2(WINSIZEX*0.5f, WINSIZEY*0.5f), VEC2(WINSIZEX*0.5f, WINSIZEY*0.5f));
-	DRAW->render("gradiantBlack", VEC2(WINSIZEX*0.5f, 75), VEC2(WINSIZEX*0.5f, 75));
+	DRAW->render("editSceneBk", VEC2(WINSIZEX, WINSIZEY), VEC2(WINSIZEX*0.5f, WINSIZEY*0.5f));
+	DRAW->render("gradiantBlack", VEC2(WINSIZEX, 150), VEC2(WINSIZEX*0.5f, 75));
 
 	switch (state)
 	{
@@ -323,25 +324,17 @@ void EquipScene::State_MainRender()
 		{
 			if (tacDoll != nullptr)
 			{
-				DWRITE->Change_Text("STATUS_IDX", "공격력");
+				DWRITE->ChangeText("STATUS_IDX", "공격력 : %d", tacDoll->getStatus().AttackPoint);
 				DWRITE->TextRender("STATUS_IDX", 150, 150, ColorF(0, 0, 0));
-				DWRITE->Change_Text("STATUS_VAL", ChangeToLPC(tacDoll->getStatus().AttackPoint));
-				DWRITE->TextRender("STATUS_VAL", 250, 150, ColorF(1, 1, 0));
 
-				DWRITE->Change_Text("STATUS_IDX", "치명타 확률");
+				DWRITE->ChangeText("STATUS_IDX", "치명타 확률 : %.1f %", tacDoll->getStatus().CriticPoint);
 				DWRITE->TextRender("STATUS_IDX", 150, 170, ColorF(0, 0, 0));
-				DWRITE->Change_Text("STATUS_VAL", ChangeToLPC(tacDoll->getStatus().CriticPoint));
-				DWRITE->TextRender("STATUS_VAL", 250, 170, ColorF(1, 1, 0));
 
-				DWRITE->Change_Text("STATUS_IDX", "치명타배율");
+				DWRITE->ChangeText("STATUS_IDX", "치명타배율 : %.1f %", tacDoll->getStatus().CriticAcl * 100.0);
 				DWRITE->TextRender("STATUS_IDX", 150, 190, ColorF(0, 0, 0));
-				DWRITE->Change_Text("STATUS_VAL", ChangeToLPC(tacDoll->getStatus().CriticAcl));
-				DWRITE->TextRender("STATUS_VAL", 250, 190, ColorF(1, 1, 0));
 
-				DWRITE->Change_Text("STATUS_IDX", "명중률");
+				DWRITE->ChangeText("STATUS_IDX", "명중률 : %.2f", tacDoll->getStatus().Accuracy * 100.0);
 				DWRITE->TextRender("STATUS_IDX", 150, 210, ColorF(0, 0, 0));
-				DWRITE->Change_Text("STATUS_VAL", ChangeToLPC(tacDoll->getStatus().HitPoint));
-				DWRITE->TextRender("STATUS_VAL", 250, 210, ColorF(1, 1, 0));
 			}
 		}
 
@@ -444,8 +437,8 @@ void EquipScene::State_EquipRender()
 				if (it.second.num < 1)
 					D2D->renderRect(D2D_RectMakeCenter(x, y - whlCount, 64, 30), ColorF(1, 0, 0));
 
-				DRAW->render("EquipCardBk", VEC2(116, 90), VEC2(x, y - 81.5f - whlCount), COLR(1, 1, 1, 1));
-				DRAW->render("EquipCard", VEC2(120, 211), VEC2(x, y - whlCount), COLR(1, 1, 1, 1));
+				DRAW->render("EquipCardBk", VEC2(232, 180), VEC2(x, y - 81.5f - whlCount), COLR(1, 1, 1, 1));
+				DRAW->render("EquipCard", VEC2(240, 422), VEC2(x, y - whlCount), COLR(1, 1, 1, 1));
 
 				it.second.equip->render(x, y - 81.5f - whlCount, 0.65f);
 
@@ -525,8 +518,8 @@ void EquipScene::State_CharacterRender()
 		FLOAT x = 80 + ((i % 10) * 140);
 		FLOAT y = 150 + ((int)(i * 0.1f) * 270.0f);
 
-		DRAW->render(tacDoll->keys.cardNormalKey, VEC2(60, 125), VEC2(x, y));
-		DRAW->render("NameLabel", VEC2(60, 30), VEC2(x, y + 155.5));
+		DRAW->render(tacDoll->keys.cardNormalKey, VEC2(120, 250), VEC2(x, y));
+		DRAW->render("NameLabel", VEC2(120, 60), VEC2(x, y + 155.5));
 
 		DWRITE->Change_Text("CHARA_NAME", tacDoll->getName());
 		DWRITE->TextRender("CHARA_NAME", x - 54.0f, y + 125.0f, 110, 40, ColorF(1, 1, 0), DWRITE_TEXT_ALIGNMENT_CENTER);

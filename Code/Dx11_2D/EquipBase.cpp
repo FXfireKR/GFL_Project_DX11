@@ -37,8 +37,8 @@ void EquipBase::render(FLOAT x, FLOAT y, FLOAT acl, FLOAT opc)
 
 	DRAW->render(img_key, x - wid, y - hei, acl, opc);*/
 
-	float wid = (IMAGEMAP->getImageInfo(img_key)->Width * acl) / 2.0f;
-	float hei = (IMAGEMAP->getImageInfo(img_key)->Height * acl) / 2.0f;
+	float wid = (IMAGEMAP->getImageInfo(img_key)->Width * acl);
+	float hei = (IMAGEMAP->getImageInfo(img_key)->Height * acl);
 
 	DRAW->render(img_key, VEC2(wid, hei), VEC2(x, y), COLR(1, 1, 1, opc));
 }
