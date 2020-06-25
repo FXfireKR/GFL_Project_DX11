@@ -486,7 +486,7 @@ void EquipScene::State_CharacterUpdate()
 			if (ptInRect(D2D_RectMake(x - 60, y - 125, x + 60, y + 125), g_ptMouse))
 			{
 				if (CharaSlider.InfoDollID != -1)
-					PLAYER->deleteDollToSquad(CharaSlider.InfoDollID, 1);
+					PLAYER->deleteDollToSquad(1, CharaSlider.InfoDollID);
 
 				CharaSlider.InfoDollID = i;
 				PLAYER->insertDollToSquad(CharaSlider.InfoDollID, 1);
@@ -611,7 +611,7 @@ void EquipScene::ReturnSelect(void * obj)
 		//	it.second->LoadTray_List();										//	Add All Player's LoadTrayList
 
 		if (object->CharaSlider.InfoDollID != -1)
-			PLAYER->deleteDollToSquad(object->CharaSlider.InfoDollID, 1);
+			PLAYER->deleteDollToSquad(1, object->CharaSlider.InfoDollID);
 
 
 		SOUND->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "FormationLoop");
