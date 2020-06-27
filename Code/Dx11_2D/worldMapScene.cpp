@@ -101,6 +101,8 @@ void worldMapScene::init()
 		for (auto& it : LOAD->getLoadList())
 			vLoadList.push_back(LoadResourceData(it->key, it->type));
 
+		Helicopter::init();
+
 		LOAD->mallocThread();
 		SCENE->changeScene("LOAD");
 
@@ -185,6 +187,8 @@ void worldMapScene::update()
 	MAP->update();
 
 	//ImGui::Text("Current Squad %d", Focus_Squad);
+
+	Helicopter::UpdateHelicopter();
 
 	keyUpate();
 
@@ -409,6 +413,8 @@ void worldMapScene::render()
 		}
 	}
 
+	Helicopter::RenderHelicopter();
+
 	if (isInsertSquad == false)
 		render_NormalWorld();
 	else
@@ -507,6 +513,8 @@ void worldMapScene::GiveUpGame_Select(void * obj)
 	objectPtr->worldmapInit = false;
 	objectPtr->squadInit = false;
 
+	Helicopter::release();
+
 	LOAD->insertUnLoadList(objectPtr->vLoadList);
 	LOAD->setAutoInit(true);
 	LOAD->setNextScene("CHAPTER");
@@ -534,6 +542,8 @@ void worldMapScene::InsertSquad_Select(void * obj)
 		squadLeader->p_getCharacterPos()->y = curPanel->getPanelPos().y;
 
 		SOUND->Play_Effect(SOUND_CHANNEL::CH_VOICE, squadLeader->keys.SOUND_GOATTACK, 0.15f);
+
+		Helicopter::CallHelicopter(curPanel->getPanelPos(), objectPtr->isThermalSupport);
 
 		objectPtr->rendSquad = false;
 		objectPtr->isInsertSquad = false;

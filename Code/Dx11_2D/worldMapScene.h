@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.hpp"
+#include "Helicopter.h"
 
 class worldMapScene : public Scene
 {
