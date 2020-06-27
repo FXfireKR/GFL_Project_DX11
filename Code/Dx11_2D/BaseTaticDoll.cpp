@@ -185,6 +185,8 @@ void BaseTaticDoll::update()
 
 		IsEnemy_at();
 		Set_Targetting_Angle();
+
+		flipVal = Flip ? 1 : -1;
 	}
 }
 

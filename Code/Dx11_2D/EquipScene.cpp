@@ -23,6 +23,8 @@ void EquipScene::init()
 	CharaSlider.axisPos.x = -300;
 	CharaSlider.axisPos.y = 180;
 
+	sceneChange = false;
+
 	for (auto& it : PLAYER->getPlayerTaticDoll().getAllDolls())		//	get List of Player's TacticalDoll
 		it.second->LoadTray_ImageList();
 
@@ -99,19 +101,47 @@ void EquipScene::update()
 
 	if (sceneChange)
 	{
+		if (worldColor.a > 0.0f)
+		{
+			worldColor.a -= DELTA();
+			SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a > 0.15f ? 0.15f : worldColor.a);
+		}
 
+		else
+		{
+			worldColor.a = 0.0f;
+
+			SOUND->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "FormationLoop");
+			SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+		}
 	}
 
 	else
 	{
-
-	}
-
-	if (!SOUND->isValidKey("FormationLoop"))
-	{
-		if (!SOUND->isPlay(SOUND_CHANNEL::CH_SOUND1, "FormationLoop"))
+		if (!SOUND->isValidKey("FormationLoop"))
 		{
-			SOUND->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "FormationLoop", 0.25f);
+			if (!SOUND->isPlay(SOUND_CHANNEL::CH_SOUND1, "FormationLoop"))
+			{
+				SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+				SOUND->Play_Sound(SOUND_CHANNEL::CH_SOUND1, "FormationLoop", 0.0f);
+				SOUND->setVolume("FormationLoop", SOUND_CHANNEL::CH_SOUND1, 0.0f);
+			}
+		}
+
+		if (worldColor.a < 1.0f)
+		{
+			worldColor.a += DELTA();
+
+			SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a < 0.25f ? worldColor.a : 0.25f);
+			SOUND->setVolume("FormationLoop", SOUND_CHANNEL::CH_SOUND1, worldColor.a < 0.25f ? worldColor.a : 0.25f);
+		}
+
+		else
+		{
+			worldColor.a = 1.0f;
+
+			SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.25f);
+			SOUND->setVolume("FormationLoop", SOUND_CHANNEL::CH_SOUND1, 0.25f);
 		}
 	}
 
@@ -133,13 +163,13 @@ void EquipScene::update()
 	//PLAYER->update();
 	if (CharaSlider.InfoDollID != -1)
 	{
-		auto& tacdoll = PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID);
+		//auto& tacdoll = PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID);
 
-		tacdoll->p_getCharacterPos()->x = WINSIZEX * 0.5f;
-		tacdoll->p_getCharacterPos()->y = WINSIZEY * 0.5f;
+		//tacdoll->p_getCharacterPos()->x = WINSIZEX * 0.5f;
+		//tacdoll->p_getCharacterPos()->y = WINSIZEY * 0.5f;
 
-		if (!tacdoll->isSelect())
-			tacdoll->revSelect();
+		//if (!tacdoll->isSelect())
+		//	tacdoll->revSelect();
 	}
 }
 
@@ -253,7 +283,7 @@ void EquipScene::State_MainUpdate()
 
 	if (CharaSlider.InfoDollID != -1)
 	{
-		PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->update();
+		//PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->update();
 	}
 }
 
@@ -261,8 +291,8 @@ void EquipScene::State_MainRender()
 {
 	if (CharaSlider.InfoDollID != -1)
 	{
-		PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->render_Ellipse();
-		PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->render_Motion();
+		//PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->render_Ellipse();
+		//PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->render_Motion();
 	}
 
 	D2D->renderRect(mButton["SLIDER"].box, ColorF(0, 0.15, 0.85), true);
@@ -285,37 +315,25 @@ void EquipScene::State_MainRender()
 		FLOAT wid = mButton["CHARA"].box.right - mButton["CHARA"].box.left;
 		FLOAT hei = mButton["CHARA"].box.bottom - mButton["CHARA"].box.top;
 
-		DRAW->render(tacDoll->keys.cardNormalKey, VEC2(wid*0.5f, hei*0.5f), VEC2(mButton["CHARA"].box.left + (wid * 0.5f), mButton["CHARA"].box.top + (hei*0.5f)));
+		DRAW->render(tacDoll->keys.cardNormalKey, VEC2(wid, hei), VEC2(mButton["CHARA"].box.left + (wid * 0.5f), mButton["CHARA"].box.top + (hei*0.5f)));
 
 		// Equipment Rendering
 		{
 			D2D->renderRect(mButton["EQUIP_1"].box, ColorF(1, 0, 0), true);
 			D2D->renderRect(mButton["EQUIP_2"].box, ColorF(0, 1, 0), true);
 			D2D->renderRect(mButton["EQUIP_3"].box, ColorF(0, 0, 0.5), true);
-
-			auto it = tacDoll->p_getEquip().begin();
-
-			if (it != tacDoll->p_getEquip().end())
+			
+			auto iter = tacDoll->p_getEquip().begin();
+			for (size_t i = 0; i < tacDoll->p_getEquip().size(); ++i)
 			{
-				wid = mButton["EQUIP_1"].box.right - mButton["EQUIP_1"].box.left;
-				hei = mButton["EQUIP_1"].box.bottom - mButton["EQUIP_1"].box.top;
-				if (it->second != nullptr)
-					DRAW->render(it->second->getKey(), VEC2(wid*0.5f, hei*0.5f),
-						VEC2(mButton["EQUIP_1"].box.left + (wid * 0.5f), mButton["EQUIP_1"].box.top + (hei*0.5f)));
-				++it;
+				string equipKey = ConvertFormat("EQUIP_%d", i + 1);
 
-				wid = mButton["EQUIP_2"].box.right - mButton["EQUIP_2"].box.left;
-				hei = mButton["EQUIP_2"].box.bottom - mButton["EQUIP_2"].box.top;
-				if (it->second != nullptr)
-					DRAW->render(it->second->getKey(), VEC2(wid*0.5f, hei*0.5f),
-						VEC2(mButton["EQUIP_2"].box.left + (wid * 0.5f), mButton["EQUIP_2"].box.top + (hei*0.5f)));
-				++it;
-
-				wid = mButton["EQUIP_3"].box.right - mButton["EQUIP_3"].box.left;
-				hei = mButton["EQUIP_3"].box.bottom - mButton["EQUIP_3"].box.top;
-				if (it->second != nullptr)
-					DRAW->render(it->second->getKey(), VEC2(wid*0.5f, hei*0.5f),
-						VEC2(mButton["EQUIP_3"].box.left + (wid * 0.5f), mButton["EQUIP_3"].box.top + (hei*0.5f)));
+				wid = mButton[equipKey].box.right - mButton[equipKey].box.left;
+				hei = mButton[equipKey].box.bottom - mButton[equipKey].box.top;
+				if (iter->second != nullptr)
+					DRAW->render(iter->second->getKey(), VEC2(wid, hei),
+						VEC2(mButton[equipKey].box.left + (wid * 0.5f), mButton[equipKey].box.top + (hei*0.5f)));
+				++iter;
 			}
 		}
 

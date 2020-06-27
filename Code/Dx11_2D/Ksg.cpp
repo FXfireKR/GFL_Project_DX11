@@ -381,7 +381,8 @@ void Ksg::KSG_Attack_Action(void * _this)
 			if (object->safeTrigger == 0)
 			{
 				//SG_BLT
-				EFFECT->createEffect("SG_BLT", VEC2(object->Pos.x + 120, object->Pos.y - 65), DELTA() * 2.0f, 80.0f);
+				EFFECT->createEffect("SG_BLT", VEC2(object->Pos.x + (float)(120 * object->flipVal), object->Pos.y - 65)
+					, DELTA() * 2.0f, 80.0f, 1.0f, object->Flip);
 
 				BULLET->CreateBullet(object, object->TargetID, object->curState, object->alianceType, 90.0f, 150.0f);
 

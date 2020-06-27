@@ -246,8 +246,10 @@ void M4sopmod::MotionUpdate()
 
 		else
 		{
-			if (motion->isCurrent("attack"))
+			if (motion->isCurrent("attack")) {
 				motion->changeMotion("wait", true, true);
+				moveAble = true;
+			}
 		}
 
 		if (!motion->isCurrent("attack"))

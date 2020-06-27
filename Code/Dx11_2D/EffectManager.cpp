@@ -42,6 +42,7 @@ HRESULT EffectManager::createEffect(string _key, D3DXVECTOR2 _pos, float _fps, f
 	{
 		Effect* _new = Effects->pickUpPool();
 		_new->Create_Effect(_key, _pos, loadImage->perImageSize, loadImage->Frame, _fps, _scl, _opc);
+		_new->setFlip(_flip);
 		Effects->create(_new);
 
 		return S_OK;
@@ -74,7 +75,9 @@ void EffectManager::render()
 	{
 		Effect* Iter = Effects->getUsage()[i - 1];
 		if (!Iter->isRender()) continue;
-
-		img->render(Iter->getKey(), Iter->getEffectScale(), Iter->getEffectTrans(), Iter->getMinTexcoord(), Iter->getMaxTexcoord());
+		
+		
+		img->render(Iter->getKey(), Iter->getEffectScale(), Iter->getEffectTrans(), Iter->getMinTexcoord(), 
+			Iter->getMaxTexcoord(), D3DXVECTOR3(0, Iter->isFlip() * 180.0f, 0));
 	}
 }

@@ -179,6 +179,7 @@ protected:
 	DOGTAG_ID				myID;		//	번호가 -1일경우 존재하지않음.
 
 	signed int				TargetID;
+	signed int				flipVal;
 
 	D3DXCOLOR				_color;
 	ID3D11Buffer*			_colorBuffer;

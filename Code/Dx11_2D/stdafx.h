@@ -110,6 +110,8 @@ template<typename T>	inline const void SAFE_DEL_ARRAY(T* p) { if (p != nullptr) 
 typedef signed int						SINT;
 typedef D3DXVECTOR2						VEC2;
 typedef D3DXVECTOR3						VEC3;
+typedef D3DXVECTOR2						Vector2;
+typedef D3DXVECTOR3						Vector3;
 typedef D3DXCOLOR						COLR;
 typedef D3DXMATRIX						MATRIX;
 typedef ID3D11Buffer					DBuffer;
