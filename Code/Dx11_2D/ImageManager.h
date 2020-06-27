@@ -33,7 +33,7 @@ public:
 	ImageManager();
 	~ImageManager();
 
-	void InsertImageFile(__in string key, __in const char* _path);
+	void InsertImageFile(__in string key, __in string _path, __in SINT _frameX = 0, __in SINT _frameY = 0);
 
 	void InsertImageBinary(__in string key, __in string _path, __in SINT _frameX = 0, __in SINT _frameY = 0);
 	void InsertImageBinary(__in ThreadPool* _trdPol, __in string key, __in string _path);

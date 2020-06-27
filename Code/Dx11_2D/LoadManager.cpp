@@ -147,12 +147,22 @@ bool LoadManager::loadUpdate()
 					switch (curLoad->type)
 					{
 					case RESOURCE_SOUND:
+					#ifdef _DEBUG
+						SOUND->InsertSoundFile(LoadList[ListPointer]->key, LoadList[ListPointer]->path);
+					#else
 						SOUND->InsertSoundBianry(LoadList[ListPointer]->key, LoadList[ListPointer]->path);
+					#endif // _DEBUG
+
+						
 						break;
 
 					case RESOURCE_IMAGE:
+					#ifdef _DEBUG
+						IMAGEMAP->InsertImageFile(LoadList[ListPointer]->key, LoadList[ListPointer]->path);
+					#else
 						IMAGEMAP->InsertImageBinary(LoadList[ListPointer]->key, LoadList[ListPointer]->path,
 							LoadList[ListPointer]->frameX, LoadList[ListPointer]->frameY);
+					#endif // _DEBUG						
 						break;
 
 					default:

@@ -93,6 +93,68 @@ void SoundManager::update()
 	}
 }
 
+void SoundManager::InsertSoundFile(string key, string _path)
+{
+	if (SoundEngine) {
+		if (!mSoundRes.count(key)) {
+
+			SoundResource* add = new SoundResource();
+			vector<BYTE> OrigByte;
+
+			_path.erase(_path.find_last_of('.') + 1, _path.size());
+			_path += "wav";
+
+			string originPath;
+			originPath = "_SoundSource/";
+			originPath += _path;
+
+			FILE* f = fopen(originPath.c_str(), "rb");
+			string fileName;
+			fseek(f, 0, SEEK_END);
+			size_t size = ftell(f);
+			fseek(f, 0, SEEK_SET);
+			OrigByte.resize(size, 0);
+
+			// 512 Byte 분할 읽기
+			int i = 0;
+			while (true)
+			{
+				fread(&OrigByte[i], sizeof(BYTE), 512, f);
+				i += 512;
+
+				if (i > size - 1)
+					break;
+			}
+
+			add->memory = &OrigByte[0];
+			add->fileSize = OrigByte.size();
+
+			add->resource = SoundEngine->addSoundSourceFromMemory(add->memory, add->fileSize, key.c_str());
+			add->resource->setStreamMode(E_STREAM_MODE::ESM_STREAMING);
+
+			//add->resource = SoundEngine->addSoundSourceFromFile(_path.c_str());
+			//add->resource->setStreamMode(E_STREAM_MODE::ESM_STREAMING);
+
+			string path = _path;
+			if (path.find_last_of(".") != string::npos) {
+				path.erase(0, path.find_last_of(".") + 1);
+
+				if (path.find("mp3") != string::npos)
+					add->type = SOUND_MP3;
+
+				else if (path.find("wav") != string::npos)
+					add->type = SOUND_WAV;
+
+				else if (path.find("flac") != string::npos)
+					add->type = SOUND_FLAC;
+			}
+
+			mSoundRes.insert(make_pair(key, add));
+		}
+	}
+
+}
+
 void SoundManager::InsertSoundBianry(string key, string _path)
 {
 	if (SoundEngine)
@@ -104,13 +166,9 @@ void SoundManager::InsertSoundBianry(string key, string _path)
 			auto THREADPOOL = LOAD->pGetThreadPool();
 
 			THREADPOOL->ClearBeforeStart();
-			string originPath;
 
-#ifdef _DEBUG
+			string originPath;
 			originPath = "_SoundSource/";
-#else
-			originPath = "_SoundSource/";
-#endif
 			originPath += _path;
 
 			FILE* f = fopen(originPath.c_str(), "rb");

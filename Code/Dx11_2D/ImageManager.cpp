@@ -28,7 +28,7 @@ void ImageManager::release()
 	SAFE_DELETE(mUiAtlas);
 }
 
-void ImageManager::InsertImageFile(string key, const char * _path)
+void ImageManager::InsertImageFile(string key, string _path, SINT _frameX, SINT _frameY)
 {
 	if (!mResourece.count(key))
 	{
@@ -39,15 +39,11 @@ void ImageManager::InsertImageFile(string key, const char * _path)
 
 		ifstream file;
 
-		string originPath;
-
-#ifdef _DEBUG
-		originPath = "_Assets/";
-#else
-		originPath = "_Assets/";
-#endif
-		originPath += _path;
-
+		string originPath = "_Assets/" + _path;
+		if (originPath.find(".ab") != string::npos) {
+			originPath.erase(originPath.find_last_of(".") + 1, originPath.size());
+			originPath += "png";
+		}
 
 		file.open(originPath, ios::in | ios::binary);
 
@@ -115,6 +111,17 @@ void ImageManager::InsertImageFile(string key, const char * _path)
 		file.close();
 
 		locker.lock();
+
+		info->fileName = key;
+		info->Frame.x = _frameX;
+		info->Frame.y = _frameY;
+
+		if (_frameX != 0)
+			info->perImageSize.x = static_cast<FLOAT>(1.0f / static_cast<FLOAT>(info->Frame.x));
+
+		if (_frameY != 0)
+			info->perImageSize.y = static_cast<FLOAT>(1.0f / static_cast<FLOAT>(info->Frame.y));
+
 		HRESULT hr;
 		D3DX11CreateShaderResourceViewFromFileA(Device, originPath.c_str(), NULL, NULL,
 			&info->texture, &hr);
@@ -135,14 +142,7 @@ void ImageManager::InsertImageBinary(string key, string _path, SINT _frameX, SIN
 
 		THREADPOOL->ClearBeforeStart();
 
-		string originPath;
-
-#ifdef _DEBUG
-		originPath = "_Assets/";
-#else
-		originPath = "_Assets/";
-#endif
-		originPath += _path;
+		string originPath = "_Assets/" + _path;
 
 		FILE* f = fopen(originPath.c_str(), "rb");
 		string fileName;
@@ -310,14 +310,7 @@ void ImageManager::InsertImageBinary(ThreadPool* _trdPol, string key, string _pa
 
 			_trdPol->ClearBeforeStart();
 
-			string originPath;
-
-#ifdef _DEBUG
-			originPath = "_Assets/";
-#else
-			originPath = "_Assets/";
-#endif
-			originPath += _path;
+			string originPath = "_Assets/" + _path;
 
 			FILE* f = fopen(originPath.c_str(), "rb");
 			string fileName;

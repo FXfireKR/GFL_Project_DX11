@@ -72,6 +72,7 @@ private:
 public:
 	void update();
 
+	void InsertSoundFile(__in string key, __in string _path);
 	void InsertSoundBianry(__in string key, __in string _path);
 	void setVolume(__in SOUND_CHANNEL ch, __in float volume);
 	void setVolume(__in string key, __in SOUND_CHANNEL ch, __in float volume);
