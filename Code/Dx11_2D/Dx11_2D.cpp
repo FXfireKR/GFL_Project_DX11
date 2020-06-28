@@ -406,9 +406,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		return 0;
 
-	/*case WM_MOUSEWHEEL:
+	case WM_MOUSEWHEEL:
 		(SHORT)HIWORD(wParam) > 0 ? whlCount -= 5 : whlCount += 5;
-		break;*/
+		break;
 
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

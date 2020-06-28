@@ -6,10 +6,13 @@ class Helicopter
 protected:
 	static bool				flip;
 	static bool				deploy;
+	static bool				stopping;
 	static D2D1_RECT_F		hitBox;
 
 	static float			rAngle;
 	static float			moveSpeed;
+	static float			distance;
+	static float			altitude;
 
 	static Vector2			targetPosition;
 	static Vector2			position;
@@ -31,7 +34,4 @@ public:
 	static void RenderHelicopter();
 
 	static bool getDeploy() { return deploy; }
-
-protected:
-	static const int a = 10;
 };

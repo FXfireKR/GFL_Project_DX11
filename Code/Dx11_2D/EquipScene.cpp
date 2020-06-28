@@ -1,6 +1,18 @@
 #include "stdafx.h"
 #include "EquipScene.h"
 
+EquipScene* EquipScene::objectPtr = nullptr;
+
+/*
+	static float debx = 800.0f;
+	static float deby = 50.0f;
+	static float debs = 28.0f
+
+	ImGui::DragFloat("debx", &debx, 0.1f);
+	ImGui::DragFloat("deby", &deby, 0.1f);
+	ImGui::DragFloat("debs", &debs, 1.0f);
+*/
+
 EquipScene::EquipScene()
 {
 }
@@ -12,69 +24,54 @@ EquipScene::~EquipScene()
 void EquipScene::init()
 {
 	worldColor.a = 0.0f;
-
-	virtualCamera.x = virtualCamera.y = 0.0f;
 	whlCount = 0;
-
-	CharaSlider.InfoDollID = -1;
-	CharaSlider.isMoving = false;
-	CharaSlider.isOpen = false;
-	CharaSlider.Opacity = 1.0f;
-	CharaSlider.axisPos.x = -300;
-	CharaSlider.axisPos.y = 180;
+	virtualHeight = 0.0f;
+	virtualLimit = 0.0f;
+	asixVirtual = 0;
 
 	sceneChange = false;
+	mouseDrag = false;
+
+	selectedDoll = nullptr;
+	selectedDollID = 0;
+	objectPtr = nullptr;
+
+	state = ES_MAIN;
+	EquipNum = -1;
 
 	for (auto& it : PLAYER->getPlayerTaticDoll().getAllDolls())		//	get List of Player's TacticalDoll
 		it.second->LoadTray_ImageList();
 
-	DWRITE->Create_TextField("CHARA_NAME", L"¸¼Àº°íµñ", "NULL", 28, DWRITE_FONT_WEIGHT_BOLD);
+	mButton.insert(make_pair(SBUTTONS::HOME_BACK, Button(10, 10, 100, 85, ReturnHome)));
+	mButton.insert(make_pair(SBUTTONS::TURN_BACK, Button(10, 10, 150, 60, ReturnSelect)));
+	mButton.insert(make_pair(SBUTTONS::SELECT_CHARA, Button(20, 160, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, CharacterSelect)));
+	mButton.insert(make_pair(SBUTTONS::SELECT_EQUIP_1, Button(0, 200, 150, 100, EquipmentSelect)));
+	mButton.insert(make_pair(SBUTTONS::SELECT_EQUIP_2, Button(0, 200, 150, 100, EquipmentSelect)));
+	mButton.insert(make_pair(SBUTTONS::SELECT_EQUIP_3, Button(0, 200, 150, 100, EquipmentSelect)));
+
+	DWRITE->Create_TextField("CHARA_NAME", L"¸¼Àº°íµñ", "NULL", 28, DWRITE_FONT_WEIGHT_MEDIUM);
+	DWRITE->Create_TextField("TITLE_NAME", L"¸¼Àº°íµñ", "NULL", 65, DWRITE_FONT_WEIGHT_BOLD);
 
 	DWRITE->Create_TextField("EQUIP_NAME", L"¸¼Àº°íµñ", "NULL", 26, DWRITE_FONT_WEIGHT_BOLD);
-	DWRITE->Create_TextField("EQUIP_EXP", L"¸¼Àº°íµñ", "NULL", 15, DWRITE_FONT_WEIGHT_NORMAL);
+	DWRITE->Create_TextField("EQUIP_EXP", L"¸¼Àº°íµñ", "NULL", 15, DWRITE_FONT_WEIGHT_BOLD);
 
-	DWRITE->Create_TextField("STATUS_IDX", L"¸¼Àº°íµñ", "NULL", 14, DWRITE_FONT_WEIGHT_NORMAL);
-	DWRITE->Create_TextField("STATUS_VAL", L"¸¼Àº°íµñ", "NULL", 10, DWRITE_FONT_WEIGHT_NORMAL);
-
-	mButton.insert(make_pair("CHARA", Button(25, 50, 20, 50, CharacterSelect)));
-	mButton.insert(make_pair("SLIDER", Button(25, 50, 20, 50, SlideOpener)));
-	mButton.insert(make_pair("CANCLE", Button(25, 50, 20, 50, ReturnSelect)));
-
-	mButton.insert(make_pair("EQUIP_1", Button(25, 50, 20, 50, EquipmentSelect)));
-	mButton.insert(make_pair("EQUIP_2", Button(25, 50, 20, 50, EquipmentSelect)));
-	mButton.insert(make_pair("EQUIP_3", Button(25, 50, 20, 50, EquipmentSelect)));
-
-	CharaInfoBox = D2D_RectMake(CharaSlider.axisPos.x - 300, CharaSlider.axisPos.y - 180, CharaSlider.axisPos.x + 300, CharaSlider.axisPos.y + 180);
-
-	mButton["CHARA"].box = D2D_RectMake(CharaSlider.axisPos.x - 290, CharaSlider.axisPos.y - 170,
-		CharaSlider.axisPos.x - 140, CharaSlider.axisPos.y + 170);
-
-	mButton["SLIDER"].box = D2D_RectMake(CharaSlider.axisPos.x + 300, CharaSlider.axisPos.y - 25,
-		CharaSlider.axisPos.x + 320, CharaSlider.axisPos.y + 25);
-
-	mButton["CANCLE"].box = D2D_RectMake(WINSIZEX - 200, 10, WINSIZEX - 100, 50);
-
-	mButton["EQUIP_1"].box = D2D_RectMake(CharaSlider.axisPos.x - 128, CharaSlider.axisPos.y - 128,
-		CharaSlider.axisPos.x - 0, CharaSlider.axisPos.y + 0);
-
-	mButton["EQUIP_2"].box = D2D_RectMake(CharaSlider.axisPos.x - 128, CharaSlider.axisPos.y - 128,
-		CharaSlider.axisPos.x - 0, CharaSlider.axisPos.y + 0);
-
-	mButton["EQUIP_3"].box = D2D_RectMake(CharaSlider.axisPos.x - 128, CharaSlider.axisPos.y - 128,
-		CharaSlider.axisPos.x - 0, CharaSlider.axisPos.y + 0);
-
-
-	state = ES_MAIN;
-	EquipNum = -1;
+	DWRITE->Create_TextField("STATUS_IDX", L"¸¼Àº°íµñ", "NULL", 14, DWRITE_FONT_WEIGHT_BOLD);
+	DWRITE->Create_TextField("STATUS_VAL", L"¸¼Àº°íµñ", "NULL", 10, DWRITE_FONT_WEIGHT_BOLD);
 
 	//	Loading List Setting
 	LOAD->Add_LoadTray("NameLabel", "Texture2D/NameLabel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOAD->Add_LoadTray("EquipBarBack", "Texture2D/EquipBarBack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOAD->Add_LoadTray("editSceneBk", "Texture2D/editSceneBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("gradiantBlack", "Texture2D/gradiantBlack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("HomeButton", "Texture2D/HomeButton.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("TurnBack", "Texture2D/TurnBack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("DollEmpty", "Texture2D/dollEmpty.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("AllCard", "Texture2D/AllCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	LOAD->Add_LoadTray("EquipCard", "Texture2D/EquipCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOAD->Add_LoadTray("EquipOut", "Texture2D/EquipOut.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOAD->Add_LoadTray("EquipCardBk", "Texture2D/EquipCardBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("SquadEmit", "Texture2D/SquadEmit.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	//EQUIP->AddTray_EquipImage();										//	get List of Equip
 
@@ -85,6 +82,8 @@ void EquipScene::init()
 
 	LOAD->mallocThread();
 	SCENE->changeScene("LOAD");
+
+	CAMERA->CameraReset();
 }
 
 void EquipScene::release()
@@ -93,11 +92,7 @@ void EquipScene::release()
 
 void EquipScene::update()
 {
-	worldColor.a = worldColor.a < 1.0f ? worldColor.a + DELTA() : 1.0f;
-	SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, worldColor.a < 0.15f ? worldColor.a : 0.15f);
-
 	CAMERA->setCameraFix(true);
-	CAMERA->CameraReset();
 
 	if (sceneChange)
 	{
@@ -109,10 +104,18 @@ void EquipScene::update()
 
 		else
 		{
-			worldColor.a = 0.0f;
-
 			SOUND->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "FormationLoop");
 			SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+
+			LOAD->setAutoInit(true);
+			LOAD->setNextScene("LOBBY");
+			LOAD->setLoadImageKey("LoadBK_Test");
+			SCENE->changeScene("LOAD");
+			SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+
+			CAMERA->CameraReset();
+
+			worldColor.a = 0.0f;
 		}
 	}
 
@@ -143,41 +146,26 @@ void EquipScene::update()
 			SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.25f);
 			SOUND->setVolume("FormationLoop", SOUND_CHANNEL::CH_SOUND1, 0.25f);
 		}
-	}
 
-	switch (state)
-	{
-	case EquipScene::ES_MAIN:
-		State_MainUpdate();
-		break;
+		switch (state)
+		{
+		case EquipScene::ES_MAIN:
+			State_MainUpdate();
+			break;
 
-	case EquipScene::ES_CHARA:
-		State_CharacterUpdate();
-		break;
+		case EquipScene::ES_CHARA:
+			State_CharacterUpdate();
+			break;
 
-	case EquipScene::ES_EQUIP:
-		State_EquipUpdate();
-		break;
-	}
-
-	//PLAYER->update();
-	if (CharaSlider.InfoDollID != -1)
-	{
-		//auto& tacdoll = PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID);
-
-		//tacdoll->p_getCharacterPos()->x = WINSIZEX * 0.5f;
-		//tacdoll->p_getCharacterPos()->y = WINSIZEY * 0.5f;
-
-		//if (!tacdoll->isSelect())
-		//	tacdoll->revSelect();
+		case EquipScene::ES_EQUIP:
+			State_EquipUpdate();
+			break;
+		}
 	}
 }
 
 void EquipScene::render()
 {
-	DRAW->render("editSceneBk", VEC2(WINSIZEX, WINSIZEY), VEC2(WINSIZEX*0.5f, WINSIZEY*0.5f));
-	DRAW->render("gradiantBlack", VEC2(WINSIZEX, 150), VEC2(WINSIZEX*0.5f, 75));
-
 	switch (state)
 	{
 	case EquipScene::ES_MAIN:
@@ -196,27 +184,31 @@ void EquipScene::render()
 
 void EquipScene::State_MainUpdate()
 {
-	for (auto& it : mButton)
-	{
-		if (ptInRect(it.second.box, g_ptMouse))
-		{
-			if (KEYMANAGER->isKeyDown(VK_LBUTTON))
-			{
-				if (CharaSlider.InfoDollID != -1)
-				{
-					if (it.first.find("EQUIP") != string::npos)
-					{
-						auto& tacDoll = PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID);
+	for (auto& it : mButton) {
 
-						if (it.first.find("_1") != string::npos)
-							SelectedEQ_Type = tacDoll->p_getEquip().begin()->first;
+		if (ptInRect(it.second.box, g_ptMouse)) {
 
-						else if (it.first.find("_2") != string::npos)
-							SelectedEQ_Type = (++tacDoll->p_getEquip().begin())->first;
+			if (KEYMANAGER->isKeyDown(VK_LBUTTON)) {
 
-						else
-							SelectedEQ_Type = (++(++tacDoll->p_getEquip().begin()))->first;
+				if (selectedDoll != nullptr) {
 
+					if ((int)it.first > 1) {
+						switch (it.first)
+						{
+						case SBUTTONS::SELECT_EQUIP_1:
+							SelectedEQ_Type = selectedDoll->p_getEquip().begin()->first;
+							break;
+
+						case SBUTTONS::SELECT_EQUIP_2:
+							SelectedEQ_Type = (++selectedDoll->p_getEquip().begin())->first;
+							break;
+
+						case SBUTTONS::SELECT_EQUIP_3:
+							SelectedEQ_Type = (++(++selectedDoll->p_getEquip().begin()))->first;
+							break;
+
+						default : break;
+						}
 					}
 				}
 
@@ -225,148 +217,85 @@ void EquipScene::State_MainUpdate()
 			}
 		}
 	}
-
-	if (CharaSlider.isMoving)
-	{
-		if (CharaSlider.isOpen)
-		{
-			if (CharaSlider.axisPos.x < CHARA_SLIDER_LIMIT_MAX_X)
-				CharaSlider.axisPos.x += DELTA() * CHARA_SLIDER_SPEED;
-			else
-			{
-				CharaSlider.axisPos.x = CHARA_SLIDER_LIMIT_MAX_X;
-				CharaSlider.isMoving = false;
-			}
-		}
-
-		else
-		{
-			if (CharaSlider.axisPos.x > CHARA_SLIDER_LIMIT_MIN_X)
-				CharaSlider.axisPos.x -= DELTA() * CHARA_SLIDER_SPEED;
-			else
-			{
-				CharaSlider.axisPos.x = CHARA_SLIDER_LIMIT_MIN_X;
-				CharaSlider.isMoving = false;
-			}
-		}
-
-		//	BoxCollider Refresh
-		{
-			CharaInfoBox = D2D_RectMake(CharaSlider.axisPos.x - 300, CharaSlider.axisPos.y - 180,
-				CharaSlider.axisPos.x + 300, CharaSlider.axisPos.y + 180);
-
-			mButton["SLIDER"].box.left = CharaSlider.axisPos.x + 300;
-			mButton["SLIDER"].box.right = CharaSlider.axisPos.x + 320;
-
-			mButton["CHARA"].box.left = CharaSlider.axisPos.x - 290;
-			mButton["CHARA"].box.right = CharaSlider.axisPos.x - 140;
-
-			mButton["EQUIP_1"].box.left = CharaSlider.axisPos.x - 130;
-			mButton["EQUIP_1"].box.right = mButton["EQUIP_1"].box.left + 128;
-			mButton["EQUIP_1"].box.top = CharaSlider.axisPos.y - 170;
-			mButton["EQUIP_1"].box.bottom = mButton["EQUIP_1"].box.top + 128;
-
-			mButton["EQUIP_2"].box.left = CharaSlider.axisPos.x + 12;
-			mButton["EQUIP_2"].box.right = mButton["EQUIP_2"].box.left + 128;
-			mButton["EQUIP_2"].box.top = CharaSlider.axisPos.y - 170;
-			mButton["EQUIP_2"].box.bottom = mButton["EQUIP_2"].box.top + 128;
-
-			mButton["EQUIP_3"].box.left = CharaSlider.axisPos.x + 152;
-			mButton["EQUIP_3"].box.right = mButton["EQUIP_3"].box.left + 128;
-			mButton["EQUIP_3"].box.top = CharaSlider.axisPos.y - 170;
-			mButton["EQUIP_3"].box.bottom = mButton["EQUIP_3"].box.top + 128;
-
-		}
-
-
-	}
-
-	if (CharaSlider.InfoDollID != -1)
-	{
-		//PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->update();
-	}
 }
 
 void EquipScene::State_MainRender()
 {
-	if (CharaSlider.InfoDollID != -1)
-	{
-		//PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->render_Ellipse();
-		//PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->render_Motion();
-	}
+	DRAW->render("editSceneBk", Vector2(WINSIZEX, WINSIZEY), Vector2(WINSIZEX*0.5f, WINSIZEY*0.5f));
+	DRAW->render("gradiantBlack", Vector2(WINSIZEX, 100), Vector2(WINSIZEX*0.5f, 50));
 
-	D2D->renderRect(mButton["SLIDER"].box, ColorF(0, 0.15, 0.85), true);
+	DWRITE->ChangeText("TITLE_NAME", "FACTORY");
+	DWRITE->TextRender("TITLE_NAME", 995.0f, 0.0f, ColorF(0.8, 0.8, 0.8));
 
-	if (CharaSlider.isMoving)
-		D2D->renderRect(CharaInfoBox, ColorF(0, 0.15, 0.85f, CharaSlider.Opacity), true);
-	else
-	{
-		if (CharaSlider.isOpen)
-			D2D->renderRect(CharaInfoBox, ColorF(0, 0.15, 0.85f, CharaSlider.Opacity), true);
-	}
+	D2D->renderRect(mButton[SBUTTONS::HOME_BACK].box, ColorF(1, 0, 0));
+	DRAW->render("HomeButton", Vector2(100, 85), Vector2(mButton[SBUTTONS::HOME_BACK].box.left + 50,
+		mButton[SBUTTONS::HOME_BACK].box.top + 40));
 
-	D2D->renderRect(mButton["CHARA"].box, ColorF(0, 0.8, 0.0), true);
+	D2D->renderRect(mButton[SBUTTONS::SELECT_CHARA].box, ColorF(0, 0, 0), true);
 
 	// if the Character was already Selected in Box
-	if (CharaSlider.InfoDollID != -1)
+	if (selectedDoll != nullptr)
 	{
-		auto& tacDoll = PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID);
+		FLOAT wid = mButton[SBUTTONS::SELECT_CHARA].box.right - mButton[SBUTTONS::SELECT_CHARA].box.left - 4;
+		FLOAT hei = mButton[SBUTTONS::SELECT_CHARA].box.bottom - mButton[SBUTTONS::SELECT_CHARA].box.top - 4;
 
-		FLOAT wid = mButton["CHARA"].box.right - mButton["CHARA"].box.left;
-		FLOAT hei = mButton["CHARA"].box.bottom - mButton["CHARA"].box.top;
+		DRAW->render(selectedDoll->keys.cardNormalKey, Vector2(wid, hei),
+			Vector2(mButton[SBUTTONS::SELECT_CHARA].box.left + (wid * 0.5f) + 2,
+				mButton[SBUTTONS::SELECT_CHARA].box.top + (hei*0.5f) + 2));
 
-		DRAW->render(tacDoll->keys.cardNormalKey, VEC2(wid, hei), VEC2(mButton["CHARA"].box.left + (wid * 0.5f), mButton["CHARA"].box.top + (hei*0.5f)));
+		//DWRITE->TextRender();
+	}
 
-		// Equipment Rendering
-		{
-			D2D->renderRect(mButton["EQUIP_1"].box, ColorF(1, 0, 0), true);
-			D2D->renderRect(mButton["EQUIP_2"].box, ColorF(0, 1, 0), true);
-			D2D->renderRect(mButton["EQUIP_3"].box, ColorF(0, 0, 0.5), true);
-			
-			auto iter = tacDoll->p_getEquip().begin();
-			for (size_t i = 0; i < tacDoll->p_getEquip().size(); ++i)
-			{
-				string equipKey = ConvertFormat("EQUIP_%d", i + 1);
+	const uiAtlas* atlas = selectedDoll != nullptr ? IMAGEMAP->getUiAtlas("InstOvSlot") : IMAGEMAP->getUiAtlas("InstSlot");
+	DRAW->render(atlas->textureKey, atlas->alphaTexKey, Vector2(SQUAD_BOX_H_WIDTH, SQUAD_BOX_H_HEIGHT),
+		Vector2(mButton[SBUTTONS::SELECT_CHARA].box.left + SQUAD_BOX_H_WIDTH,
+			mButton[SBUTTONS::SELECT_CHARA].box.top + SQUAD_BOX_H_HEIGHT), atlas->mixTexCoord, atlas->maxTexCoord);
 
-				wid = mButton[equipKey].box.right - mButton[equipKey].box.left;
-				hei = mButton[equipKey].box.bottom - mButton[equipKey].box.top;
-				if (iter->second != nullptr)
-					DRAW->render(iter->second->getKey(), VEC2(wid, hei),
-						VEC2(mButton[equipKey].box.left + (wid * 0.5f), mButton[equipKey].box.top + (hei*0.5f)));
-				++iter;
-			}
-		}
+	
+		//// Equipment Rendering
+		//{
+		//	D2D->renderRect(mButton["EQUIP_1"].box, ColorF(1, 0, 0), true);
+		//	D2D->renderRect(mButton["EQUIP_2"].box, ColorF(0, 1, 0), true);
+		//	D2D->renderRect(mButton["EQUIP_3"].box, ColorF(0, 0, 0.5), true);
+		//	
+		//	auto iter = selectedDoll->p_getEquip().begin();
+		//	for (size_t i = 0; i < selectedDoll->p_getEquip().size(); ++i)
+		//	{
+		//		string equipKey = ConvertFormat("EQUIP_%d", i + 1);
+
+		//		wid = mButton[equipKey].box.right - mButton[equipKey].box.left;
+		//		hei = mButton[equipKey].box.bottom - mButton[equipKey].box.top;
+		//		if (iter->second != nullptr)
+		//			DRAW->render(iter->second->getKey(), VEC2(wid, hei),
+		//				VEC2(mButton[equipKey].box.left + (wid * 0.5f), mButton[equipKey].box.top + (hei*0.5f)));
+		//		++iter;
+		//	}
+		//}
+	
 
 
 		// Status Rendering
 		{
-			if (tacDoll != nullptr)
-			{
-				DWRITE->ChangeText("STATUS_IDX", "°ø°Ý·Â : %d", tacDoll->getStatus().AttackPoint);
-				DWRITE->TextRender("STATUS_IDX", 150, 150, ColorF(0, 0, 0));
-
-				DWRITE->ChangeText("STATUS_IDX", "Ä¡¸íÅ¸ È®·ü : %.1f %", tacDoll->getStatus().CriticPoint);
-				DWRITE->TextRender("STATUS_IDX", 150, 170, ColorF(0, 0, 0));
-
-				DWRITE->ChangeText("STATUS_IDX", "Ä¡¸íÅ¸¹èÀ² : %.1f %", tacDoll->getStatus().CriticAcl * 100.0);
-				DWRITE->TextRender("STATUS_IDX", 150, 190, ColorF(0, 0, 0));
-
-				DWRITE->ChangeText("STATUS_IDX", "¸íÁß·ü : %.2f", tacDoll->getStatus().Accuracy * 100.0);
-				DWRITE->TextRender("STATUS_IDX", 150, 210, ColorF(0, 0, 0));
-			}
+			//if (selectedDoll != nullptr)
+			//{
+			//	DWRITE->ChangeText("STATUS_IDX", "°ø°Ý·Â : %d", selectedDoll->getStatus().AttackPoint);
+			//	DWRITE->TextRender("STATUS_IDX", 150, 150, ColorF(0, 0, 0));
+			//
+			//	DWRITE->ChangeText("STATUS_IDX", "Ä¡¸íÅ¸ È®·ü : %.1f %", selectedDoll->getStatus().CriticPoint);
+			//	DWRITE->TextRender("STATUS_IDX", 150, 170, ColorF(0, 0, 0));
+			//
+			//	DWRITE->ChangeText("STATUS_IDX", "Ä¡¸íÅ¸¹èÀ² : %.1f %", selectedDoll->getStatus().CriticAcl * 100.0);
+			//	DWRITE->TextRender("STATUS_IDX", 150, 190, ColorF(0, 0, 0));
+			//
+			//	DWRITE->ChangeText("STATUS_IDX", "¸íÁß·ü : %.2f", selectedDoll->getStatus().Accuracy * 100.0);
+			//	DWRITE->TextRender("STATUS_IDX", 150, 210, ColorF(0, 0, 0));
+			//}
 		}
 
-	}
-
-	D2D->renderRect(mButton["CANCLE"].box, ColorF(0, 0.8, 0.0), true);
 }
 
 void EquipScene::State_EquipUpdate()
 {
-	//ImGui::Text("EquipNumber : %d", EquipNum);
-
-	auto& tacDoll = PLAYER->getPlayerTaticDoll().getAllDolls();
-
 	if (whlCount < 0)
 		whlCount = 0;
 
@@ -382,7 +311,7 @@ void EquipScene::State_EquipUpdate()
 			//	Equip TypeÀÌ °°´Ù¸é
 			if (it.second.equipType == SelectedEQ_Type)
 			{
-				if (!it.second.equip->isAttachAble(PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->getWeaponType()))
+				if (!it.second.equip->isAttachAble(selectedDoll->getWeaponType()))
 				{
 					//++i;
 					continue;
@@ -398,10 +327,10 @@ void EquipScene::State_EquipUpdate()
 					{
 						if (it.second.num > 0)
 						{
-							if (it.second.equip->isAttachAble(tacDoll.at(CharaSlider.InfoDollID)->getWeaponType()))
+							if (it.second.equip->isAttachAble(selectedDoll->getWeaponType()))
 							{
-								tacDoll.at(CharaSlider.InfoDollID)->p_getEquip().at(SelectedEQ_Type) = it.second.equip;
-								tacDoll.at(CharaSlider.InfoDollID)->AttachEquipment();
+								selectedDoll->p_getEquip().at(SelectedEQ_Type) = it.second.equip;
+								selectedDoll->AttachEquipment();
 								state = ES_MAIN;
 							}
 						}
@@ -442,7 +371,7 @@ void EquipScene::State_EquipRender()
 	{
 		if (it.second.equipType == SelectedEQ_Type)
 		{
-			if (!it.second.equip->isAttachAble(PLAYER->getPlayerTaticDoll().getAllDolls().at(CharaSlider.InfoDollID)->getWeaponType()))
+			if (!it.second.equip->isAttachAble(selectedDoll->getWeaponType()))
 				continue;
 
 			else
@@ -455,8 +384,8 @@ void EquipScene::State_EquipRender()
 				if (it.second.num < 1)
 					D2D->renderRect(D2D_RectMakeCenter(x, y - whlCount, 64, 30), ColorF(1, 0, 0));
 
-				DRAW->render("EquipCardBk", VEC2(232, 180), VEC2(x, y - 81.5f - whlCount), COLR(1, 1, 1, 1));
-				DRAW->render("EquipCard", VEC2(240, 422), VEC2(x, y - whlCount), COLR(1, 1, 1, 1));
+				DRAW->render("EquipCardBk", Vector2(232, 180), Vector2(x, y - 81.5f - whlCount), COLR(1, 1, 1, 1));
+				DRAW->render("EquipCard", Vector2(240, 422), Vector2(x, y - whlCount), COLR(1, 1, 1, 1));
 
 				it.second.equip->render(x, y - 81.5f - whlCount, 0.65f);
 
@@ -480,107 +409,161 @@ void EquipScene::State_EquipRender()
 		DWRITE->TextRender("EQUIP_NAME", 0, WINSIZEY * 0.5f, WINSIZEX, 50, ColorF(1, 1, 0), DWRITE_TEXT_ALIGNMENT_CENTER);
 	}
 
-	D2D->renderRect(mButton["CANCLE"].box, ColorF(0, 0.8, 0.0), true);
+	//D2D->renderRect(mButton["CANCLE"].box, ColorF(0, 0.8, 0.0), true);
 }
 
 void EquipScene::State_CharacterUpdate()
 {
-	auto& it = PLAYER->getPlayerTaticDoll().getAllDolls();
+	//	Wheel Use Code
+	if (whlCount > 0) {
+		virtualHeight -= DELTA() * 1000.0f;
+		whlCount = 0;
+	}
+	else if (whlCount < 0) {
+		virtualHeight += DELTA() * 1000.0f;
+		whlCount = 0;
+	}
+
+	//	Moude Use Code
+	if (g_ptMouse.x > 1150) {
+		if (KEYMANAGER->isKeyDown(VK_LBUTTON)) {
+			asixVirtual = g_ptMouse.y;
+			mouseDrag = true;
+		}
+
+		if (KEYMANAGER->isKeyUp(VK_LBUTTON)) 
+			mouseDrag = false;
+
+		if (mouseDrag) {
+			if (asixVirtual > g_ptMouse.y)
+				virtualHeight -= DELTA() * 700.0f;
+
+			else if (asixVirtual < g_ptMouse.y)
+				virtualHeight += DELTA() * 700.0f;
+
+			asixVirtual = g_ptMouse.y;
+		}
+	}
+
+	if (virtualHeight > 0)
+		virtualHeight = 0.0f;
+	else if (virtualHeight < virtualLimit) {
+		virtualHeight = virtualLimit;
+	}
+
+	for (size_t i = 0; i < selBox.size(); ++i) {
+		selBox[i].box = D2DRectMake(selBox[i].pos.x, selBox[i].pos.y + virtualHeight,
+			CHARACTER_BOX_WID, CHARACTER_BOX_HEI);
+	}
 
 	if (KEYMANAGER->isKeyDown(VK_LBUTTON))
 	{
-		for (int i = 0; i < it.size(); ++i)
-		{
-			FLOAT x = 80 + ((i % 10) * 140);
-			FLOAT y = 150 + ((int)(i * 0.1f) * 270.0f);
+		for (size_t i = 0; i < selBox.size(); ++i) {
 
-			if (ptInRect(D2D_RectMake(x - 60, y - 125, x + 60, y + 125), g_ptMouse))
-			{
-				if (CharaSlider.InfoDollID != -1)
-					PLAYER->deleteDollToSquad(1, CharaSlider.InfoDollID);
+			if (ptInRect(selBox[i].box, g_ptMouse)) {
 
-				CharaSlider.InfoDollID = i;
-				PLAYER->insertDollToSquad(CharaSlider.InfoDollID, 1);
+				selectedDoll = selBox[i].adress != nullptr ? (BaseTaticDoll*)selBox[i].adress : nullptr;
+				selectedDollID = i;
 
-				it.at(i)->init();
 				state = ES_MAIN;
-				i = it.size();
+				mouseDrag = false;
 				break;
 			}
-
 		}
 
-		if (state == ES_CHARA)
-			for (auto& btn : mButton)
-			{
-				if (ptInRect(btn.second.box, g_ptMouse))
-				{
-					btn.second.ClickAction(this);
-					break;
-				}
-			}
+		if (state == ES_CHARA) {
+			if (ptInRect(mButton[SBUTTONS::TURN_BACK].box, g_ptMouse))
+				mButton[SBUTTONS::TURN_BACK].ClickAction(this);
+		}
 	}
 }
 
 void EquipScene::State_CharacterRender()
 {
-	State_MainRender();
-	D2D->renderRect(D2D_RectMake(0, 0, WINSIZEX, WINSIZEY), ColorF(0, 0, 0, 0.85), true);
+	DRAW->render("editSceneBk", Vector2(WINSIZEX, WINSIZEY), Vector2(WINSIZEX*0.5f, WINSIZEY*0.5f));
 
-	auto& it = PLAYER->getPlayerTaticDoll().getAllDolls();
+	for (size_t i = 0; i < selBox.size(); ++i) {
+		FLOAT wid = selBox[i].box.right - selBox[i].box.left;
+		FLOAT hei = selBox[i].box.bottom - selBox[i].box.top;
+		FLOAT halfWid = wid * 0.5f;
+		FLOAT halfHei = hei * 0.5f;
+		Vector2 rendPos;
 
-	for (int i = 0; i < it.size(); ++i)
-	{
-		auto& tacDoll = it.at(i);
+		if (selBox[i].adress != nullptr) {
+			BaseTaticDoll* focusedTdoll = ((BaseTaticDoll*)selBox[i].adress);
+			
+			rendPos = Vector2(selBox[i].pos.x + halfWid, selBox[i].pos.y + halfHei + virtualHeight);
 
-		FLOAT x = 80 + ((i % 10) * 140);
-		FLOAT y = 150 + ((int)(i * 0.1f) * 270.0f);
+			D2D->renderRect(selBox[i].box, ColorF(1, 0, 0), true);
+			DRAW->render(focusedTdoll->keys.cardNormalKey, Vector2(wid, hei), rendPos);
 
-		DRAW->render(tacDoll->keys.cardNormalKey, VEC2(120, 250), VEC2(x, y));
-		DRAW->render("NameLabel", VEC2(120, 60), VEC2(x, y + 155.5));
+			DRAW->render("AllCard", Vector2(wid, hei), rendPos);
 
-		DWRITE->Change_Text("CHARA_NAME", tacDoll->getName());
-		DWRITE->TextRender("CHARA_NAME", x - 54.0f, y + 125.0f, 110, 40, ColorF(1, 1, 0), DWRITE_TEXT_ALIGNMENT_CENTER);
-
-		D2D->renderRect(x - 60, y - 125, 120, 250, ColorF(1, 0, 0, 0.5));
-	}
-
-	D2D->renderRect(mButton["CANCLE"].box, ColorF(0, 0.8, 0.0), true);
-}
-
-void EquipScene::SlideOpener(void* obj)
-{
-	EquipScene* object = (EquipScene*)obj;
-
-	if (object->state == ES_MAIN)
-	{
-		//ÀÌ¹Ì ¿­·ÁÀÖ´Â°Å³ª ´ÝÇôÀÖ´Â »óÅÂ¶ó¸é
-		if (!object->CharaSlider.isMoving)
-		{
-			object->CharaSlider.isOpen = !object->CharaSlider.isOpen;
-			object->CharaSlider.isMoving = true;
+			DWRITE->ChangeText("CHARA_NAME", focusedTdoll->keys.name);
+			DWRITE->TextRender("CHARA_NAME", rendPos.x - halfWid, rendPos.y + halfHei - 60, wid, 40, ColorF(1, 1, 1),
+				DWRITE_TEXT_ALIGNMENT_CENTER);
+		}
+		else {
+			D2D->renderRect(selBox[i].box, ColorF(1, 0, 0), true);
+			DRAW->render("SquadEmit", Vector2(wid, hei),
+				Vector2(selBox[i].pos.x + halfWid, selBox[i].pos.y + halfHei + virtualHeight));
 		}
 	}
+
+	DRAW->render("gradiantBlack", Vector2(WINSIZEX, 100), Vector2(WINSIZEX*0.5f, 50));
+
+	D2D->renderRect(mButton[SBUTTONS::TURN_BACK].box, ColorF(1, 0, 0));
+	DRAW->render("TurnBack", Vector2(150, 75), Vector2(mButton[SBUTTONS::TURN_BACK].box.left + 75,
+		mButton[SBUTTONS::TURN_BACK].box.top + 35));
+
+	DWRITE->ChangeText("TITLE_NAME", "T-DOLL");
+	DWRITE->TextRender("TITLE_NAME", 1045.0f, 0.0f, ColorF(0.8, 0.8, 0.8));
 }
 
 void EquipScene::CharacterSelect(void * obj)
 {
-	EquipScene* object = (EquipScene*)obj;
+	objectPtr = (EquipScene*)obj;
 
-	if (object->state == ES_MAIN)
+	if (objectPtr->state == ES_MAIN)
 	{
-		if (!object->CharaSlider.isMoving)
-		{
-			object->state = ES_CHARA;
+		objectPtr->state = ES_CHARA;
 
-			auto& pTacDoll = PLAYER->getPlayerTaticDoll().getAllDolls();
+		auto& pTacDoll = PLAYER->getPlayerTaticDoll().getAllDolls();
+		size_t counter = 0;
+		objectPtr->selBox.clear();
+		objectPtr->selBox.reserve(pTacDoll.size() + 1);
 
-			for (auto& it : pTacDoll)
-				it.second->init();
+		//	Insert Null Character For Out of Character
+		selectBox _new;
+		_new.pos = Vector2(20 + (counter % objectPtr->WIDTH_COUNT) * objectPtr->CHARACTER_BLANK_WID,
+			120 + (counter / objectPtr->WIDTH_COUNT) * objectPtr->CHARACTER_BLANK_HEI);
+		_new.box = D2DRectMake(_new.pos.x, _new.pos.y,
+			objectPtr->CHARACTER_BOX_WID, objectPtr->CHARACTER_BOX_HEI);
+		_new.adress = nullptr;
+		objectPtr->selBox.push_back(_new);
+		++counter;
 
-			DWRITE->Change_TextSize("CHARA_NAME", 28);
+		for (auto& iter : pTacDoll) {
+			selectBox _new;
 
+			_new.pos = Vector2(20 + (counter % objectPtr->WIDTH_COUNT) * objectPtr->CHARACTER_BLANK_WID,
+				120 + (counter / objectPtr->WIDTH_COUNT) * objectPtr->CHARACTER_BLANK_HEI);
+
+			_new.box = D2DRectMake(_new.pos.x, _new.pos.y, 
+				objectPtr->CHARACTER_BOX_WID, objectPtr->CHARACTER_BOX_HEI);
+
+			_new.adress = iter.second;
+
+			objectPtr->selBox.push_back(_new);
+
+			++counter;
 		}
+
+		objectPtr->virtualLimit =
+			(float)(((int)objectPtr->selBox.size()) / objectPtr->WIDTH_COUNT) * objectPtr->CHARACTER_BLANK_HEI;
+		objectPtr->virtualLimit *= -1.0f;
+
+		DWRITE->Change_TextSize("CHARA_NAME", 28);
 	}
 }
 
@@ -588,7 +571,7 @@ void EquipScene::EquipmentSelect(void * obj)
 {
 	EquipScene* object = (EquipScene*)obj;
 
-	if (object->state == ES_MAIN && object->CharaSlider.InfoDollID != -1)
+	if (object->state == ES_MAIN && object->selectedDoll != nullptr)
 	{
 		object->EquipNum = 0;
 
@@ -600,7 +583,7 @@ void EquipScene::EquipmentSelect(void * obj)
 		{
 			if (it.second.equipType == object->SelectedEQ_Type)
 			{
-				if (it.second.equip->isAttachAble(PLAYER->getPlayerTaticDoll().getAllDolls().at(object->CharaSlider.InfoDollID)->getWeaponType()))
+				if (it.second.equip->isAttachAble(object->selectedDoll->getWeaponType()))
 					++object->EquipNum;
 			}
 		}
@@ -609,9 +592,15 @@ void EquipScene::EquipmentSelect(void * obj)
 
 void EquipScene::ReturnSelect(void * obj)
 {
-	EquipScene* object = (EquipScene*)obj;
+	objectPtr = (EquipScene*)obj;
+	objectPtr->state = ES_MAIN;
+}
 
-	if (object->state == ES_MAIN)
+void EquipScene::ReturnHome(void * obj)
+{
+	objectPtr = (EquipScene*)obj;
+
+	if (objectPtr->state == ES_MAIN)
 	{
 		//EQUIP->ExitTray_EquipImage();
 
@@ -621,22 +610,6 @@ void EquipScene::ReturnSelect(void * obj)
 		//for (auto& it : PLAYER->getPlayerTaticDoll().getAllTacDoll())		//	get List of Player's TacticalDoll
 		//	it.second->LoadTray_List();										//	Add All Player's LoadTrayList
 
-		if (object->CharaSlider.InfoDollID != -1)
-			PLAYER->deleteDollToSquad(1, object->CharaSlider.InfoDollID);
-
-
-		SOUND->Stop_Sound(SOUND_CHANNEL::CH_SOUND1, "FormationLoop");
-		object->sceneChange = true;
-
-		LOAD->setAutoInit(true);
-		LOAD->setNextScene("LOBBY");
-		LOAD->setLoadImageKey("LoadBK_Test");
-		SCENE->changeScene("LOAD");
-		SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
-		worldColor.a = 0.0f;
+		objectPtr->sceneChange = true;
 	}
-
-	else
-		object->state = ES_MAIN;
-
 }

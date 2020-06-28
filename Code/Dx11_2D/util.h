@@ -169,6 +169,14 @@ static float DgreeAngle(float _radian)
 	return Dgree;
 }
 
+static float getDistance(D3DXVECTOR2 _1, D3DXVECTOR2 _2) {
+	float x = _2.x - _1.x;
+	float y = _2.x - _1.y;
+	float result = sqrtf(pow(x, 2) + pow(y, 2));
+
+	return result;
+}
+
 static float getDistance(float x1, float y1, float x2, float y2)
 {
 	float x = x2 - x1;
@@ -262,6 +270,15 @@ static bool ptInRect(D3DXVECTOR2 scale, POINT pos, POINT mPos)
 
 	if (mPos.x > left && mPos.x < right)
 		if (mPos.y > top && mPos.y < bottom)
+			return true;
+
+	return false;
+}
+
+static bool ptInRect(D2D_RECT_F rc, D3DXVECTOR2 mPos)
+{
+	if (mPos.x > rc.left && mPos.x < rc.right)
+		if (mPos.y > rc.top && mPos.y < rc.bottom)
 			return true;
 
 	return false;

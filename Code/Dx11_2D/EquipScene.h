@@ -8,42 +8,6 @@
 
 class EquipScene : public Scene
 {
-protected:
-	enum EQUIPSCENE_STATE
-	{
-		ES_MAIN = 0,
-		ES_CHARA,
-		ES_EQUIP
-	};
-
-protected:
-	//typedef void(*ButtonPointer)(void* obj);
-
-	struct CharacterSlider
-	{
-		D3DXVECTOR2		axisPos;
-		FLOAT			Opacity;		//	슬라이더의 전체 Alpha Value
-		int				InfoDollID;		//	출력하려는 전술인형의 ID
-		bool			isOpen;			//	열린것인지 닫힌것인지
-		bool			isMoving;		//	움직이는중인지 아닌지
-	};
-
-protected:
-	CharacterSlider			CharaSlider;		//캐릭터 슬라이더 정보
-	D2D_RECT_F				CharaInfoBox;		//캐릭터 종합정보창
-
-	EQUIPTYPE				SelectedEQ_Type;
-	EQUIPTOTAL_TYPE			SelectedEQA_Type;
-
-	int EquipNum;
-
-	bool sceneChange;
-
-	D3DXVECTOR2				virtualCamera;
-
-	EQUIPSCENE_STATE	 	state;
-	map<string, Button>		mButton;
-
 public:
 	EquipScene();
 	~EquipScene();
@@ -66,8 +30,67 @@ private:
 
 
 private:
-	static void SlideOpener(void* obj);
 	static void CharacterSelect(void* obj);
 	static void EquipmentSelect(void* obj);
 	static void ReturnSelect(void* obj);
+	static void ReturnHome(void* obj);
+
+protected:
+	enum EQUIPSCENE_STATE
+	{
+		ES_MAIN = 0,
+		ES_CHARA,
+		ES_EQUIP
+	};
+
+	enum class SBUTTONS {
+		HOME_BACK = -1,
+		TURN_BACK = 0,
+		SELECT_CHARA,
+		SELECT_EQUIP_1,
+		SELECT_EQUIP_2,
+		SELECT_EQUIP_3
+	};
+
+	struct selectBox {
+		void*		adress;
+		D2D_RECT_F	box;
+		D3DXVECTOR2	pos;
+	};
+
+protected:
+	int EquipNum;
+	bool sceneChange;
+
+	static EquipScene*			objectPtr;
+
+	EQUIPTYPE					SelectedEQ_Type;
+	EQUIPTOTAL_TYPE				SelectedEQA_Type;
+
+	BaseTaticDoll*				selectedDoll;
+	SINT						selectedDollID;
+
+	float						virtualHeight;
+	float						virtualLimit;
+	int							asixVirtual;
+	bool						mouseDrag;
+
+	EQUIPSCENE_STATE	 		state;
+	map<SBUTTONS, Button>		mButton;
+	vector<selectBox>			selBox;
+
+protected:
+	const int WIDTH_COUNT = 5;
+
+	const float CHARACTER_BOX_WID = 180.0f;
+	const float CHARACTER_BOX_HEI = 350.0f;
+
+	const float CHARACTER_BLANK_WID = CHARACTER_BOX_WID + 50.0f;
+	const float CHARACTER_BLANK_HEI = CHARACTER_BOX_HEI + 50.0f;
+
+	const float SQUAD_BOX_WIDTH = 180.0f;
+	const float SQUAD_BOX_HEIGHT = 456.0f;
+
+	const float SQUAD_BOX_H_WIDTH = SQUAD_BOX_WIDTH * 0.5f;
+	const float SQUAD_BOX_H_HEIGHT = SQUAD_BOX_HEIGHT * 0.5f;
 };

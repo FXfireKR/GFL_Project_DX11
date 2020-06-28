@@ -68,8 +68,8 @@ void ViewCamera::keyboardUpdate(){
 			CameraPositionY += DELTA() * Speed;
 	}
 
-	if (CameraPositionX < 0)
-		CameraPositionX = 0;
+	/*if (CameraPositionX < 0)
+		CameraPositionX = 0;*/
 }
 
 void ViewCamera::CameraReset(){
