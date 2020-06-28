@@ -1,13 +1,13 @@
-# GFL_Project 업데이트 20.06.27
+# 20.06.28 Update
 
- - Debug시 비 최적화로인한 Unciphing Loading을 개선
+ - Equip scene, Squad scene 전면적인 재 디자인 및 유닛, 장비 선택시 휠과 마우스 클릭으로 움직임 가능
  
- - 기존 음성, 음원 과 사진이 .ab로 동일하게 Ciphing 되는것을 .acb와 .ab로 구분
+ - 장비 착용시 변화하는 수치 가시화
  
- - M4SopMod 파일명 일부 변경
+ - 장비 착용후 전투시 Status 값의 비정상적인 변동 해결
  
- - Sound, Image Load시 사용되던 내부 ifdef와 else을 제거 후 합침
-
- - WorldMap에 분대 배치시 사용될 Helicopter Spine Data를 추가 및 static 클래스 구현중
+ - HomeUi, CommonUi 추가
  
- - KSG effect 발사방향이 flip 여부에 영향을 받는것을 수정 및 signed int flipVal 추가로 방지
+ - Looby에 부관 대사창 이미지 변경
+ 
+ - Text render시에 alpha값이 비 정상적인 문제 해결
