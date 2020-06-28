@@ -49,7 +49,8 @@ protected:
 		SELECT_CHARA,
 		SELECT_EQUIP_1,
 		SELECT_EQUIP_2,
-		SELECT_EQUIP_3
+		SELECT_EQUIP_3,
+		SELECT_END
 	};
 
 	struct selectBox {
@@ -84,6 +85,9 @@ protected:
 
 	const float CHARACTER_BOX_WID = 180.0f;
 	const float CHARACTER_BOX_HEI = 350.0f;
+
+	const float STATUS_RENDER_X = 1100.0f;
+	const float STATUS_RENDER_Y = WINSIZEY * 0.5f + 25;
 
 	const float CHARACTER_BLANK_WID = CHARACTER_BOX_WID + 50.0f;
 	const float CHARACTER_BLANK_HEI = CHARACTER_BOX_HEI + 50.0f;

@@ -13,11 +13,13 @@ LogoScene::LogoScene()
 	BGM_VOLUME_SPEED = DELTA() * 0.1f;
 	ALPHA_SPEED = DELTA() * 0.8f;
 
+	//	Atlas Loading being used in Atlas parts
 	uiAtlasLoader::LoadUiAtlasData("LoginUi.atlas");
 	uiAtlasLoader::LoadUiAtlasData("LobbyUi.atlas");
 	uiAtlasLoader::LoadUiAtlasData("GuidUi.atlas");
 	uiAtlasLoader::LoadUiAtlasData("AvgUi.atlas");
 	uiAtlasLoader::LoadUiAtlasData("SlotUi.atlas");
+	//uiAtlasLoader::LoadUiAtlasData("SlotUi.atlas");
 
 	PLAYER->testCreate();
 }

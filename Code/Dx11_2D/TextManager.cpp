@@ -252,6 +252,8 @@ void TextManager::TextRender(string key, FLOAT x, FLOAT y, FLOAT width, FLOAT he
 		iterText->second->setboxWidth(width);
 		iterText->second->setboxHeight(height);
 
+		c.a *= worldColor.a;
+
 		d2Rtg->BeginDraw();
 		iterText->second->render(x, y, c, textAlignment);
 		d2Rtg->EndDraw();
