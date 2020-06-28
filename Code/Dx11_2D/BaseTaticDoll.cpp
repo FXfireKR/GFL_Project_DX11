@@ -37,7 +37,7 @@ void BaseTaticDoll::Unit_CollitionCheck() {}
 
 void BaseTaticDoll::AttachEquipment()
 {
-	curState = maxState;
+	curState = origState;
 
 	for (auto& it : mEquip)
 	{
@@ -45,10 +45,13 @@ void BaseTaticDoll::AttachEquipment()
 
 		auto& atchState = it.second->getState();
 
-		curState.Accuracy += atchState.Accuracy;
+		curState.Accuracy += (atchState.Accuracy * 0.01);
 		curState.AttackDelay -= (curState.AttackDelay * atchState.AttackDelay) * 0.01f;
 		curState.AttackPoint += atchState.AttackPoint;
 		curState.CriticPoint += atchState.CriticPoint;
+		curState.Avoid += atchState.Avoid * 0.01;
+		curState.ArmorPierce += atchState.ArmorPierce;
+		curState.ArmorIgnore += atchState.ArmorIgnore;
 	}
 
 	//옵티컬일때 최소사거리를 주고, 사거리를 증가시킴

@@ -31,12 +31,19 @@ protected:
 
 	unordered_map<string, Button>		mButton;
 
+	static LobbyScene* object;
+
 private:
 	static void CombatButton(void* obj);
 	static void FactoryButton(void* obj);
 	static void FormationButton(void* obj);
 	static void ReserchButton(void* obj);
 	static void AideConverButton(void* obj);
+
+	static void ChangeAideButton(void* obj);
+	static void SettingButton(void* obj);
+	static void ViewButton(void* obj);
+	static void MakerButton(void* obj);
 
 };
 

@@ -175,6 +175,7 @@ protected:
 
 	Status					curState;
 	Status					maxState;
+	Status					origState;
 
 	DOGTAG_ID				myID;		//	번호가 -1일경우 존재하지않음.
 

@@ -41,29 +41,29 @@ void SquadEdditScene::init()
 
 	showEquip = false;
 
-	Allocate_Box();
+	virtualHeight = 0.0f;
+	virtualLimit = 0.0f;
+	asixVirtual = 0;
+	mouseDrag = false;
 
 	DWRITE->Create_TextField("SQUAD", L"맑은고딕", "NULL", 36, DWRITE_FONT_WEIGHT_BOLD);
-	DWRITE->Create_TextField("DOLLNAME", L"바탕", "NULL", 30, DWRITE_FONT_WEIGHT_EXTRA_BOLD);
+	DWRITE->Create_TextField("CHARA_NAME", L"맑은고딕", "NULL", 28, DWRITE_FONT_WEIGHT_MEDIUM);
+	DWRITE->Create_TextField("TITLE_NAME", L"맑은고딕", "NULL", 65, DWRITE_FONT_WEIGHT_BOLD);
 
-	mButton.insert(make_pair("RETURN", Button(15, 10, 153, 126, ReturnBase_Select)));		//	기지로 복귀 또는 편집창으로 복귀
+	mButton.insert(make_pair(SBUTTONS::HOME_BACK, Button(10, 10, 100, 85, ReturnBase_Select)));
+	mButton.insert(make_pair(SBUTTONS::TURN_BACK, Button(10, 10, 100, 85, ReturnBase_Select)));
 
-	//mButton.insert(make_pair("SQUAD",   Button(400, 50, 110, 50, ReturnBase_Select)));		//	분대 편집
-	//mButton.insert(make_pair("SQUADFS", Button(550, 50, 110, 50, ReturnBase_Select)));		//	화력지원 소대 편집
+	mButton.insert(make_pair(SBUTTONS::SELECT_SQUAD_1, Button(0, 200, 150, 100, ChangeSquad_Select)));
+	mButton.insert(make_pair(SBUTTONS::SELECT_SQUAD_2, Button(0, 320, 150, 100, ChangeSquad_Select)));
+	mButton.insert(make_pair(SBUTTONS::SELECT_SQUAD_3, Button(0, 440, 150, 100, ChangeSquad_Select)));
 
-	//mButton.insert(make_pair("EQUIP", Button(550, 50, 110, 50, ReturnBase_Select)));		//	장비 확인 버튼
+	mButton.insert(make_pair(SBUTTONS::SELECT_CHARA_1, Button(180, 200, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, InsertSelect)));
+	mButton.insert(make_pair(SBUTTONS::SELECT_CHARA_2, Button(400, 200, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, InsertSelect)));
+	mButton.insert(make_pair(SBUTTONS::SELECT_CHARA_3, Button(620, 200, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, InsertSelect)));
+	mButton.insert(make_pair(SBUTTONS::SELECT_CHARA_4, Button(840, 200, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, InsertSelect)));
+	mButton.insert(make_pair(SBUTTONS::SELECT_CHARA_5, Button(1060, 200, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, InsertSelect)));
 
-	mButton.insert(make_pair("SQUAD1", Button(0, 200, 150, 100, ChangeSquad_Select)));		//	1 제대
-	mButton.insert(make_pair("SQUAD2", Button(0, 320, 150, 100, ChangeSquad_Select)));		//	2 제대
-	mButton.insert(make_pair("SQUAD3", Button(0, 440, 150, 100, ChangeSquad_Select)));		//	3 제대
-
-	mButton.insert(make_pair("CHARA1", Button(180, 200, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, InsertSelect)));			//	1번 캐릭터
-	mButton.insert(make_pair("CHARA2", Button(400, 200, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, InsertSelect)));			//	2번 캐릭터
-	mButton.insert(make_pair("CHARA3", Button(620, 200, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, InsertSelect)));			//	3번 캐릭터
-	mButton.insert(make_pair("CHARA4", Button(840, 200, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, InsertSelect)));			//	4번 캐릭터
-	mButton.insert(make_pair("CHARA5", Button(1060, 200, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, InsertSelect)));			//	5번 캐릭터
-
-
+	vBox.clear();
 	vCharacter.clear();
 	vCharacter.resize(5, "");
 
@@ -86,6 +86,8 @@ void SquadEdditScene::init()
 			vCharacter[i] = "";
 	}
 
+	atlas = nullptr;
+
 	//	Loading Setting
 	LOAD->setAutoInit(false);
 	LOAD->setNextScene("SQUAD");
@@ -95,7 +97,7 @@ void SquadEdditScene::init()
 	SCENE->changeScene("LOAD");
 
 	SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
-	SOUND->setVolume(SOUND_CHANNEL::CH_SOUND1, 0.0f);
+	CAMERA->CameraReset();
 }
 
 void SquadEdditScene::release()
@@ -105,7 +107,6 @@ void SquadEdditScene::release()
 void SquadEdditScene::update()
 {
 	CAMERA->setCameraFix(true);
-	CAMERA->CameraReset();
 
 	if (!changeScene)
 	{
@@ -151,9 +152,6 @@ void SquadEdditScene::update()
 
 void SquadEdditScene::render()
 {
-	DRAW->render("editSceneBk", VEC2(WINSIZEX, WINSIZEY), VEC2(WINSIZEX*0.5f, WINSIZEY*0.5f));
-	DRAW->render("gradiantBlack", VEC2(WINSIZEX, 150), VEC2(WINSIZEX*0.5f, 75));
-
 	switch (mode)
 	{
 	case ALL:
@@ -182,129 +180,138 @@ void SquadEdditScene::Squad_Update()
 
 void SquadEdditScene::Squad_Render()
 {
-	for (int i = 0; i < vCharacter.size(); ++i)
-	{
+	DRAW->render("editSceneBk", Vector2(WINSIZEX, WINSIZEY), Vector2(WINSIZEX*0.5f, WINSIZEY*0.5f));
+	DRAW->render("gradiantBlack", Vector2(WINSIZEX, 100), Vector2(WINSIZEX*0.5f, 50));
+
+	DWRITE->ChangeText("TITLE_NAME", "SQUAD");
+	DWRITE->TextRender("TITLE_NAME", 1045.0f, 0.0f, ColorF(0.8, 0.8, 0.8));
+
+	for (int i = 0; i < vCharacter.size(); ++i) {	
 		auto key = vCharacter[i];
 		if (key.size() < 2) continue;
 
-		DRAW->render(key, VEC2(SQUAD_BOX_H_WIDTH * 2, SQUAD_BOX_H_HEIGHT * 2),
-			VEC2(180 + (i * (SQUAD_BOX_H_WIDTH + 130) + SQUAD_BOX_H_WIDTH), 200 + SQUAD_BOX_H_HEIGHT));
+		DRAW->render(PLAYER->getPlayerSquad(FocusSquad)->squadMember[i]->keys.cardNormalKey, 
+			Vector2(SQUAD_BOX_H_WIDTH * 2, SQUAD_BOX_H_HEIGHT * 2),
+			Vector2(180 + (i * (SQUAD_BOX_H_WIDTH + 130) + SQUAD_BOX_H_WIDTH), 200 + SQUAD_BOX_H_HEIGHT));
 	}
 
-	//for (auto& it : mButton)
-	//	D2DX->renderRect(it.second.box.left, it.second.box.top, it.second.box.right - it.second.box.left,
-	//		it.second.box.bottom - it.second.box.top, ColorF(0.0, 0.8f, 0.0));
+	DRAW->render("HomeButton", Vector2(100, 85), 
+		Vector2(mButton[SBUTTONS::HOME_BACK].box.left + 50, mButton[SBUTTONS::HOME_BACK].box.top + 40));
 
-	DRAW->render("HomeButton", VEC2(152, 126), VEC2(mButton["RETURN"].box.left + 76, mButton["RETURN"].box.top + 63));
+	for (int i = (int)SBUTTONS::SELECT_SQUAD_1; i < (int)SBUTTONS::SELECT_CHARA_1; ++i)	{
 
-	DRAW->render(FocusSquad == 1 ? "SquadBar_s" : "SquadBar", VEC2(150, 100), VEC2(mButton["SQUAD1"].box.left + 75, mButton["SQUAD1"].box.top + 50));
-	DRAW->render(FocusSquad == 2 ? "SquadBar_s" : "SquadBar", VEC2(150, 100), VEC2(mButton["SQUAD2"].box.left + 75, mButton["SQUAD2"].box.top + 50));
-	DRAW->render(FocusSquad == 3 ? "SquadBar_s" : "SquadBar", VEC2(150, 100), VEC2(mButton["SQUAD3"].box.left + 75, mButton["SQUAD3"].box.top + 50));
+		DRAW->render(FocusSquad == i ? "SquadBar_s" : "SquadBar", 
+			Vector2(150, 100), Vector2(mButton[(SBUTTONS)i].box.left + 75, mButton[(SBUTTONS)i].box.top + 50));
 
-	DWRITE->Change_Text("SQUAD", "1제대");
-	DWRITE->TextRender("SQUAD", mButton["SQUAD1"].box.left, mButton["SQUAD1"].box.top + 25, 150, 100, 
-		ColorF(0, 0, 0), DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_CENTER);
-
-	DWRITE->Change_Text("SQUAD", "2제대");
-	DWRITE->TextRender("SQUAD", mButton["SQUAD2"].box.left, mButton["SQUAD2"].box.top + 25, 150, 100, 
-		ColorF(0, 0, 0), DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_CENTER);
-
-	DWRITE->Change_Text("SQUAD", "3제대");
-	DWRITE->TextRender("SQUAD", mButton["SQUAD3"].box.left, mButton["SQUAD3"].box.top + 25, 150, 100, 
-		ColorF(0, 0, 0), DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_CENTER);
+		DWRITE->ChangeText("SQUAD", "%d제대", (SBUTTONS)i);
+		DWRITE->TextRender("SQUAD", mButton[(SBUTTONS)i].box.left, mButton[(SBUTTONS)i].box.top + 25, 150, 100,
+			ColorF(0, 0, 0), DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_CENTER);
+	}
 
 	Squad_render_Character();
 }
 
 void SquadEdditScene::Squad_render_Character()
 {
-	D2D->renderRect(mButton["CHARA1"].box.left, mButton["CHARA1"].box.top, mButton["CHARA1"].box.right - mButton["CHARA1"].box.left,
-		mButton["CHARA1"].box.bottom - mButton["CHARA1"].box.top, ColorF(0, 0, 0));
+	for (int i = (int)SBUTTONS::SELECT_CHARA_1; i < (int)SBUTTONS::END; ++i) {
 
-	D2D->renderRect(mButton["CHARA2"].box.left, mButton["CHARA2"].box.top, mButton["CHARA2"].box.right - mButton["CHARA2"].box.left,
-		mButton["CHARA2"].box.bottom - mButton["CHARA2"].box.top, ColorF(0, 0, 0));
+		D2D->renderRect(mButton[(SBUTTONS)i].box.left, mButton[(SBUTTONS)i].box.top,
+			mButton[(SBUTTONS)i].box.right - mButton[(SBUTTONS)i].box.left,
+			mButton[(SBUTTONS)i].box.bottom - mButton[(SBUTTONS)i].box.top, ColorF(0, 0, 0));
 
-	D2D->renderRect(mButton["CHARA3"].box.left, mButton["CHARA3"].box.top, mButton["CHARA3"].box.right - mButton["CHARA3"].box.left,
-		mButton["CHARA3"].box.bottom - mButton["CHARA3"].box.top, ColorF(0, 0, 0));
+		atlas = PLAYER->getPlayerSquad(FocusSquad)->squadMember.count(i - 4) ?
+			IMAGEMAP->getUiAtlas("InstOvSlot") : IMAGEMAP->getUiAtlas("InstSlot");
 
-	D2D->renderRect(mButton["CHARA4"].box.left, mButton["CHARA4"].box.top, mButton["CHARA4"].box.right - mButton["CHARA4"].box.left,
-		mButton["CHARA4"].box.bottom - mButton["CHARA4"].box.top, ColorF(0, 0, 0));
+		DRAW->render(atlas->textureKey, atlas->alphaTexKey, Vector2(SQUAD_BOX_H_WIDTH, SQUAD_BOX_H_HEIGHT),
+			Vector2(mButton[(SBUTTONS)i].box.left + SQUAD_BOX_H_WIDTH, mButton[(SBUTTONS)i].box.top + SQUAD_BOX_H_HEIGHT),
+			atlas->mixTexCoord, atlas->maxTexCoord);
 
-	D2D->renderRect(mButton["CHARA5"].box.left, mButton["CHARA5"].box.top, mButton["CHARA5"].box.right - mButton["CHARA5"].box.left,
-		mButton["CHARA5"].box.bottom - mButton["CHARA5"].box.top, ColorF(0, 0, 0));
+		DRAW->render("SlotSquad", Vector2(SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT * 0.37f),
+			Vector2(mButton[(SBUTTONS)i].box.left + SQUAD_BOX_H_WIDTH, 
+				mButton[(SBUTTONS)i].box.bottom - (SQUAD_BOX_H_HEIGHT * 0.37f)));
+	}
 
-	const uiAtlas* atlas = PLAYER->getPlayerSquad(FocusSquad)->squadMember.count(0) ? IMAGEMAP->getUiAtlas("InstOvSlot") : IMAGEMAP->getUiAtlas("InstSlot");
-	DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(SQUAD_BOX_H_WIDTH, SQUAD_BOX_H_HEIGHT),
-		VEC2(mButton["CHARA1"].box.left + SQUAD_BOX_H_WIDTH, mButton["CHARA1"].box.top + SQUAD_BOX_H_HEIGHT), atlas->mixTexCoord, atlas->maxTexCoord);
+	for (auto& it : PLAYER->getPlayerSquad(FocusSquad)->squadMember) {
 
-	atlas = PLAYER->getPlayerSquad(FocusSquad)->squadMember.count(1) ? IMAGEMAP->getUiAtlas("InstOvSlot") : IMAGEMAP->getUiAtlas("InstSlot");
-	DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(SQUAD_BOX_H_WIDTH, SQUAD_BOX_H_HEIGHT),
-		VEC2(mButton["CHARA2"].box.left + SQUAD_BOX_H_WIDTH, mButton["CHARA2"].box.top + SQUAD_BOX_H_HEIGHT), atlas->mixTexCoord, atlas->maxTexCoord);
-
-	atlas = PLAYER->getPlayerSquad(FocusSquad)->squadMember.count(2) ? IMAGEMAP->getUiAtlas("InstOvSlot") : IMAGEMAP->getUiAtlas("InstSlot");
-	DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(SQUAD_BOX_H_WIDTH, SQUAD_BOX_H_HEIGHT),
-		VEC2(mButton["CHARA3"].box.left + SQUAD_BOX_H_WIDTH, mButton["CHARA3"].box.top + SQUAD_BOX_H_HEIGHT), atlas->mixTexCoord, atlas->maxTexCoord);
-
-	atlas = PLAYER->getPlayerSquad(FocusSquad)->squadMember.count(3) ? IMAGEMAP->getUiAtlas("InstOvSlot") : IMAGEMAP->getUiAtlas("InstSlot");
-	DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(SQUAD_BOX_H_WIDTH, SQUAD_BOX_H_HEIGHT),
-		VEC2(mButton["CHARA4"].box.left + SQUAD_BOX_H_WIDTH, mButton["CHARA4"].box.top + SQUAD_BOX_H_HEIGHT), atlas->mixTexCoord, atlas->maxTexCoord);
-
-	atlas = PLAYER->getPlayerSquad(FocusSquad)->squadMember.count(4) ? IMAGEMAP->getUiAtlas("InstOvSlot") : IMAGEMAP->getUiAtlas("InstSlot");
-	DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(SQUAD_BOX_H_WIDTH, SQUAD_BOX_H_HEIGHT),
-		VEC2(mButton["CHARA5"].box.left + SQUAD_BOX_H_WIDTH, mButton["CHARA5"].box.top + SQUAD_BOX_H_HEIGHT), atlas->mixTexCoord, atlas->maxTexCoord);
-
-	DRAW->render("SlotSquad", VEC2(SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT * 0.37f),
-		VEC2(mButton["CHARA1"].box.left + SQUAD_BOX_H_WIDTH, mButton["CHARA1"].box.bottom - (SQUAD_BOX_H_HEIGHT * 0.37f)));
-	DRAW->render("SlotSquad", VEC2(SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT * 0.37f),
-		VEC2(mButton["CHARA2"].box.left + SQUAD_BOX_H_WIDTH, mButton["CHARA2"].box.bottom - (SQUAD_BOX_H_HEIGHT * 0.37f)));
-	DRAW->render("SlotSquad", VEC2(SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT * 0.37f),
-		VEC2(mButton["CHARA3"].box.left + SQUAD_BOX_H_WIDTH, mButton["CHARA3"].box.bottom - (SQUAD_BOX_H_HEIGHT * 0.37f)));
-	DRAW->render("SlotSquad", VEC2(SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT * 0.37f),
-		VEC2(mButton["CHARA4"].box.left + SQUAD_BOX_H_WIDTH, mButton["CHARA4"].box.bottom - (SQUAD_BOX_H_HEIGHT * 0.37f)));
-	DRAW->render("SlotSquad", VEC2(SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT * 0.37f),
-		VEC2(mButton["CHARA5"].box.left + SQUAD_BOX_H_WIDTH, mButton["CHARA5"].box.bottom - (SQUAD_BOX_H_HEIGHT * 0.37f)));
-
-	for (auto& it : PLAYER->getPlayerSquad(FocusSquad)->squadMember)
-	{
-		string chara = "CHARA";
+		int chara = (int)SBUTTONS::SELECT_CHARA_1;
 
 		DWRITE->Change_Text("DOLLNAME", it.second->getName());
 
-		chara += to_string(it.second->getID()->SquadMem_ID + 1);
+		chara += it.second->getID()->SquadMem_ID;
 
-		//D2DX->renderRect(mButton[chara].box.left, mButton[chara].box.bottom - (SQUAD_BOX_H_HEIGHT * 0.74f) + 28, 180, 40, ColorF(1, 0, 0));
-
-		DWRITE->TextRender("DOLLNAME", mButton[chara].box.left, mButton[chara].box.bottom - (SQUAD_BOX_H_HEIGHT * 0.74f) + 28, 180, 40,
-			ColorF(1, 1, 1), DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_CENTER);
+		DWRITE->TextRender("DOLLNAME", mButton[(SBUTTONS)chara].box.left, mButton[(SBUTTONS)chara].box.bottom -
+			(SQUAD_BOX_H_HEIGHT * 0.74f) + 28, 180, 40, ColorF(1, 1, 1), DWRITE_TEXT_ALIGNMENT_CENTER);
 	}
 }
 
 void SquadEdditScene::All_Update()
 {
-	if (KEYMANAGER->isKeyDown(VK_LBUTTON))
-	{
-		for (int i = 0; i < vBox.size(); ++i)
-		{
-			if (PtInRect(&vBox.at(i), g_ptMouse))
-			{
-				vBox.clear();
-				mode = SHOWMODE::SQUAD;
+	//	Wheel Use Code
+	if (whlCount > 0) {
+		virtualHeight -= DELTA() * 1000.0f;
+		whlCount = 0;
+	}
+	else if (whlCount < 0) {
+		virtualHeight += DELTA() * 1000.0f;
+		whlCount = 0;
+	}
 
-				if (i != 0)
-				{
-					if (PLAYER->getPlayerSquad(FocusSquad)->squadMember.count(FocusBox)) {}
-					else
-					{
-						if (PLAYER->getPlayerSquad(FocusSquad)->squadMember.size() < 5)
-						{
+	//	Moude Use Code
+	if (g_ptMouse.x > 1150) {
+		if (KEYMANAGER->isKeyDown(VK_LBUTTON)) {
+			asixVirtual = g_ptMouse.y;
+			mouseDrag = true;
+		}
+
+		if (KEYMANAGER->isKeyUp(VK_LBUTTON))
+			mouseDrag = false;
+
+		if (mouseDrag) {
+			if (asixVirtual > g_ptMouse.y)
+				virtualHeight -= DELTA() * 700.0f;
+
+			else if (asixVirtual < g_ptMouse.y)
+				virtualHeight += DELTA() * 700.0f;
+
+			asixVirtual = g_ptMouse.y;
+		}
+	}
+
+	if (virtualHeight > 0)
+		virtualHeight = 0.0f;
+	else if (virtualHeight < virtualLimit)
+		virtualHeight = virtualLimit;
+
+	for (size_t i = 0; i < vBox.size(); ++i) {
+		vBox[i].box = D2DRectMake(vBox[i].pos.x, vBox[i].pos.y + virtualHeight,
+			CHARACTER_BOX_WID, CHARACTER_BOX_HEI);
+	}
+
+	if (KEYMANAGER->isKeyDown(VK_LBUTTON)) {
+
+		for (size_t i = 0; i < vBox.size(); ++i) {
+
+			if (ptInRect(vBox[i].box, g_ptMouse)) {
+
+				if (vBox[i].adress != nullptr) {
+
+					if (PLAYER->getPlayerSquad(FocusSquad)->squadMember.count(FocusBox)) {
+						if (PLAYER->getPlayerTaticDoll().changeSquadTacDoll(FocusSquad, i - 1, FocusBox) != E_FAIL)
+							SOUND->Play_Effect(CH_VOICE, 
+								PLAYER->getPlayerTaticDoll().getAllDolls().at(i - 1)->keys.SOUND_FORMATION, 0.15f);
+					}
+
+					else {
+
+						if (PLAYER->getPlayerSquad(FocusSquad)->squadMember.size() < 5)	{
 							if (PLAYER->getPlayerTaticDoll().insertSquadTacDoll(FocusSquad, i - 1) != E_FAIL)
-								SOUND->Play_Effect(CH_VOICE, PLAYER->getPlayerTaticDoll().getAllDolls().at(i - 1)->keys.SOUND_FORMATION, 0.15f);
+								SOUND->Play_Effect(CH_VOICE, 
+									PLAYER->getPlayerTaticDoll().getAllDolls().at(i - 1)->keys.SOUND_FORMATION, 0.15f);
 						}
 					}
 				}
 
-				else
-				{
+				else {
 					if (PLAYER->getPlayerTaticDoll().getSquadMember(FocusSquad, FocusBox) != nullptr)
 						PLAYER->getPlayerTaticDoll().exitSquadTacDoll(FocusSquad, FocusBox);
 				}
@@ -318,109 +325,118 @@ void SquadEdditScene::All_Update()
 						vCharacter[i] = "";
 				}
 
+				mode = SHOWMODE::SQUAD;
+				mouseDrag = false;
 				break;
 			}
 		}
 	}
+
 }
 
 void SquadEdditScene::All_Render()
 {
-	for (int i = 0; i < vBox.size(); ++i)
-	{
-		if (i != 0) {
+	DRAW->render("editSceneBk", Vector2(WINSIZEX, WINSIZEY), Vector2(WINSIZEX*0.5f, WINSIZEY*0.5f));
 
-			auto& it = PLAYER->getPlayerTaticDoll().getAllDolls().at(i - 1);
-			int id = it->getID()->All_ID;
+	for (size_t i = 0; i < vBox.size(); ++i) {
+		FLOAT wid = vBox[i].box.right - vBox[i].box.left;
+		FLOAT hei = vBox[i].box.bottom - vBox[i].box.top;
+		FLOAT halfWid = wid * 0.5f;
+		FLOAT halfHei = hei * 0.5f;
+		Vector2 rendPos;
 
-			D2D->renderRect(vBox.at(i).left, vBox.at(i).top,
-				vBox.at(i).right - vBox.at(i).left, vBox.at(i).bottom - vBox.at(i).top, ColorF(1, 0, 0));
+		if (vBox[i].adress != nullptr) {
+			BaseTaticDoll* focusedTdoll = ((BaseTaticDoll*)vBox[i].adress);
 
-			if (it->getID()->Squad_ID == -1)
-				DRAW->render(it->keys.cardNormalKey, VEC2(ALL_BOX_WIDTH, ALL_BOX_HEIGH),
-					VEC2(vBox.at(i).left + ALL_BOX_H_WIDTH, vBox.at(i).top + ALL_BOX_H_HEIGH));
+			rendPos = Vector2(vBox[i].pos.x + halfWid, vBox[i].pos.y + halfHei + virtualHeight);
 
-			else {
+			DRAW->render(focusedTdoll->keys.cardNormalKey, Vector2(wid, hei), rendPos);
 
-				DRAW->render(it->keys.cardNormalKey, VEC2(ALL_BOX_WIDTH, ALL_BOX_HEIGH),
-					VEC2(vBox.at(i).left + ALL_BOX_H_WIDTH, vBox.at(i).top + ALL_BOX_H_HEIGH), COLR(1, 1, 1, 0.5f));
+			DRAW->render("AllCard", Vector2(wid, hei), rendPos);
 
-				switch (it->getID()->Squad_ID)
-				{
-				case 1:
-					DRAW->render("Squad_1_Already", VEC2(65, 70), VEC2(vBox.at(i).left + 35, vBox.at(i).bottom - 40));
-					break;
+			DWRITE->ChangeText("CHARA_NAME", focusedTdoll->keys.name);
+			DWRITE->TextRender("CHARA_NAME", rendPos.x - halfWid, rendPos.y + halfHei - 60, wid, 40, ColorF(1, 1, 1),
+				DWRITE_TEXT_ALIGNMENT_CENTER);
 
-				case 2:
-					DRAW->render("Squad_2_Already", VEC2(65, 70), VEC2(vBox.at(i).left + 35, vBox.at(i).bottom - 40));
-					break;
+			if (focusedTdoll->getID()->Squad_ID != -1) {
+				DRAW->render("bkGuard", Vector2(wid, hei), rendPos, COLR(1, 1, 1, 0.4f));
 
-				case 3:
-					DRAW->render("Squad_3_Already", VEC2(65, 70), VEC2(vBox.at(i).left + 35, vBox.at(i).bottom - 40));
-					break;
-				}
+				string key = ConvertFormat("Squad_%d_Already", focusedTdoll->getID()->Squad_ID);
+				DRAW->render(key, Vector2(65, 70), Vector2(rendPos.x + 35, rendPos.y - 40));
 			}
 		}
-		else
-			DRAW->render("SquadEmit", VEC2(160, 260), VEC2(vBox.at(i).left + 80, vBox.at(i).top + 130));
+		else {
+
+			DRAW->render("SquadEmit", Vector2(wid, hei),
+				Vector2(vBox[i].pos.x + halfWid, vBox[i].pos.y + halfHei + virtualHeight));
+		}
 	}
+
+	DRAW->render("gradiantBlack", Vector2(WINSIZEX, 100), Vector2(WINSIZEX*0.5f, 50));
+
+	DWRITE->ChangeText("TITLE_NAME", "T-DOLL");
+	DWRITE->TextRender("TITLE_NAME", 1045.0f, 0.0f, ColorF(0.8, 0.8, 0.8));
+
 }
 
 void SquadEdditScene::KeyInputAction()
 {
-	//장착된 장비 확인
+	//	장착된 장비 확인
 	if (KEYMANAGER->isKeyUp(VK_TAB))
 		showEquip = showEquip ? false : true;
 }
 
-void SquadEdditScene::Allocate_Box()
-{
-	vBox.clear();
-}
-
 void SquadEdditScene::Allocate_Box_All()
 {
+	auto& pTacDoll = PLAYER->getPlayerTaticDoll().getAllDolls();
+	size_t counter = 0;
+
 	vBox.clear();
+	vBox.reserve(pTacDoll.size() + 1);
 
-	//	100
-	//	180	
-	//	6 per Line
+	//	Insert Null Character For Out of Character
+	selectBox outer;
 
-	//드로잉 박스
-	for (int i = 0; i < PLAYER->getPlayerTaticDoll().getTotalTacDollNum() + 1; ++i)
-	{
-		RECT rc = RectMakeCenter(static_cast<float>(100 + ((i % 6) * 170)), static_cast<float>(300 + ((i / 6) * 270)),
-			ALL_BOX_H_WIDTH, ALL_BOX_H_HEIGH);
-		vBox.push_back(rc);
+	outer.pos = Vector2(20 + (counter % WIDTH_COUNT) * CHARACTER_BLANK_WID, 
+		120 + (counter / WIDTH_COUNT) * CHARACTER_BLANK_HEI);
+	outer.box = D2DRectMake(outer.pos.x, outer.pos.y, CHARACTER_BOX_WID, CHARACTER_BOX_HEI);
+	outer.adress = nullptr;
+
+	vBox.push_back(outer);
+
+	++counter;
+
+	for (auto& iter : pTacDoll) {
+		selectBox _new;
+
+		_new.pos = Vector2(20 + (counter % WIDTH_COUNT) * CHARACTER_BLANK_WID,
+			120 + (counter / WIDTH_COUNT) * CHARACTER_BLANK_HEI);
+		_new.box = D2DRectMake(_new.pos.x, _new.pos.y, CHARACTER_BOX_WID, CHARACTER_BOX_HEI);
+		_new.adress = iter.second;
+
+		vBox.push_back(_new);
+		++counter;
 	}
+
+	virtualLimit = (float)(((int)vBox.size()) / WIDTH_COUNT) * CHARACTER_BLANK_HEI;
+	if (vBox.size() > WIDTH_COUNT)	
+		virtualLimit -= (CHARACTER_BLANK_HEI * 0.5f);
+	virtualLimit *= -1.0f;
 }
 
 void SquadEdditScene::InsertSelect(void * obj)
 {
 	SquadEdditScene* object = (SquadEdditScene*)obj;
 
-	for (auto& it : object->mButton)
-	{
-		if (it.first.find("CHARA") == string::npos) continue;
+	for (auto& it : object->mButton) {
 
-		if (ptInRect(it.second.box, g_ptMouse))
-		{
-			if (it.first.find("1") != string::npos)
-				object->FocusBox = 0;
+		if (it.first < SBUTTONS::SELECT_CHARA_1 || it.first > SBUTTONS::SELECT_CHARA_5) continue;
 
-			else if (it.first.find("2") != string::npos)
-				object->FocusBox = 1;
+		if (ptInRect(it.second.box, g_ptMouse)) {
 
-			else if (it.first.find("3") != string::npos)
-				object->FocusBox = 2;
-
-			else if (it.first.find("4") != string::npos)
-				object->FocusBox = 3;
-
-			else if (it.first.find("5") != string::npos)
-				object->FocusBox = 4;
-
-		}
+			object->FocusBox = (int)(it.first) - (int)(SBUTTONS::SELECT_CHARA_1);
+			break;
+		}	
 	}
 
 	object->mode = SHOWMODE::ALL;
@@ -448,25 +464,29 @@ void SquadEdditScene::ChangeSquad_Select(void * obj)
 {
 	SquadEdditScene* object = (SquadEdditScene*)obj;
 
-	for (auto& it : object->mButton)
-	{
-		if (it.first.find("SQUAD") == string::npos) continue;
+	for (auto& it : object->mButton) {
 
-		if (ptInRect(it.second.box, g_ptMouse))
-		{
-			if (it.first.find("1") != string::npos)
-				object->FocusSquad = 1;
+		if (it.first < SBUTTONS::SELECT_SQUAD_1 || it.first > SBUTTONS::SELECT_SQUAD_3) continue;
 
-			else if (it.first.find("2") != string::npos)
-				object->FocusSquad = 2;
+		if (ptInRect(it.second.box, g_ptMouse)) {
 
-			else if (it.first.find("3") != string::npos)
-				object->FocusSquad = 3;
+			switch (it.first)
+			{
+			case SBUTTONS::SELECT_SQUAD_1:
+			case SBUTTONS::SELECT_SQUAD_2:
+			case SBUTTONS::SELECT_SQUAD_3:
+				object->FocusSquad = (int)it.first;
+				break;
 
+			default:
+				break;
+			}
+		
 			for (int i = 0; i < object->vCharacter.size(); ++i)
 			{
 				if (i < PLAYER->getPlayerSquad(object->FocusSquad)->squadMember.size())
-					object->vCharacter[i] = PLAYER->getPlayerSquad(object->FocusSquad)->squadMember[i]->keys.cardNormalKey;
+					object->vCharacter[i] = 
+					PLAYER->getPlayerSquad(object->FocusSquad)->squadMember[i]->keys.cardNormalKey;
 
 				else
 					object->vCharacter[i] = "";

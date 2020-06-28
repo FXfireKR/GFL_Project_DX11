@@ -216,6 +216,9 @@ void TextManager::TextRender(string key, FLOAT x, FLOAT y, D2D1::ColorF c)
 	if ((iterText = mText.find(key)) != mText.end()) {
 		//it->second->setboxWidth(WINDOWSIZE_X);
 		//it->second->setboxHeight(WINDOWSIZE_Y);
+
+		c.a *= worldColor.a;
+
 		d2Rtg->BeginDraw();
 		iterText->second->render(x, y, c);
 		d2Rtg->EndDraw();
@@ -239,6 +242,8 @@ void TextManager::TextRender(string key, FLOAT x, FLOAT y, FLOAT width, FLOAT he
 	if((iterText = mText.find(key)) != mText.end()) {
 		iterText->second->setboxWidth(width);
 		iterText->second->setboxHeight(height);
+
+		c.a *= worldColor.a;
 
 		d2Rtg->BeginDraw();
 		iterText->second->render(x, y, c);

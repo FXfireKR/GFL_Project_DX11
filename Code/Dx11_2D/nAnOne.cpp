@@ -102,7 +102,7 @@ HRESULT nAnOne::init()
 	curState.Avoid = 0.835;
 	curState.AttackPoint = 85;
 
-	maxState = curState;
+	origState = maxState = curState;
 
 	atkColTime = curState.AimDelay;
 	sklColTime = 0.0;

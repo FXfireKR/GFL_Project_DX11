@@ -43,7 +43,7 @@ Pkp::Pkp()
 	curState.AttackPoint = 80;
 	curState.ArmorPierce = 0;
 
-	maxState = curState;
+	origState = maxState = curState;
 
 	statusManager = new StatusManager(&curState, &maxState, &mEquip);
 }

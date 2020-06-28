@@ -32,14 +32,14 @@ Ntw20::Ntw20()
 
 	curState.HitPoint.max = curState.HitPoint.curr = 3000;
 	curState.Accuracy = 0.75;
-	curState.CriticPoint = 25.5;
+	curState.CriticPoint = 40.0;
 	curState.CriticAcl = 50;
 	curState.AttackDelay = 1.8;
 	curState.AimDelay = 2.0;
-	curState.Avoid = 0.835;
+	curState.Avoid = 0.25;
 	curState.AttackPoint = 210;
 
-	maxState = curState;
+	origState = maxState = curState;
 
 	statusManager = new StatusManager(&curState, &maxState, &mEquip);
 }
@@ -135,7 +135,6 @@ HRESULT Ntw20::init()
 		mCollision.insert(make_pair("MIN_RANGE", new EllipseBase(&Pos.x, &Pos.y, axisMin_LongRad, axisMin_ShortRad)));
 
 	moveSpd = NTW20_SPEED;
-
 
 	atkColTime = 0.0;
 	sklColTime = 0.0;

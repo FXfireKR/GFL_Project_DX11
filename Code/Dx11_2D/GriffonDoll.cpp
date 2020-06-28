@@ -134,6 +134,29 @@ HRESULT GriffonDoll::insertSquadTacDoll(SINT squadID, SINT allID)
 	return E_FAIL;
 }
 
+HRESULT GriffonDoll::changeSquadTacDoll(SINT squadID, SINT allID, SINT targID)
+{
+	BaseTaticDoll* targetDoll = nullptr;
+	if ((dollIter = mAllDoll.find(allID)) != mAllDoll.end()
+		&& (targetDoll = IOPsquad->callSquadMember(squadID, targID)) != nullptr) {
+
+		SINT saveTemp = dollIter->second->getID()->SquadMem_ID;
+
+		targetDoll->getID()->Squad_ID = dollIter->second->getID()->Squad_ID;
+		dollIter->second->getID()->Squad_ID = squadID;
+
+		dollIter->second->getID()->SquadMem_ID = targetDoll->getID()->SquadMem_ID;
+		targetDoll->getID()->SquadMem_ID = saveTemp;
+
+		IOPsquad->callSquad(squadID)->squadMember[dollIter->second->getID()->SquadMem_ID] = dollIter->second;
+
+		if (dollIter->second->getID()->SquadMem_ID == IOPsquad->callSquad(squadID)->squadLeaderID)
+			IOPsquad->callSquad(squadID)->squadLeader = IOPsquad->callSquadMember(squadID, dollIter->second->getID()->SquadMem_ID);
+	}
+		
+	return S_OK;
+}
+
 HRESULT GriffonDoll::exitSquadTacDoll(SINT squadID, SINT memID)
 {
 	if (IOPsquad->getValidSquad(squadID)) {

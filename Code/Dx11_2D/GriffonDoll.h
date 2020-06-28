@@ -26,13 +26,14 @@ public:
 	HRESULT init();
 
 	//	Battle T-Doll Function
-	HRESULT createIOPtacDoll(GRFDOLL_NAME name);				//	전술인형 생산한다.
-	HRESULT insertSquadTacDoll(SINT squadID, SINT allID);		//	전술인형을 해당 분대에 추가한다.
-	HRESULT exitSquadTacDoll(SINT squadID, SINT memID);			//	전술인형을 해당 분대에서 퇴출한다
-	HRESULT appointLeaderTacDoll(SINT squadID, SINT memID);		//	분대내부의 전술인형을 분대장으로 임명한다.
+	HRESULT createIOPtacDoll(GRFDOLL_NAME name);							//	전술인형 생산한다.
+	HRESULT insertSquadTacDoll(SINT squadID, SINT allID);					//	전술인형을 해당 분대에 추가한다.
+	HRESULT changeSquadTacDoll(SINT squadID, SINT allID, SINT targID);		//	전술인형을 해당 분대에 대상과 변경합니다
+	HRESULT exitSquadTacDoll(SINT squadID, SINT memID);						//	전술인형을 해당 분대에서 퇴출한다
+	HRESULT appointLeaderTacDoll(SINT squadID, SINT memID);					//	분대내부의 전술인형을 분대장으로 임명한다.
 
 	//Support T-Doll Function
-	HRESULT createIOPtherTeam(GRFDOLL_NAME name);				//	화력소대를 생산한다.
+	HRESULT createIOPtherTeam(GRFDOLL_NAME name);							//	화력소대를 생산한다.
 
 public:
 	inline const size_t getTotalTacDollNum() { 

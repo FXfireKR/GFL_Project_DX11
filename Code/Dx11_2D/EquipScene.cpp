@@ -44,7 +44,7 @@ void EquipScene::init()
 		it.second->LoadTray_ImageList();
 
 	mButton.insert(make_pair(SBUTTONS::HOME_BACK, Button(10, 10, 100, 85, ReturnHome)));
-	mButton.insert(make_pair(SBUTTONS::TURN_BACK, Button(10, 10, 150, 90, ReturnSelect)));
+	mButton.insert(make_pair(SBUTTONS::TURN_BACK, Button(10, 0, 150, 90, ReturnSelect)));
 	mButton.insert(make_pair(SBUTTONS::SELECT_CHARA, Button(20, 160, SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT, CharacterSelect)));
 	mButton.insert(make_pair(SBUTTONS::SELECT_EQUIP_1, Button(250, 213, CHARACTER_BOX_WID, CHARACTER_BOX_HEI, EquipmentSelect)));
 	mButton.insert(make_pair(SBUTTONS::SELECT_EQUIP_2, Button(450, 213, CHARACTER_BOX_WID, CHARACTER_BOX_HEI, EquipmentSelect)));
@@ -58,7 +58,7 @@ void EquipScene::init()
 	DWRITE->Create_TextField("EQUIP_EXP", L"¸¼Àº°íµñ", "NULL", 12, DWRITE_FONT_WEIGHT_MEDIUM);
 
 	DWRITE->Create_TextField("STATUS_IDX", L"¸¼Àº°íµñ", "NULL", 20, DWRITE_FONT_WEIGHT_MEDIUM);
-	DWRITE->Create_TextField("STATUS_VAL", L"¸¼Àº°íµñ", "NULL", 15, DWRITE_FONT_WEIGHT_BOLD);
+	DWRITE->Create_TextField("STATUS_VAL", L"¸¼Àº°íµñ", "NULL", 20, DWRITE_FONT_WEIGHT_MEDIUM);
 
 	//	Loading List Setting
 	LOAD->Add_LoadTray("NameLabel", "Texture2D/NameLabel.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
@@ -302,52 +302,106 @@ void EquipScene::State_MainRender()
 	}
 
 	atlas = IMAGEMAP->getUiAtlas("EquipConv");
-	DRAW->render(atlas->textureKey, atlas->alphaTexKey, Vector2(150, 225),
+	DRAW->render(atlas->textureKey, atlas->alphaTexKey, Vector2(180, 225),
 		Vector2(STATUS_RENDER_X, STATUS_RENDER_Y), atlas->mixTexCoord, atlas->maxTexCoord);
 
 	// Status Rendering
 	{
 		if (selectedDoll != nullptr)
-		{
-			DWRITE->ChangeText("STATUS_IDX", "°ø°Ý·Â : %d", selectedDoll->getStatus().AttackPoint);
-			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 130, STATUS_RENDER_Y - 200, 280, 25, ColorF(1, 1, 1),
-				DWRITE_TEXT_ALIGNMENT_LEADING);
-		
-			DWRITE->ChangeText("STATUS_IDX", "Ä¡¸íÅ¸ È®·ü : %.1f %c", selectedDoll->getStatus().CriticPoint, 0x25);
-			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 130, STATUS_RENDER_Y - 170, 280, 25, ColorF(1, 1, 1),
-				DWRITE_TEXT_ALIGNMENT_LEADING);
-		
-			DWRITE->ChangeText("STATUS_IDX", "Ä¡¸íÅ¸¹èÀ² : %.1f %c", selectedDoll->getStatus().CriticAcl + 100.0, 0x25);
-			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 130, STATUS_RENDER_Y - 140, 280, 25, ColorF(1, 1, 1),
-				DWRITE_TEXT_ALIGNMENT_LEADING);
-		
-			DWRITE->ChangeText("STATUS_IDX", "¸íÁß·ü : %.2f %c", selectedDoll->getStatus().Accuracy * 100.0, 0x25);
-			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 130, STATUS_RENDER_Y - 110, 280, 25, ColorF(1, 1, 1),
+		{		
+			string str = ConvertFormat("°ø°Ý·Â : %d >>", originStatus.AttackPoint);
+			DWRITE->Change_Text("STATUS_IDX", str);
+			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 160, STATUS_RENDER_Y - 200, 340, 25, ColorF(1, 1, 1),
 				DWRITE_TEXT_ALIGNMENT_LEADING);
 
-			DWRITE->ChangeText("STATUS_IDX", "È¸ÇÇÀ² : %.2f %c", selectedDoll->getStatus().Avoid * 100.0, 0x25);
-			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 130, STATUS_RENDER_Y - 80, 280, 25, ColorF(1, 1, 1),
+			DWRITE->ChangeText("STATUS_VAL", "%d", selectedDoll->getStatus().AttackPoint);
+			DWRITE->TextRender("STATUS_VAL", STATUS_RENDER_X - 160 + (str.size() * 10), STATUS_RENDER_Y - 200, 
+				originStatus.AttackPoint == selectedDoll->getStatus().AttackPoint ?
+				ColorF(1, 1, 1) : originStatus.AttackPoint > selectedDoll->getStatus().AttackPoint ? 
+				ColorF(1, 0, 0) : ColorF(1, 1, 0));
+			
+		
+			str = ConvertFormat("Ä¡¸íÅ¸ È®·ü : %.1f %% >>", originStatus.CriticPoint);
+			DWRITE->Change_Text("STATUS_IDX", str);
+			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 160, STATUS_RENDER_Y - 170, 340, 25, ColorF(1, 1, 1),
 				DWRITE_TEXT_ALIGNMENT_LEADING);
+				
+			DWRITE->ChangeText("STATUS_VAL", "%.1f %%", selectedDoll->getStatus().CriticPoint);
+			DWRITE->TextRender("STATUS_VAL", STATUS_RENDER_X - 160 + (str.size() * 10), STATUS_RENDER_Y - 170,
+				fabsf(originStatus.CriticPoint - selectedDoll->getStatus().CriticPoint) < fabsf(FLOAT_EPSILON) ?
+				ColorF(1, 1, 1) : originStatus.CriticPoint > selectedDoll->getStatus().CriticPoint ?
+				ColorF(1, 0, 0) : ColorF(1, 1, 0));
+
+
+			str = ConvertFormat("Ä¡¸íÅ¸ ¹èÀ² : %.1f %% >>", originStatus.CriticAcl + 100.0);
+			DWRITE->Change_Text("STATUS_IDX", str);
+			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 160, STATUS_RENDER_Y - 140, 340, 25, ColorF(1, 1, 1),
+				DWRITE_TEXT_ALIGNMENT_LEADING);
+
+			DWRITE->ChangeText("STATUS_VAL", "%.1f %%", selectedDoll->getStatus().CriticAcl + 100.0);
+			DWRITE->TextRender("STATUS_VAL", STATUS_RENDER_X - 160 + (str.size() * 10), STATUS_RENDER_Y - 140,
+				fabsf(originStatus.CriticAcl - selectedDoll->getStatus().CriticAcl) < fabsf(FLOAT_EPSILON) ?
+				ColorF(1, 1, 1) : originStatus.CriticAcl > selectedDoll->getStatus().CriticAcl ?
+				ColorF(1, 0, 0) : ColorF(1, 1, 0));
+
+
+			str = ConvertFormat("¸íÁß·ü : %.2f %% >>", originStatus.Accuracy * 100.0);
+			DWRITE->Change_Text("STATUS_IDX", str);
+			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 160, STATUS_RENDER_Y - 110, 340, 25, ColorF(1, 1, 1),
+				DWRITE_TEXT_ALIGNMENT_LEADING);
+
+			DWRITE->ChangeText("STATUS_VAL", "%.2f %%", selectedDoll->getStatus().Accuracy * 100.0);
+			DWRITE->TextRender("STATUS_VAL", STATUS_RENDER_X - 160 + (str.size() * 10), STATUS_RENDER_Y - 110,
+				fabsf(originStatus.Accuracy - selectedDoll->getStatus().Accuracy) < fabsf(FLOAT_EPSILON) ?
+				ColorF(1, 1, 1) : originStatus.Accuracy > selectedDoll->getStatus().Accuracy ?
+				ColorF(1, 0, 0) : ColorF(1, 1, 0));
+
+
+			str = ConvertFormat("È¸ÇÇÀ² : %.2f %% >>", originStatus.Avoid * 100.0);
+			DWRITE->Change_Text("STATUS_IDX", str);
+			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 160, STATUS_RENDER_Y - 80, 340, 25, ColorF(1, 1, 1),
+				DWRITE_TEXT_ALIGNMENT_LEADING);
+
+			DWRITE->ChangeText("STATUS_VAL", "%.2f %%", selectedDoll->getStatus().Avoid * 100.0);
+			DWRITE->TextRender("STATUS_VAL", STATUS_RENDER_X - 160 + (str.size() * 10), STATUS_RENDER_Y - 80,
+				fabsf(originStatus.Avoid - selectedDoll->getStatus().Avoid) < fabsf(FLOAT_EPSILON) ?
+				ColorF(1, 1, 1) : originStatus.Avoid > selectedDoll->getStatus().Avoid ?
+				ColorF(1, 0, 0) : ColorF(1, 1, 0));
 
 			DWRITE->ChangeText("STATUS_IDX", "Ã¼·Â : %d", selectedDoll->getStatus().HitPoint.max);
-			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 130, STATUS_RENDER_Y - 50, 280, 25, ColorF(1, 1, 1),
+			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 160, STATUS_RENDER_Y - 50, 340, 25, ColorF(1, 1, 1),
 				DWRITE_TEXT_ALIGNMENT_LEADING);
 
 			DWRITE->ChangeText("STATUS_IDX", "¹æ¾î·Â : %d", selectedDoll->getStatus().Armor);
-			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 130, STATUS_RENDER_Y - 20, 280, 25, ColorF(1, 1, 1),
+			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 160, STATUS_RENDER_Y - 20, 340, 25, ColorF(1, 1, 1),
 				DWRITE_TEXT_ALIGNMENT_LEADING);
 
-			DWRITE->ChangeText("STATUS_IDX", "¹æ¾î ÆÄ¼â¼öÄ¡ : %d", selectedDoll->getStatus().ArmorPierce);
-			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 130, STATUS_RENDER_Y + 10, 280, 25, ColorF(1, 1, 1),
+
+			str = ConvertFormat("¹æ¾î ÆÄ¼â¼öÄ¡ : %d >>", originStatus.ArmorPierce);
+			DWRITE->Change_Text("STATUS_IDX", str);
+			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 160, STATUS_RENDER_Y + 10, 340, 25, ColorF(1, 1, 1),
 				DWRITE_TEXT_ALIGNMENT_LEADING);
 
-			DWRITE->ChangeText("STATUS_IDX", "¹æ¾î °üÅë·ü : %.2f %c", selectedDoll->getStatus().ArmorIgnore * 100.0, 0x25);
-			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 130, STATUS_RENDER_Y + 40, 280, 25, ColorF(1, 1, 1),
+			DWRITE->ChangeText("STATUS_VAL", "%d", selectedDoll->getStatus().ArmorPierce);
+			DWRITE->TextRender("STATUS_VAL", STATUS_RENDER_X - 160 + (str.size() * 10), STATUS_RENDER_Y + 10,
+				originStatus.ArmorPierce == selectedDoll->getStatus().ArmorPierce ?
+				ColorF(1, 1, 1) : originStatus.ArmorPierce > selectedDoll->getStatus().ArmorPierce ?
+				ColorF(1, 0, 0) : ColorF(1, 1, 0));
+
+			str = ConvertFormat("¹æ¾î °üÅë·ü : %.2f %% >>", originStatus.ArmorIgnore * 100.0);
+			DWRITE->Change_Text("STATUS_IDX", str);
+			DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 160, STATUS_RENDER_Y + 40, 340, 25, ColorF(1, 1, 1),
 				DWRITE_TEXT_ALIGNMENT_LEADING);
+
+			DWRITE->ChangeText("STATUS_VAL", "%.2f %%", selectedDoll->getStatus().ArmorIgnore * 100.0);
+			DWRITE->TextRender("STATUS_VAL", STATUS_RENDER_X - 160 + (str.size() * 10), STATUS_RENDER_Y + 40,
+				fabsf(originStatus.ArmorIgnore - selectedDoll->getStatus().ArmorIgnore) < fabsf(FLOAT_EPSILON) ?
+				ColorF(1, 1, 1) : originStatus.ArmorIgnore > selectedDoll->getStatus().ArmorIgnore ?
+				ColorF(1, 0, 0) : ColorF(1, 1, 0));
 
 			if (selectedDoll->getWeaponType() == TWT_SG) {
 				DWRITE->ChangeText("STATUS_IDX", "¹æÆÐ ¼öÄ¡ : %d", selectedDoll->getStatus().ArmorPoint.max);
-				DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 130, STATUS_RENDER_Y + 70, 280, 25, ColorF(1, 1, 1),
+				DWRITE->TextRender("STATUS_IDX", STATUS_RENDER_X - 160, STATUS_RENDER_Y + 70, 340, 25, ColorF(1, 1, 1),
 					DWRITE_TEXT_ALIGNMENT_LEADING);
 			}
 		}
@@ -493,7 +547,7 @@ void EquipScene::State_EquipRender()
 		mButton[SBUTTONS::TURN_BACK].box.top + 45));
 
 	DWRITE->ChangeText("TITLE_NAME", "EQUIP");
-	DWRITE->TextRender("TITLE_NAME", 1045.0f, 0.0f, ColorF(0.8, 0.8, 0.8));
+	DWRITE->TextRender("TITLE_NAME", 1055.0f, 0.0f, ColorF(0.8, 0.8, 0.8));
 }
 
 void EquipScene::State_CharacterUpdate()
@@ -548,6 +602,9 @@ void EquipScene::State_CharacterUpdate()
 
 				selectedDoll = selBox[i].adress != nullptr ? (BaseTaticDoll*)selBox[i].adress : nullptr;
 				selectedDollID = i;
+
+				if (selectedDoll != nullptr)
+					originStatus = selectedDoll->getMaxStatus();
 
 				state = ES_MAIN;
 				mouseDrag = false;

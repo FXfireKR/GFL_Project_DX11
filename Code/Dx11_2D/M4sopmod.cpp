@@ -32,10 +32,10 @@ M4sopmod::M4sopmod()
 	mEquip.insert(make_pair(EPT_ACESORY2, nullptr));	// ¿Ü°ñ°Ý
 
 	//	Setting Spec
-	//curState.HitPoint.max = curState.HitPoint.curr = 2530;
-	curState.HitPoint.max = curState.HitPoint.curr = 992530;
+	curState.HitPoint.max = curState.HitPoint.curr = 2530;
+	//curState.HitPoint.max = curState.HitPoint.curr = 992530;
 	curState.Armor = 0;
-	curState.Accuracy = 0.1;
+	curState.Accuracy = 0.45;
 	curState.CriticPoint = 40.0;
 	curState.CriticAcl = 50;
 	curState.AttackDelay = 0.095;
@@ -44,7 +44,7 @@ M4sopmod::M4sopmod()
 	curState.AttackPoint = 80;
 	curState.ArmorPierce = 0;
 
-	maxState = curState;
+	origState = maxState = curState;
 
 	statusManager = new StatusManager(&curState, &maxState, &mEquip);
 }
@@ -146,17 +146,6 @@ HRESULT M4sopmod::init()
 		mCollision.insert(make_pair("MAX_RANGE", new EllipseBase(&Pos.x, &Pos.y, axisMax_LongRad, axisMax_ShortRad)));
 
 	moveSpd = M4SOP_SPEED;
-
-	curState.HitPoint.max = curState.HitPoint.curr = 3000;
-	curState.Accuracy = 1.0;
-	curState.CriticPoint = 25.5;
-	curState.CriticAcl = 50;
-	curState.AttackDelay = 0.8f;
-	curState.AimDelay = 0.45;
-	curState.Avoid = 0.835;
-	curState.AttackPoint = 85;
-
-	maxState = curState;
 
 	atkColTime = 0.0;
 	sklColTime = 0.0;

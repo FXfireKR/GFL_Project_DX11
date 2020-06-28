@@ -1,15 +1,23 @@
 #include "stdafx.h"
 #include "LobbyScene.h"
 
+LobbyScene* LobbyScene::object = nullptr;
+
 LobbyScene::LobbyScene()
 {
-	DWRITE->Create_TextField("Conversation", L"¸¼Àº°íµñ", "", 15);
+	//DWRITE_FONT_WEIGHT_MEDIUM
+	DWRITE->Create_TextField("Conversation", L"¸¼Àº°íµñ", "", 16, DWRITE_FONT_WEIGHT_MEDIUM);
 
 	mButton.insert(make_pair("Combat", Button(25, 50, 20, 50, CombatButton)));
 	mButton.insert(make_pair("Factory", Button(25, 50, 20, 50, FactoryButton)));
 	mButton.insert(make_pair("Formation", Button(25, 50, 20, 50, FormationButton)));
 	mButton.insert(make_pair("Research", Button(25, 50, 20, 50, ReserchButton)));
 	mButton.insert(make_pair("AideConv", Button(25, 50, 20, 50, AideConverButton)));
+
+	mButton.insert(make_pair("MakerIcon", Button(25, 50, 20, 50, AideConverButton)));
+	mButton.insert(make_pair("SettingIcon", Button(25, 50, 20, 50, AideConverButton)));
+	mButton.insert(make_pair("AideIcon", Button(25, 50, 20, 50, AideConverButton)));
+	mButton.insert(make_pair("ViewIcon", Button(25, 50, 20, 50, AideConverButton)));
 
 	aideDoll = nullptr;
 	isConvers = false;
@@ -36,7 +44,7 @@ void LobbyScene::init()
 	mButton["Factory"].box = D2D_RectMakeCenter(1150, 400, 80, 40);
 	mButton["AideConv"].box = D2D_RectMakeCenter(AXIS_AIDECOV_BUTTON.x, AXIS_AIDECOV_BUTTON.y, 210, 450);
 
-	//	KSG
+	//	Random Aid
 	aideDoll = ((PLAYER->getPlayerTaticDoll()).getAllDolls()).begin()->second;
 
 	isConvers = false;
@@ -187,18 +195,37 @@ void LobbyScene::render()
 
 	//	Conversation With AideDoll
 	{
-		atlas = IMAGEMAP->getUiAtlas("LobbyConv");
-		DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(180, 100), VEC2(WINSIZEX*0.6f, 200), atlas->mixTexCoord, atlas->maxTexCoord, COLR(1, 1, 1, ConvAlpha));
-		DWRITE->TextRender("Conversation", (WINSIZEX*0.6f) - 160, 160, 330, 200, ColorF(1, 1, 0, ConvAlpha));
+		atlas = IMAGEMAP->getUiAtlas("ConverTdollShape");
+		DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(200, 100), VEC2(220, 200), 
+			atlas->mixTexCoord, atlas->maxTexCoord, COLR(1, 1, 1, ConvAlpha));
+		DWRITE->TextRender("Conversation", (220) - 180, 160, 310, 200, ColorF(1, 1, 0, ConvAlpha));
+
+		//	Setting Icon
+		atlas = IMAGEMAP->getUiAtlas("SettingIcon");
+		DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(200, 100), VEC2(220, 200), 
+			atlas->mixTexCoord, atlas->maxTexCoord);
+		
+		//	Maker Icon
+		atlas = IMAGEMAP->getUiAtlas("MakerIcon");
+		DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(200, 100), VEC2(220, 200), 
+			atlas->mixTexCoord, atlas->maxTexCoord);
+
+		//	View Icon
+		atlas = IMAGEMAP->getUiAtlas("ViewIcon");
+		DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(200, 100), VEC2(220, 200), 
+			atlas->mixTexCoord, atlas->maxTexCoord);
+
+		// Aide T-Doll Icon
+		atlas = IMAGEMAP->getUiAtlas("AideIcon");
+		DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(200, 100), VEC2(220, 200), 
+			atlas->mixTexCoord, atlas->maxTexCoord);
 	}
 
-	//for (auto& it : mButton)
-	//	D2DX->renderRect(it.second.box, ColorF(0, 0.8, 0.0));	
 }
 
 void LobbyScene::CombatButton(void * obj)
 {
-	LobbyScene* object = (LobbyScene*)obj;
+	object = (LobbyScene*)obj;
 
 	//object->SceneKey = "TEST";
 	object->SceneKey = "CHAPTER";
@@ -207,7 +234,7 @@ void LobbyScene::CombatButton(void * obj)
 
 void LobbyScene::FactoryButton(void * obj)
 {
-	LobbyScene* object = (LobbyScene*)obj;
+	object = (LobbyScene*)obj;
 
 	object->SceneKey = "EQUIP";
 	object->isSceneChanged = true;
@@ -215,7 +242,7 @@ void LobbyScene::FactoryButton(void * obj)
 
 void LobbyScene::FormationButton(void * obj)
 {
-	LobbyScene* object = (LobbyScene*)obj;
+	object = (LobbyScene*)obj;
 
 	object->SceneKey = "SQUAD";
 	object->isSceneChanged = true;
@@ -227,7 +254,7 @@ void LobbyScene::ReserchButton(void * obj)
 
 void LobbyScene::AideConverButton(void * obj)
 {
-	LobbyScene* object = (LobbyScene*)obj;
+	object = (LobbyScene*)obj;
 
 	if (!object->isConvers)
 	{
@@ -253,4 +280,21 @@ void LobbyScene::AideConverButton(void * obj)
 		DWRITE->Change_Text("Conversation", object->aideDoll->keys.vecDialogue[randomConvers].c_str());
 		object->isConvers = true;
 	}
+}
+
+void LobbyScene::ChangeAideButton(void * obj)
+{
+	object = (LobbyScene*)obj;
+}
+
+void LobbyScene::SettingButton(void * obj)
+{
+}
+
+void LobbyScene::ViewButton(void * obj)
+{
+}
+
+void LobbyScene::MakerButton(void * obj)
+{
 }

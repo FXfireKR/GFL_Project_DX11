@@ -69,6 +69,8 @@ protected:
 	EQUIPTOTAL_TYPE				SelectedEQA_Type;
 
 	BaseTaticDoll*				selectedDoll;
+	Status						originStatus;
+
 	SINT						selectedDollID;
 
 	float						virtualHeight;

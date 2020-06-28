@@ -19,6 +19,8 @@ LogoScene::LogoScene()
 	uiAtlasLoader::LoadUiAtlasData("GuidUi.atlas");
 	uiAtlasLoader::LoadUiAtlasData("AvgUi.atlas");
 	uiAtlasLoader::LoadUiAtlasData("SlotUi.atlas");
+	uiAtlasLoader::LoadUiAtlasData("CommonUi.atlas");
+	uiAtlasLoader::LoadUiAtlasData("HomeUi.atlas");
 	//uiAtlasLoader::LoadUiAtlasData("SlotUi.atlas");
 
 	PLAYER->testCreate();
@@ -26,7 +28,6 @@ LogoScene::LogoScene()
 
 LogoScene::~LogoScene()
 {
-	int a = 10;
 }
 
 void LogoScene::init()
