@@ -140,10 +140,14 @@ HRESULT GriffonDoll::changeSquadTacDoll(SINT squadID, SINT allID, SINT targID)
 	if ((dollIter = mAllDoll.find(allID)) != mAllDoll.end()
 		&& (targetDoll = IOPsquad->callSquadMember(squadID, targID)) != nullptr) {
 
-		SINT saveTemp = dollIter->second->getID()->SquadMem_ID;
+		SINT saveTemp = dollIter->second->getID()->Squad_ID;
 
-		targetDoll->getID()->Squad_ID = dollIter->second->getID()->Squad_ID;
+		//	change Squad ID
+		targetDoll->getID()->Squad_ID = saveTemp;
 		dollIter->second->getID()->Squad_ID = squadID;
+
+		//	change Squad Member ID
+		saveTemp = dollIter->second->getID()->SquadMem_ID;
 
 		dollIter->second->getID()->SquadMem_ID = targetDoll->getID()->SquadMem_ID;
 		targetDoll->getID()->SquadMem_ID = saveTemp;
@@ -152,13 +156,22 @@ HRESULT GriffonDoll::changeSquadTacDoll(SINT squadID, SINT allID, SINT targID)
 
 		if (dollIter->second->getID()->SquadMem_ID == IOPsquad->callSquad(squadID)->squadLeaderID)
 			IOPsquad->callSquad(squadID)->squadLeader = IOPsquad->callSquadMember(squadID, dollIter->second->getID()->SquadMem_ID);
+
+		if (targetDoll->getID()->Squad_ID != -1) {
+			IOPsquad->callSquad(targetDoll->getID()->Squad_ID)->squadMember[targetDoll->getID()->SquadMem_ID]
+				= targetDoll;
+
+			if (targetDoll->getID()->SquadMem_ID == IOPsquad->callSquad(targetDoll->getID()->Squad_ID)->squadLeaderID)
+				IOPsquad->callSquad(targetDoll->getID()->Squad_ID)->squadLeader 
+				= IOPsquad->callSquadMember(targetDoll->getID()->Squad_ID, targetDoll->getID()->SquadMem_ID);
+		}
 	}
 		
 	return S_OK;
 }
 
 HRESULT GriffonDoll::exitSquadTacDoll(SINT squadID, SINT memID)
-{
+{	
 	if (IOPsquad->getValidSquad(squadID)) {
 		IOPsquad->emitSquadMember(squadID, memID);
 		appointLeaderTacDoll(squadID, IOPsquad->callSquad(squadID)->squadLeaderID);
