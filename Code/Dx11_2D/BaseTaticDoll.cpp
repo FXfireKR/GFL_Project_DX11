@@ -200,10 +200,10 @@ void BaseTaticDoll::render_Ellipse()
 
 void BaseTaticDoll::Limit_CharacterPosition()
 {
-	/*if (Pos.y < CHARACTERPOS_LIM_Y)
+	if (Pos.y < CHARACTERPOS_LIM_Y)
 	{
 		Pos.y = CHARACTERPOS_LIM_Y;
-	}*/
+	}
 }
 
 void BaseTaticDoll::StopMoving()
@@ -231,8 +231,8 @@ void BaseTaticDoll::SetMovePoint()
 			temp.x = (float)g_ptMouse.x + CameraPositionX;
 			temp.y = (float)g_ptMouse.y - CameraPositionY;
 
-			//if (temp.y < CHARACTERPOS_LIM_Y)
-			//	temp.y = CHARACTERPOS_LIM_Y;
+			if (temp.y < CHARACTERPOS_LIM_Y)
+				temp.y = CHARACTERPOS_LIM_Y;
 
 			vPath.push_back(temp);
 
@@ -260,8 +260,8 @@ void BaseTaticDoll::SetMovePoint()
 			if (t_dTotalPos > 1)
 			{
 
-				//if (msPointY < CHARACTERPOS_LIM_Y)
-				//	msPointY = CHARACTERPOS_LIM_Y;
+				if (msPointY < CHARACTERPOS_LIM_Y)
+					msPointY = CHARACTERPOS_LIM_Y;
 
 
 				Angle = getAngle(Pos.x, Pos.y, msPointX, msPointY);

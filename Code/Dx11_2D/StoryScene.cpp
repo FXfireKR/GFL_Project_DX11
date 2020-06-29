@@ -170,7 +170,7 @@ void StoryScene::render()
 			else
 				speaker_alpha = "alpha";
 
-			DRAW->render(speaker, speaker_alpha, VEC2(512 * TEXT_SPEAKER_ACL, 512 * TEXT_SPEAKER_ACL),
+			DRAW->render(speaker, speaker_alpha, VEC2(1024 * TEXT_SPEAKER_ACL, 1024 * TEXT_SPEAKER_ACL),
 				VEC2(WINSIZEX * 0.5F, WINSIZEY * 0.7F), D3DXCOLOR(1, 1, 1, opc));
 
 		}

@@ -50,6 +50,21 @@ HRESULT EffectManager::createEffect(string _key, D3DXVECTOR2 _pos, float _fps, f
 	return E_FAIL;
 }
 
+HRESULT EffectManager::createEffect(string _key, D3DXVECTOR2 _pos, float _fps, D3DXVECTOR2 _scl, float _opc, bool _flip)
+{
+	ImageResource* loadImage = nullptr;
+	if ((loadImage = IMAGEMAP->getImageInfo(_key)) != nullptr)
+	{
+		Effect* _new = Effects->pickUpPool();
+		_new->Create_Effect(_key, _pos, loadImage->perImageSize, loadImage->Frame, _fps, _scl, _opc);
+		_new->setFlip(_flip);
+		Effects->create(_new);
+
+		return S_OK;
+	}
+	return E_FAIL;
+}
+
 HRESULT EffectManager::Create_(string key, FLOAT posx, FLOAT posy, float _fps, FLOAT acl, FLOAT opc, bool _flip)
 {
 	return S_OK;

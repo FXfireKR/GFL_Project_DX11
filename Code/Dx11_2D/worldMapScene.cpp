@@ -64,6 +64,8 @@ void worldMapScene::init()
 		//	@ 임시로 적 분대 생성 해서, 전투하기
 		{
 			BDATA->getSquadSNV()->insertSquadMember(1, new Strelet, false);
+			BDATA->getSquadSNV()->insertSquadMember(1, new Strelet, false);
+			BDATA->getSquadSNV()->insertSquadMember(1, new Strelet, false);
 
 			BDATA->getSquadSNV()->callSquad(1)->squadLeader = BDATA->getSquadSNV()->callSquadMember(1, BDATA->getSquadSNV()->callSquad(1)->squadLeaderID);
 			BDATA->getSquadSNV()->callSquad(1)->nowNodeID = 1;
@@ -71,9 +73,12 @@ void worldMapScene::init()
 
 
 
-			BDATA->getSquadSNV()->insertSquadMember(2, new Strelet);
+			BDATA->getSquadSNV()->insertSquadMember(2, new Strelet, false);
+			BDATA->getSquadSNV()->insertSquadMember(2, new Strelet, false);
+			BDATA->getSquadSNV()->insertSquadMember(2, new Strelet, false);
+
 			BDATA->getSquadSNV()->callSquad(2)->squadLeader = BDATA->getSquadSNV()->callSquadMember(2, BDATA->getSquadSNV()->callSquad(2)->squadLeaderID);
-			BDATA->getSquadSNV()->callSquad(2)->nowNodeID = 5;
+			BDATA->getSquadSNV()->callSquad(2)->nowNodeID = 4;
 			mInstSquad[ALIANCE_PEREDEUS].push_back(2);
 
 			for (auto& it : mInstSquad.find(ALIANCE_PEREDEUS)->second)
@@ -101,12 +106,10 @@ void worldMapScene::init()
 		for (auto& it : LOAD->getLoadList())
 			vLoadList.push_back(LoadResourceData(it->key, it->type));
 
-		Helicopter::init();
+		//Helicopter::init();
 
 		LOAD->mallocThread();
 		SCENE->changeScene("LOAD");
-
-
 
 		MAP->Check_ActionPoint();
 		MAP->setActionPoint(MAP->getMaxActionPoint());
@@ -186,9 +189,19 @@ void worldMapScene::update()
 	CAMERA->setCameraFix(isInsertSquad);
 	MAP->update();
 
-	//ImGui::Text("Current Squad %d", Focus_Squad);
+	if (CameraPositionX < WINSIZEX * (-0.5f))
+		CameraPositionX = WINSIZEX * (-0.5f);
 
-	Helicopter::UpdateHelicopter();
+	if (CameraPositionX > (WINSIZEX * 0.5f))
+		CameraPositionX = (WINSIZEX * 0.5f);
+
+	if (CameraPositionY < WINSIZEY * (-0.5f))
+		CameraPositionY = WINSIZEY * (-0.5f);
+					  
+	if (CameraPositionY > WINSIZEY * 0.5f)
+		CameraPositionY = WINSIZEY * 0.5f;
+
+	//Helicopter::UpdateHelicopter();
 
 	keyUpate();
 
@@ -215,6 +228,8 @@ void worldMapScene::update()
 					PLAYER->getPlayerSquad(it)->squadLeader->keys.SOUND_DEFENSE , 0.15f);
 
 				squadInit = false;
+				
+				PLAYER->getPlayerSquad(it)->squadLeader->setInWorld(false);
 
 				SCENE->changeScene("BATTLE", true);
 			}
@@ -413,7 +428,7 @@ void worldMapScene::render()
 		}
 	}
 
-	Helicopter::RenderHelicopter();
+	//Helicopter::RenderHelicopter();
 
 	if (isInsertSquad == false)
 		render_NormalWorld();
@@ -513,7 +528,7 @@ void worldMapScene::GiveUpGame_Select(void * obj)
 	objectPtr->worldmapInit = false;
 	objectPtr->squadInit = false;
 
-	Helicopter::release();
+	//Helicopter::release();
 
 	LOAD->insertUnLoadList(objectPtr->vLoadList);
 	LOAD->setAutoInit(true);
@@ -543,7 +558,7 @@ void worldMapScene::InsertSquad_Select(void * obj)
 
 		SOUND->Play_Effect(SOUND_CHANNEL::CH_VOICE, squadLeader->keys.SOUND_GOATTACK, 0.15f);
 
-		Helicopter::CallHelicopter(curPanel->getPanelPos(), objectPtr->isThermalSupport);
+		//Helicopter::CallHelicopter(curPanel->getPanelPos(), objectPtr->isThermalSupport);
 
 		objectPtr->rendSquad = false;
 		objectPtr->isInsertSquad = false;

@@ -21,7 +21,7 @@ LogoScene::LogoScene()
 	uiAtlasLoader::LoadUiAtlasData("SlotUi.atlas");
 	uiAtlasLoader::LoadUiAtlasData("CommonUi.atlas");
 	uiAtlasLoader::LoadUiAtlasData("HomeUi.atlas");
-	//uiAtlasLoader::LoadUiAtlasData("SlotUi.atlas");
+	uiAtlasLoader::LoadUiAtlasData("DeployUi.atlas");
 
 	PLAYER->testCreate();
 }
@@ -39,12 +39,23 @@ void LogoScene::init()
 	LOAD->Add_LoadTray("ShootRange", "CG/17xh-shootingrange.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 사격장, 배치 로드 이미지
 	LOAD->Add_LoadTray("LobbyBackGround", "Texture2D/LobbyBG.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 로비 메인화면
 
-	LOAD->Add_LoadTray("ChapterImage_1", "Texture2D/ChapterImage_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
-	LOAD->Add_LoadTray("ChapterImage_2", "Texture2D/ChapterImage_2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
-	LOAD->Add_LoadTray("ChapterImage_3", "Texture2D/ChapterImage_3.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
-	LOAD->Add_LoadTray("ChapterImage_4", "Texture2D/ChapterImage_4.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
-	LOAD->Add_LoadTray("ChapterImage_5", "Texture2D/ChapterImage_5.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 로비 메인화면
+	LOAD->Add_LoadTray("chapter_base_0_font", "Texture2D/chapter_base_0_font.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);	// 
+	LOAD->Add_LoadTray("chapter_base_1_font", "Texture2D/chapter_base_1_font.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);	// 
 
+	LOAD->Add_LoadTray("chapter1_base", "Texture2D/chapter1_base.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 
+	//LOAD->Add_LoadTray("ChapterImage_1", "Texture2D/ChapterImage_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);	// 
+	//LOAD->Add_LoadTray("ChapterImage_1", "Texture2D/ChapterImage_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);	// 
+	//LOAD->Add_LoadTray("ChapterImage_1", "Texture2D/ChapterImage_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);	// 
+
+	LOAD->Add_LoadTray("ChapterImage_1", "Texture2D/ChapterImage_1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 
+	LOAD->Add_LoadTray("ChapterImage_2", "Texture2D/ChapterImage_2.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 
+	LOAD->Add_LoadTray("ChapterImage_3", "Texture2D/ChapterImage_3.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 
+	LOAD->Add_LoadTray("ChapterImage_4", "Texture2D/ChapterImage_4.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 
+	LOAD->Add_LoadTray("ChapterImage_5", "Texture2D/ChapterImage_5.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 
+
+	LOAD->Add_LoadTray("gradiantBlack", "Texture2D/gradiantBlack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("AllCard", "Texture2D/AllCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("TurnBack", "Texture2D/TurnBack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	LOAD->Add_LoadTray("LobbyLoop", "LobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);					//	LobbyTheme
 	LOAD->Add_LoadTray("TitleLoop", "TitleLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);					//	TitleTheme

@@ -110,6 +110,9 @@ public:
 	inline const bool& getAlive() const { return isAlive; }
 	inline bool& setAlive() { return isAlive; }
 
+	inline const bool& getInWorld() { return inWorld; }
+	inline void setInWorld(bool _inworld) { inWorld = _inworld; }
+
 	inline StatusManager* getBuffList() { return statusManager; }
 
 	inline const vector<SINT>& getRange() { return vRange; }
@@ -201,6 +204,8 @@ protected:
 
 	unordered_map<string, EllipseBase*> mCollision;
 	typedef unordered_map<string, EllipseBase*>::iterator iter_mCollision;
+
+	const FLOAT CHARACTERPOS_LIM_Y = 310.0f;
 
 public:
 	TaticDollKeys			keys;

@@ -29,6 +29,7 @@ public:
 	Effect();
 	~Effect();
 
+	HRESULT Create_Effect(string _key, D3DXVECTOR2 _pos, D3DXVECTOR2 _perSize, POINT _maxFrame, float _fps, D3DXVECTOR2 _scl, float _opc = 1.0f);
 	HRESULT Create_Effect(string _key, D3DXVECTOR2 _pos, D3DXVECTOR2 _perSize, POINT _maxFrame, float _fps, float _scl = 1.0f, float _opc = 1.0f);
 	void update();
 

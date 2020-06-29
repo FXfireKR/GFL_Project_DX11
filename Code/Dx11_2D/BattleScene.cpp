@@ -29,6 +29,12 @@ void BattleScene::init()
 	LOAD->Add_LoadTray("sgSound", "SG_shot.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 	LOAD->Add_LoadTray("sgReload", "SG_re.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
+	LOAD->Add_LoadTray("exploYutan", "Battle_114.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("fireYutan", "Battle_115.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+
+	LOAD->Add_LoadTray("YutanSmoke", "Texture2D/smoke_side.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 4, 1);
+	//LOAD->Add_LoadTray("SG_BLT", "Texture2D/fire1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 5, 1);
+
 	LOAD->Add_LoadTray("SG_BLT", "Texture2D/fire1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 5, 1);
 	LOAD->Add_LoadTray("sgmm", "Texture2D/slugmm.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOAD->Add_LoadTray("AR_BLT", "Texture2D/riflebullet.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
@@ -156,14 +162,14 @@ void BattleScene::render()
 
 	BULLET->render();
 
-	for (auto& it : vRendList)
-	{
-		if (it.x < 100)
-			PLAYER->getIOPdoll_crntSquad(it.y)->render_Ellipse();
+	//for (auto& it : vRendList)
+	//{
+		//if (it.x < 100)
+		//	PLAYER->getIOPdoll_crntSquad(it.y)->render_Ellipse();
 
-		else
-			BDATA->getObject(it.y)->render_Ellipse();
-	}
+		//else
+		//	BDATA->getObject(it.y)->render_Ellipse();
+	//}
 
 	for (auto& it : vRendList)
 	{

@@ -10,6 +10,34 @@ Effect::~Effect()
 {
 }
 
+HRESULT Effect::Create_Effect(string _key, D3DXVECTOR2 _pos, D3DXVECTOR2 _perSize, POINT _maxFrame, float _fps, D3DXVECTOR2 _scl, float _opc)
+{
+	//	Reset
+	resetEffect();
+
+	minTexCoord.x = minTexCoord.y = 0.0f;
+	maxTexCoord = perSize = _perSize;
+
+	maxFrameX = _maxFrame.x;
+	maxFrameY = _maxFrame.y;
+
+	Trans = _pos;
+
+	key = _key;
+
+	Scale.x = _scl.x;
+	Scale.y = _scl.y;
+
+	OPC = _opc;
+
+	fps = _fps;
+
+	EffectEnd = false;
+	render = true;
+
+	return S_OK;
+}
+
 HRESULT Effect::Create_Effect(string _key, D3DXVECTOR2 _pos, D3DXVECTOR2 _perSize, POINT _maxFrame, float _fps, float _scl, float _opc)
 {
 	//	Reset

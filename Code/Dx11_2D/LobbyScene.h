@@ -35,12 +35,31 @@ private:
 	static void ViewButton(void* obj);
 	static void MakerButton(void* obj);
 
+	static void ReturnSelect(void* obj);
+
 private:
 	const D3DXVECTOR2 AXIS_COMBAT_BUTTON = D3DXVECTOR2(950, 500);
 	const D3DXVECTOR2 AXIS_FACTORY_BUTTON = D3DXVECTOR2(1150, 400);
 	const D3DXVECTOR2 AXIS_RESEARCH_BUTTON = D3DXVECTOR2(950, 400);
 	const D3DXVECTOR2 AXIS_FORMATION_BUTTON = D3DXVECTOR2(1150, 500);
 	const D3DXVECTOR2 AXIS_AIDECOV_BUTTON = D3DXVECTOR2(WINSIZEX*0.4f, WINSIZEY*0.8f);
+
+	const int WIDTH_COUNT = 5;
+
+	const float CHARACTER_BOX_WID = 180.0f;
+	const float CHARACTER_BOX_HEI = 350.0f;
+
+	const float STATUS_RENDER_X = 1100.0f;
+	const float STATUS_RENDER_Y = WINSIZEY * 0.5f + 25;
+
+	const float CHARACTER_BLANK_WID = CHARACTER_BOX_WID + 50.0f;
+	const float CHARACTER_BLANK_HEI = CHARACTER_BOX_HEI + 50.0f;
+
+	const float SQUAD_BOX_WIDTH = 180.0f;
+	const float SQUAD_BOX_HEIGHT = 456.0f;
+
+	const float SQUAD_BOX_H_WIDTH = SQUAD_BOX_WIDTH * 0.5f;
+	const float SQUAD_BOX_H_HEIGHT = SQUAD_BOX_HEIGHT * 0.5f;
 
 protected:
 	enum class STATE {
@@ -62,7 +81,14 @@ protected:
 		SELECT_SET,
 		SELECT_DEV,
 		SELECT_VIEW,
+		TURN_BACK,
 		END
+	};
+
+	struct selectBox {
+		void*		adress;
+		D2D_RECT_F	box;
+		D3DXVECTOR2	pos;
 	};
 
 protected:
@@ -74,6 +100,12 @@ protected:
 	string		curConvKey;
 	float		ConvAlpha;
 	bool		isConvers;
+
+	vector<selectBox>			selBox;
+	float						virtualHeight;
+	float						virtualLimit;
+	int							asixVirtual;
+	bool						mouseDrag;
 
 	string		SceneKey;
 	bool		isSceneChanged;

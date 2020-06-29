@@ -28,7 +28,7 @@ public:
 
 
 private:
-	const double	NTW20_SPEED = 125.0;
+	const double	NTW20_SPEED = 100.0;
 
 	const float		NTW20_ACL_X = 0.8f;
 	const float		NTW20_ACL_Y = 0.8f;

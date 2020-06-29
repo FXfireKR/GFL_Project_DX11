@@ -32,7 +32,7 @@ Ksg::Ksg()
 
 	//	Setting Spec
 	curState.HitPoint.max = curState.HitPoint.curr = 2530;
-	curState.ArmorPoint.max = curState.ArmorPoint.curr = 240;
+	curState.ArmorPoint.max = curState.ArmorPoint.curr = 30;
 	curState.Armor = 15;
 	curState.Accuracy = 0.9;
 	curState.CriticPoint = 40.0;
@@ -128,8 +128,8 @@ HRESULT Ksg::init()
 		motion->init();
 	}
 
-	Pos.x = 200.0f;
-	Pos.y = 250.0f;
+	Pos.x = 50.0f;
+	Pos.y = 500.0f;
 
 	if (mCollision.count("SELF") == 0)
 		mCollision.insert(make_pair("SELF", new EllipseBase(&Pos.x, &Pos.y, 30, 5)));
@@ -188,8 +188,16 @@ void Ksg::update()
 
 		else
 		{
-			if (curState.ArmorPoint.max > curState.ArmorPoint.curr + 1)
-				++curState.ArmorPoint.curr;
+			static float counterArmor = 0.0f;
+
+			if (curState.ArmorPoint.max > curState.ArmorPoint.curr + 1) {
+				if (counterArmor < FLOAT_EPSILON) {
+					counterArmor = 2.0f;
+					++curState.ArmorPoint.curr;
+				}
+				else
+					counterArmor -= DELTA();			
+			}
 
 			else
 				curState.ArmorPoint.curr = curState.ArmorPoint.max;

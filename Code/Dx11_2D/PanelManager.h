@@ -74,7 +74,12 @@ public:
 
 	inline int getSelectPanelId() { if (this->findPanel(Select_Panel_id) != NULL)return Select_Panel_id; else return -1; }
 
-	inline Panel* findPanel(int id) { if (mPanel.find(id) != mPanel.end())return mPanel.find(id)->second; else return NULL; }
+	inline Panel* findPanel(int id) { 
+		if (mPanel.find(id) != mPanel.end())
+			return mPanel.find(id)->second; 
+		else 
+			return NULL; 
+	}
 
 	inline vector<tagPanelLink>& getAllLink() { return allLink; }
 };

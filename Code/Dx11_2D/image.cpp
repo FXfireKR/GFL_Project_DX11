@@ -306,7 +306,7 @@ void Image::render(string normalKey, string alphaKey, VEC2 _scale, VEC2 _trans, 
 		}
 
 		DeviceContext->PSSetShaderResources(0, 1, &srv);
-		DeviceContext->PSSetShaderResources(1, 1, &alphaSrv);
+ 		DeviceContext->PSSetShaderResources(1, 1, &alphaSrv);
 
 		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 		DeviceContext->Draw(6, 0);

@@ -8,6 +8,10 @@ LobbyScene::LobbyScene()
 	//DWRITE_FONT_WEIGHT_MEDIUM
 	DWRITE->Create_TextField("Conversation", L"¸¼Àº°íµñ", "", 16, DWRITE_FONT_WEIGHT_MEDIUM);
 	DWRITE->Create_TextField("ICONTITLE", L"¸¼Àº°íµñ", "", 20, DWRITE_FONT_WEIGHT_EXTRA_BOLD);
+	DWRITE->Create_TextField("CHARA_NAME", L"¸¼Àº°íµñ", "NULL", 28, DWRITE_FONT_WEIGHT_MEDIUM);
+	DWRITE->Create_TextField("TITLE_NAME", L"¸¼Àº°íµñ", "NULL", 65, DWRITE_FONT_WEIGHT_BOLD);
+
+	mButton.insert(make_pair(SBUTTONS::TURN_BACK, Button(10, 0, 150, 90, ReturnSelect)));
 
 	mButton.insert(make_pair(SBUTTONS::COMBAT, Button(25, 50, 20, 50, CombatButton)));
 	mButton.insert(make_pair(SBUTTONS::FORMATION, Button(25, 50, 20, 50, FormationButton)));
@@ -304,26 +308,128 @@ void LobbyScene::renderNormal()
 
 void LobbyScene::updateAide()
 {
+	//	Wheel Use Code
+	if (whlCount > 0) {
+		virtualHeight -= DELTA() * 1000.0f;
+		whlCount = 0;
+	}
+	else if (whlCount < 0) {
+		virtualHeight += DELTA() * 1000.0f;
+		whlCount = 0;
+	}
+
+	//	Moude Use Code
+	if (g_ptMouse.x > 1150) {
+		if (KEYMANAGER->isKeyDown(VK_LBUTTON)) {
+			asixVirtual = g_ptMouse.y;
+			mouseDrag = true;
+		}
+
+		if (KEYMANAGER->isKeyUp(VK_LBUTTON))
+			mouseDrag = false;
+
+		if (mouseDrag) {
+			if (asixVirtual > g_ptMouse.y)
+				virtualHeight -= DELTA() * 700.0f;
+
+			else if (asixVirtual < g_ptMouse.y)
+				virtualHeight += DELTA() * 700.0f;
+
+			asixVirtual = g_ptMouse.y;
+		}
+	}
+
+	if (virtualHeight > 0)
+		virtualHeight = 0.0f;
+
+	else if (virtualHeight < virtualLimit)
+		virtualHeight = virtualLimit;
+
+	for (size_t i = 0; i < selBox.size(); ++i) {
+		selBox[i].box = D2DRectMake(selBox[i].pos.x, selBox[i].pos.y + virtualHeight,
+			CHARACTER_BOX_WID, CHARACTER_BOX_HEI);
+	}
+
+	if (KEYMANAGER->isKeyDown(VK_LBUTTON))
+	{
+		for (size_t i = 0; i < selBox.size(); ++i) {
+
+			if (ptInRect(selBox[i].box, g_ptMouse)) {
+
+				SOUND->Stop_Sound(SOUND_CHANNEL::CH_VOICE, aideDoll->keys.SOUND_DIALOGUE1);
+				SOUND->Stop_Sound(SOUND_CHANNEL::CH_VOICE, aideDoll->keys.SOUND_DIALOGUE2);
+				SOUND->Stop_Sound(SOUND_CHANNEL::CH_VOICE, aideDoll->keys.SOUND_DIALOGUE3);
+				ConvAlpha = 0.0f;
+
+				aideDoll = selBox[i].adress != nullptr ? (BaseTaticDoll*)selBox[i].adress : nullptr;
+				saveAideID = i;
+
+				sceneState = STATE::NORMAL;
+				mouseDrag = false;
+				break;
+			}
+		}
+
+		if (sceneState == STATE::AIDE) {
+			if (ptInRect(mButton[SBUTTONS::TURN_BACK].box, g_ptMouse))
+				mButton[SBUTTONS::TURN_BACK].ClickAction(this);
+		}
+	}
 }
 
 void LobbyScene::renderAide()
 {
+	for (size_t i = 0; i < selBox.size(); ++i) {
+		FLOAT wid = selBox[i].box.right - selBox[i].box.left;
+		FLOAT hei = selBox[i].box.bottom - selBox[i].box.top;
+		FLOAT halfWid = wid * 0.5f;
+		FLOAT halfHei = hei * 0.5f;
+		Vector2 rendPos;
+
+		if (selBox[i].adress != nullptr) {
+			BaseTaticDoll* focusedTdoll = ((BaseTaticDoll*)selBox[i].adress);
+
+			rendPos = Vector2(selBox[i].pos.x + halfWid, selBox[i].pos.y + halfHei + virtualHeight);
+
+			//D2D->renderRect(selBox[i].box, ColorF(1, 0, 0), true);
+			DRAW->render(focusedTdoll->keys.cardNormalKey, Vector2(wid, hei), rendPos);
+
+			DRAW->render("AllCard", Vector2(wid, hei), rendPos);
+
+			DWRITE->ChangeText("CHARA_NAME", focusedTdoll->keys.name);
+			DWRITE->TextRender("CHARA_NAME", rendPos.x - halfWid, rendPos.y + halfHei - 60, wid, 40, ColorF(1, 1, 1),
+				DWRITE_TEXT_ALIGNMENT_CENTER);
+		}
+
+	}
+
+	DRAW->render("gradiantBlack", Vector2(WINSIZEX, 100), Vector2(WINSIZEX*0.5f, 50));
+
+	DRAW->render("TurnBack", Vector2(150, 90), Vector2(mButton[SBUTTONS::TURN_BACK].box.left + 75,
+		mButton[SBUTTONS::TURN_BACK].box.top + 45));
+
+	DWRITE->ChangeText("TITLE_NAME", "AIDEDOLL");
+	DWRITE->TextRender("TITLE_NAME", 960.0f, 0.0f, ColorF(0.8, 0.8, 0.8));
 }
 
 void LobbyScene::updateSetting()
 {
+	//	¹Ì±¸Çö
 }
 
 void LobbyScene::renderSetting()
 {
+	//	¹Ì±¸Çö
 }
 
 void LobbyScene::updateDevlopers()
 {
+	//	¹Ì±¸Çö
 }
 
 void LobbyScene::renderDevlopers()
 {
+	//	¹Ì±¸Çö
 }
 
 void LobbyScene::CombatButton(void * obj)
@@ -388,6 +494,40 @@ void LobbyScene::AideConverButton(void * obj)
 void LobbyScene::ChangeAideButton(void * obj)
 {
 	object = (LobbyScene*)obj;
+
+	if (object->sceneState == STATE::NORMAL)
+		object->sceneState = STATE::AIDE;
+
+	auto& pTacDoll = PLAYER->getPlayerTaticDoll().getAllDolls();
+	size_t counter = 0;
+	object->selBox.clear();
+	object->selBox.reserve(pTacDoll.size() + 1);
+
+	for (auto& iter : pTacDoll) {
+		selectBox _new;
+
+		_new.pos = Vector2(20 + (counter % object->WIDTH_COUNT) * object->CHARACTER_BLANK_WID,
+			120 + (counter / object->WIDTH_COUNT) * object->CHARACTER_BLANK_HEI);
+
+		_new.box = D2DRectMake(_new.pos.x, _new.pos.y,
+			object->CHARACTER_BOX_WID, object->CHARACTER_BOX_HEI);
+
+		_new.adress = iter.second;
+
+		object->selBox.push_back(_new);
+
+		++counter;
+	}
+
+	object->virtualLimit =
+		(float)(((int)object->selBox.size()) / object->WIDTH_COUNT) * object->CHARACTER_BLANK_HEI;
+
+	if (object->selBox.size() > object->WIDTH_COUNT)
+		object->virtualLimit -= (object->CHARACTER_BLANK_HEI * 0.5f);
+
+	object->virtualLimit *= -1.0f;
+
+	object->mouseDrag = false;
 }
 
 void LobbyScene::SettingButton(void * obj)
@@ -406,4 +546,12 @@ void LobbyScene::ViewButton(void * obj)
 void LobbyScene::MakerButton(void * obj)
 {
 	object = (LobbyScene*)obj;
+}
+
+void LobbyScene::ReturnSelect(void * obj)
+{
+	object = (LobbyScene*)obj;
+
+	if (object->sceneState == STATE::AIDE)
+		object->sceneState = STATE::NORMAL;
 }

@@ -82,9 +82,9 @@ BattlePlagData Panel::getPlagData()
 
 void Panel::render()
 {
-	D2D->renderRect(rc.left - CameraPositionX, rc.top + CameraPositionY,
-		(rc.right - CameraPositionX) - (rc.left - CameraPositionX),
-		(rc.bottom + CameraPositionY) - (rc.top + CameraPositionY), ColorF(1, 0, 0));
+	//D2D->renderRect(rc.left - CameraPositionX, rc.top + CameraPositionY,
+	//	(rc.right - CameraPositionX) - (rc.left - CameraPositionX),
+	//	(rc.bottom + CameraPositionY) - (rc.top + CameraPositionY), ColorF(1, 0, 0));
 
 	D3DXCOLOR _color = PANEL_COLOR_NONE;
 	D3DXVECTOR3 panelPos = D3DXVECTOR3(rc.left + PANEL_SIZE_X_HALF, rc.top + PANEL_SIZE_Y_HALF, 0);

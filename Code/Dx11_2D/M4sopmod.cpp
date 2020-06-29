@@ -55,6 +55,9 @@ M4sopmod::~M4sopmod()
 
 void M4sopmod::LoadTray_SoundList()
 {
+	//	
+	
+
 	//	Character Voice Upload
 	LOAD->Add_LoadTray(keys.SOUND_ATTACK, "Characters/m4sopmod/M4 SOPMOD IIMod_ATTACK_JP.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 	LOAD->Add_LoadTray(keys.SOUND_BREAK, "Characters/m4sopmod/M4 SOPMOD IIMod_BREAK_JP.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
@@ -137,7 +140,7 @@ HRESULT M4sopmod::init()
 	}
 
 	Pos.x = 220.0f;
-	Pos.y = 200.0f;
+	Pos.y = 500.0f;
 
 	if (mCollision.count("SELF") == 0)
 		mCollision.insert(make_pair("SELF", new EllipseBase(&Pos.x, &Pos.y, 30, 5)));
@@ -323,7 +326,10 @@ void M4sopmod::utanUpdate()
 					}
 				}
 			}
-	
+
+			SOUND->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "exploYutan", 0.25f);
+			EFFECT->createEffect("YutanSmoke", Vector2(sklRange->getCenterX(), sklRange->getCenterY()), DELTA()*0.5f, 200.0f, 50.0f);
+			
 			sklBullet->reset();
 		}
 	}
@@ -456,11 +462,13 @@ void M4sopmod::M4SopMod_Skill_Action(void * _this)
 		else
 			object->sklBullet->CreateUtan(object->Pos.x, object->Pos.y - 65.0f,
 				object->sklCenter.x, object->sklCenter.y, 135.0f);
+
+		SOUND->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "fireYutan", 0.25f);
 	}
 
 	else if (motion->getCurTime() > motion->getEndTime())
 	{
-		object->sklColTime = 0.5f;	//10.5f
+		object->sklColTime = 10.5f; // 0.5f;	//10.5f
 		object->atkColTime = object->curState.AttackDelay;
 
 		motion->changeMotion("wait", true, true);

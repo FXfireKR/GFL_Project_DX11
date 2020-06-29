@@ -50,8 +50,8 @@ HRESULT Strelet::init()
 		motion->init();
 	}
 
-	Pos.x = rand() % 2000;
-	Pos.y = 300 + (rand() % 450);
+	Pos.x = 300 + (rand() % 2000);
+	Pos.y = 400 + (rand() % 400);
 
 	if (mCollision.count("SELF") == 0)
 		mCollision.insert(make_pair("SELF", new EllipseBase(&Pos.x, &Pos.y, 30, 5)));
@@ -208,9 +208,9 @@ void Strelet::render_Motion()
 
 void Strelet::render_Ellipse()
 {
-	if (isAlive)
-		for (auto& iterCollition : mCollision)
-			iterCollition.second->Rend_Ellipse(D3DXCOLOR(0.8, 0.1, 0.1, 0.9f));
+	//if (isAlive)
+	//	for (auto& iterCollition : mCollision)
+	//		iterCollition.second->Rend_Ellipse(D3DXCOLOR(0.8, 0.1, 0.1, 0.9f));
 }
 
 void Strelet::Strelet_Attack_Action(void * _this)

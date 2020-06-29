@@ -3,7 +3,7 @@
 
 ChapterScene::ChapterScene()
 {
-	mButton.insert(make_pair("Return", Button(25, 50, 20, 50, ReturnLobbyButton)));
+	mButton.insert(make_pair("Return", Button(10, 0, 150, 90, ReturnLobbyButton)));
 
 	mButton.insert(make_pair("Chapter1", Button(25, 50, 20, 50, Chapter1Button)));
 	mButton.insert(make_pair("Chapter2", Button(25, 50, 20, 50, Chapter2Button)));
@@ -23,7 +23,6 @@ ChapterScene::~ChapterScene()
 void ChapterScene::init()
 {
 	worldColor.a = 0.0f;
-	mButton["Return"].box = D2D_RectMakeCenter(100, 60, 80, 40);
 
 	mButton["Chapter1"].box = D2D_RectMakeCenter(400, 200, 300, 50);
 	mButton["Chapter2"].box = D2D_RectMakeCenter(400, 350, 300, 50);
@@ -106,8 +105,16 @@ void ChapterScene::render()
 {
 	DRAW->render(curImageKey, VEC2(320, 512), position, D3DXCOLOR(1, 1, 1, bkAlpha));
 
-	for (auto& it : mButton)
-		D2D->renderRect(it.second.box, ColorF(0, 0.8, 0.0));
+	DRAW->render("TurnBack", Vector2(150, 90), Vector2(mButton["Return"].box.left + 75, mButton["Return"].box.top + 45));
+
+	DRAW->render("chapter1_base", Vector2(600, 100), Vector2(mButton["Chapter1"].box.left + 300, mButton["Chapter1"].box.top + 50));
+	DRAW->render("chapter_base_0_font", Vector2(600, 100), Vector2(mButton["Chapter1"].box.left + 450, mButton["Chapter1"].box.top + 50));
+
+	DRAW->render("chapter1_base", Vector2(600, 100), Vector2(mButton["Chapter2"].box.left + 300, mButton["Chapter2"].box.top + 50));
+	DRAW->render("chapter_base_1_font", Vector2(600, 100), Vector2(mButton["Chapter2"].box.left + 450, mButton["Chapter2"].box.top + 50));
+
+	DWRITE->ChangeText("TITLE_NAME", "CHAPTER");
+	DWRITE->TextRender("TITLE_NAME", 970.0f, 0.0f, ColorF(0.8, 0.8, 0.8));
 }
 
 void ChapterScene::flow_Background_Image()
@@ -198,6 +205,7 @@ void ChapterScene::Chapter1Button(void * obj)
 	LOAD->setAutoInit(true);
 	LOAD->setStoryScriptPath("ChapterScript_0_0");
 	LOAD->setNextScene("STORY");
+
 	//LOADMANAGER->setLoadImageKey("LoadBK_Test");
 }
 
@@ -207,7 +215,7 @@ void ChapterScene::Chapter2Button(void * obj)
 	object->SceneKey = "WORLD";
 	object->isSceneChanged = true;
 
-	MAP->Load_MapFile("_TextTable/MapTestFile.txt");
+	MAP->Load_MapFile("_TextTable/Ep_Chapter_1.txt");
 
 	LOAD->setAutoInit(true);
 	LOAD->setNextScene("WORLD");

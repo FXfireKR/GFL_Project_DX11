@@ -79,8 +79,8 @@ void BattleMap::update()
 	if (CameraPositionY < -290)
 		CameraPositionY = -290;
 
-	else if (CameraPositionY > 150)
-		CameraPositionY = 150;
+	else if (CameraPositionY > 300)
+		CameraPositionY = 300;
 
 	if (CameraPositionX > limitSize)
 		CameraPositionX = limitSize;

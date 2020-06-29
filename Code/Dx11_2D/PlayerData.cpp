@@ -458,14 +458,13 @@ void PlayerData::loadRemUnit(int padID)
 
 void PlayerData::autoSettingCameraFocus()
 {
-	if (cameraFocus)
-	{
+	if (cameraFocus) {
 		CameraPositionX = curFocusDol->getCharacterPos().x - (WINSIZEX * 0.5f);
 		CameraPositionY = (curFocusDol->getCharacterPos().y - (WINSIZEY * 0.5f))* -1.0f;
 	}
 
 	//	Limit Camera
-	//BTLMAP->update();
+	BTLMAP->update();
 }
 
 bool PlayerData::targettingOther()
@@ -512,8 +511,10 @@ void PlayerData::testCreate()
 {
 	tacDoll->createIOPtacDoll(GRF_NTW20);
 	tacDoll->createIOPtacDoll(GRF_KSG);
+
 	//tacDoll->createIOPtacDoll(GRF_9A91);
 	//tacDoll->createIOPtacDoll(GRF_AR15);
+
 	tacDoll->createIOPtacDoll(GRF_PKP);
 	tacDoll->createIOPtacDoll(GRF_M4SOP);
 

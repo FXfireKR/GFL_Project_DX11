@@ -31,8 +31,8 @@ Pkp::Pkp()
 	mEquip.insert(make_pair(EPT_ACESORY2, nullptr));	// ¿Ü°ñ°Ý
 
 	//	Setting Spec
-	//curState.HitPoint.max = curState.HitPoint.curr = 2530;
-	curState.HitPoint.max = curState.HitPoint.curr = 992530;
+	curState.HitPoint.max = curState.HitPoint.curr = 2530;
+	//curState.HitPoint.max = curState.HitPoint.curr = 992530;
 	curState.Armor = 0;
 	curState.Accuracy = 0.1;
 	curState.CriticPoint = 40.0;
@@ -129,7 +129,7 @@ HRESULT Pkp::init()
 	}
 
 	Pos.x = 200.0f;
-	Pos.y = 250.0f;
+	Pos.y = 450.0f;
 
 	if (mCollision.count("SELF") == 0)
 		mCollision.insert(make_pair("SELF", new EllipseBase(&Pos.x, &Pos.y, 30, 5)));

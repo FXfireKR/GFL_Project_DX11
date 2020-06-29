@@ -25,6 +25,7 @@ public:
 	HRESULT Create_Sprite(string key, int Width, int Heigh);
 
 	HRESULT createEffect(string _key, D3DXVECTOR2 _pos, float _fps, float _scl = 1.0f, float _opc = 1.0f, bool _flip = false);
+	HRESULT createEffect(string _key, D3DXVECTOR2 _pos, float _fps, D3DXVECTOR2 _scl, float _opc = 1.0f, bool _flip = false);
 	HRESULT Create_(string key, FLOAT posx, FLOAT posy, float _fps, FLOAT acl = 1.0F, FLOAT opc = 1.0F, bool _flip = false);
 
 	void update();
