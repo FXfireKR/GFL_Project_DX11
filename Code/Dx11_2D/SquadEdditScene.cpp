@@ -15,22 +15,33 @@ void SquadEdditScene::init()
 	LOAD->Add_LoadTray("Squad_2_Already", "Texture2D/Squad2Already.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 2 제대 배치중
 	LOAD->Add_LoadTray("Squad_3_Already", "Texture2D/Squad3Already.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		// 3 제대 배치중
 	
-	LOAD->Add_LoadTray("Squad_1_Leader", "Texture2D/Squad1Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
-	LOAD->Add_LoadTray("Squad_2_Leader", "Texture2D/Squad2Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
-	LOAD->Add_LoadTray("Squad_3_Leader", "Texture2D/Squad3Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
+	LOAD->Add_LoadTray("Squad_1_Leader", "Texture2D/Squad1Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		
+	LOAD->Add_LoadTray("Squad_2_Leader", "Texture2D/Squad2Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		
+	LOAD->Add_LoadTray("Squad_3_Leader", "Texture2D/Squad3Leader.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		
 	
-	LOAD->Add_LoadTray("SquadEmit", "Texture2D/SquadEmit.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 
+	LOAD->Add_LoadTray("TurnBack", "Texture2D/TurnBack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+
+	LOAD->Add_LoadTray("SquadEmit", "Texture2D/SquadEmit.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				
 	
-	LOAD->Add_LoadTray("SquadBar", "Texture2D/SquadBar.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 
-	LOAD->Add_LoadTray("SquadBar_s", "Texture2D/SquadBar_select.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
+	LOAD->Add_LoadTray("SquadBar", "Texture2D/SquadBar.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					
+	LOAD->Add_LoadTray("SquadBar_s", "Texture2D/SquadBar_select.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		
 	
-	LOAD->Add_LoadTray("editSceneBk", "Texture2D/editSceneBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				// 
+	LOAD->Add_LoadTray("editSceneBk", "Texture2D/editSceneBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			
 	
-	LOAD->Add_LoadTray("gradiantBlack", "Texture2D/gradiantBlack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);			// 
-	LOAD->Add_LoadTray("SlotSquad", "Texture2D/SlotSquad.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					// 
+	LOAD->Add_LoadTray("gradiantBlack", "Texture2D/gradiantBlack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);		
+	LOAD->Add_LoadTray("SlotSquad", "Texture2D/SlotSquad.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				
 	
-	LOAD->Add_LoadTray("HomeButton", "Texture2D/HomeButton.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				// 
-	LOAD->Add_LoadTray("AllCard", "Texture2D/AllCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);						// 
+	LOAD->Add_LoadTray("HomeButton", "Texture2D/HomeButton.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);				
+	LOAD->Add_LoadTray("AllCard", "Texture2D/AllCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);					
+
+
+	LOAD->Add_LoadTray("SG_icon", "Texture2D/SG_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("SMG_icon", "Texture2D/SMG_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("AR_icon", "Texture2D/AR_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("SR_icon", "Texture2D/SR_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("RF_icon", "Texture2D/RF_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("MG_icon", "Texture2D/MG_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("HG_icon", "Texture2D/HG_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
 	worldColor.a = 0.0f;
 
@@ -51,7 +62,7 @@ void SquadEdditScene::init()
 	DWRITE->Create_TextField("TITLE_NAME", L"맑은고딕", "NULL", 65, DWRITE_FONT_WEIGHT_BOLD);
 
 	mButton.insert(make_pair(SBUTTONS::HOME_BACK, Button(10, 10, 100, 85, ReturnBase_Select)));
-	mButton.insert(make_pair(SBUTTONS::TURN_BACK, Button(10, 10, 100, 85, ReturnBase_Select)));
+	mButton.insert(make_pair(SBUTTONS::TURN_BACK, Button(10, 0, 150, 90, ReturnSquad_Select)));
 
 	mButton.insert(make_pair(SBUTTONS::SELECT_SQUAD_1, Button(0, 200, 150, 100, ChangeSquad_Select)));
 	mButton.insert(make_pair(SBUTTONS::SELECT_SQUAD_2, Button(0, 320, 150, 100, ChangeSquad_Select)));
@@ -191,7 +202,7 @@ void SquadEdditScene::Squad_Render()
 		if (key.size() < 2) continue;
 
 		DRAW->render(PLAYER->getPlayerSquad(FocusSquad)->squadMember[i]->keys.cardNormalKey, 
-			Vector2(SQUAD_BOX_H_WIDTH * 2, SQUAD_BOX_H_HEIGHT * 2),
+			Vector2((SQUAD_BOX_H_WIDTH * 2) - 4, (SQUAD_BOX_H_HEIGHT * 2) - 4),
 			Vector2(180 + (i * (SQUAD_BOX_H_WIDTH + 130) + SQUAD_BOX_H_WIDTH), 200 + SQUAD_BOX_H_HEIGHT));
 	}
 
@@ -225,22 +236,53 @@ void SquadEdditScene::Squad_render_Character()
 		DRAW->render(atlas->textureKey, atlas->alphaTexKey, Vector2(SQUAD_BOX_H_WIDTH, SQUAD_BOX_H_HEIGHT),
 			Vector2(mButton[(SBUTTONS)i].box.left + SQUAD_BOX_H_WIDTH, mButton[(SBUTTONS)i].box.top + SQUAD_BOX_H_HEIGHT),
 			atlas->mixTexCoord, atlas->maxTexCoord);
-
-		DRAW->render("SlotSquad", Vector2(SQUAD_BOX_WIDTH, SQUAD_BOX_HEIGHT * 0.37f),
-			Vector2(mButton[(SBUTTONS)i].box.left + SQUAD_BOX_H_WIDTH, 
-				mButton[(SBUTTONS)i].box.bottom - (SQUAD_BOX_H_HEIGHT * 0.37f)));
 	}
 
 	for (auto& it : PLAYER->getPlayerSquad(FocusSquad)->squadMember) {
 
 		int chara = (int)SBUTTONS::SELECT_CHARA_1;
 
-		DWRITE->Change_Text("DOLLNAME", it.second->getName());
+		DWRITE->Change_Text("CHARA_NAME", it.second->getName());
 
 		chara += it.second->getID()->SquadMem_ID;
 
-		DWRITE->TextRender("DOLLNAME", mButton[(SBUTTONS)chara].box.left, mButton[(SBUTTONS)chara].box.bottom -
-			(SQUAD_BOX_H_HEIGHT * 0.74f) + 28, 180, 40, ColorF(1, 1, 1), DWRITE_TEXT_ALIGNMENT_CENTER);
+		DWRITE->TextRender("CHARA_NAME", mButton[(SBUTTONS)chara].box.left, mButton[(SBUTTONS)chara].box.bottom -
+			(SQUAD_BOX_H_HEIGHT * 0.74f) + 5, 180, 40, ColorF(1, 1, 1), DWRITE_TEXT_ALIGNMENT_CENTER);
+
+		string key;
+		switch (it.second->getWeaponType())
+		{
+		case TWT_AR:
+			key = "AR_icon";
+			break;
+
+		case TWT_RF:
+			key = "RF_icon";
+			break;
+
+		case TWT_SR:
+			key = "SR_icon";
+			break;
+
+		case TWT_MG:
+			key = "MG_icon";
+			break;
+
+		case TWT_SG:
+			key = "SG_icon";
+			break;
+
+		case TWT_HG:
+			key = "HG_icon";
+			break;
+
+		case TWT_SMG:
+			key = "SMG_icon";
+			break;
+		}
+		
+		DRAW->render(key, Vector2(70, 35),
+			Vector2(mButton[(SBUTTONS)chara].box.left + 38, mButton[(SBUTTONS)chara].box.top + 20), COLR(1, 1, 1, 0.7));
 	}
 }
 
@@ -296,17 +338,27 @@ void SquadEdditScene::All_Update()
 				if (vBox[i].adress != nullptr) {
 
 					if (PLAYER->getPlayerSquad(FocusSquad)->squadMember.count(FocusBox)) {
-						if (PLAYER->getPlayerTaticDoll().changeSquadTacDoll(FocusSquad, i - 1, FocusBox) != E_FAIL)
-							SOUND->Play_Effect(CH_VOICE, 
-								PLAYER->getPlayerTaticDoll().getAllDolls().at(i - 1)->keys.SOUND_FORMATION, 0.15f);
+
+						if (PLAYER->getPlayerSquad(FocusSquad)->squadMember[FocusBox]->getID()->All_ID != i - 1) {
+
+							if (PLAYER->getPlayerTaticDoll().changeSquadTacDoll(FocusSquad, i - 1, FocusBox) != E_FAIL)
+								SOUND->Play_Effect(CH_VOICE,
+									PLAYER->getPlayerTaticDoll().getAllDolls().at(i - 1)->keys.SOUND_FORMATION, 0.15f);
+						}
 					}
 
 					else {
 
 						if (PLAYER->getPlayerSquad(FocusSquad)->squadMember.size() < 5)	{
-							if (PLAYER->getPlayerTaticDoll().insertSquadTacDoll(FocusSquad, i - 1) != E_FAIL)
-								SOUND->Play_Effect(CH_VOICE, 
+
+							if (PLAYER->getPlayerTaticDoll().insertSquadTacDoll(FocusSquad, i - 1) != E_FAIL) {
+								SOUND->Play_Effect(CH_VOICE,
 									PLAYER->getPlayerTaticDoll().getAllDolls().at(i - 1)->keys.SOUND_FORMATION, 0.15f);
+							}
+
+							else {
+								
+							}
 						}
 					}
 				}
@@ -329,6 +381,11 @@ void SquadEdditScene::All_Update()
 				mouseDrag = false;
 				break;
 			}
+		}
+
+		if (mode == ALL) {
+			if (ptInRect(mButton[SBUTTONS::TURN_BACK].box, g_ptMouse))
+				mButton[SBUTTONS::TURN_BACK].ClickAction(this);
 		}
 	}
 
@@ -358,11 +415,46 @@ void SquadEdditScene::All_Render()
 			DWRITE->TextRender("CHARA_NAME", rendPos.x - halfWid, rendPos.y + halfHei - 60, wid, 40, ColorF(1, 1, 1),
 				DWRITE_TEXT_ALIGNMENT_CENTER);
 
+			string key;
+			switch (focusedTdoll->getWeaponType())
+			{
+			case TWT_AR:
+				key = "AR_icon";
+				break;
+
+			case TWT_RF:
+				key = "RF_icon";
+				break;
+
+			case TWT_SR:
+				key = "SR_icon";
+				break;
+
+			case TWT_MG:
+				key = "MG_icon";
+				break;
+
+			case TWT_SG:
+				key = "SG_icon";
+				break;
+
+			case TWT_HG:
+				key = "HG_icon";
+				break;
+
+			case TWT_SMG:
+				key = "SMG_icon";
+				break;
+			}
+
+			DRAW->render(key, Vector2(74, 43), 
+				Vector2(vBox[i].pos.x + 37 + 2, vBox[i].pos.y + 21 + 2), COLR(1, 1, 1, 0.8));
+
 			if (focusedTdoll->getID()->Squad_ID != -1) {
 				DRAW->render("bkGuard", Vector2(wid, hei), rendPos, COLR(1, 1, 1, 0.4f));
 
 				string key = ConvertFormat("Squad_%d_Already", focusedTdoll->getID()->Squad_ID);
-				DRAW->render(key, Vector2(65, 70), Vector2(rendPos.x + 35, rendPos.y - 40));
+				DRAW->render(key, Vector2(65, 70), Vector2(rendPos.x + halfWid - 32, rendPos.y - halfHei + 35));
 			}
 		}
 		else {
@@ -373,6 +465,9 @@ void SquadEdditScene::All_Render()
 	}
 
 	DRAW->render("gradiantBlack", Vector2(WINSIZEX, 100), Vector2(WINSIZEX*0.5f, 50));
+
+	DRAW->render("TurnBack", Vector2(150, 90), Vector2(mButton[SBUTTONS::TURN_BACK].box.left + 75,
+		mButton[SBUTTONS::TURN_BACK].box.top + 45));
 
 	DWRITE->ChangeText("TITLE_NAME", "T-DOLL");
 	DWRITE->TextRender("TITLE_NAME", 1045.0f, 0.0f, ColorF(0.8, 0.8, 0.8));
@@ -502,5 +597,13 @@ void SquadEdditScene::ReturnBase_Select(void * obj)
 {
 	SquadEdditScene* object = (SquadEdditScene*)obj;
 
-	object->changeScene = true;
+	object->changeScene = true;	
+}
+
+void SquadEdditScene::ReturnSquad_Select(void * obj)
+{
+	SquadEdditScene* object = (SquadEdditScene*)obj;
+
+	if (object->mode == ALL)
+		object->mode = SQUAD;
 }

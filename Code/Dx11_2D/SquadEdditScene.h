@@ -32,6 +32,7 @@ private:
 
 	static void ChangeSquad_Select(void* obj);
 	static void ReturnBase_Select(void* obj);
+	static void ReturnSquad_Select(void* obj);
 
 private:
 	const int WIDTH_COUNT = 5;

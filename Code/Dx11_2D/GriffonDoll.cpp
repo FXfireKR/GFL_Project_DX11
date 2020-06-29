@@ -122,10 +122,10 @@ HRESULT GriffonDoll::createIOPtacDoll(GRFDOLL_NAME name)
 HRESULT GriffonDoll::insertSquadTacDoll(SINT squadID, SINT allID)
 {
 	if ((dollIter = mAllDoll.find(allID)) != mAllDoll.end() 
-		&& IOPsquad->callSquad(squadID) != nullptr)
-	{
-		if (IOPsquad->insertSquadMember(squadID, dollIter->second))
-		{
+		&& IOPsquad->callSquad(squadID) != nullptr) {
+
+		if (IOPsquad->insertSquadMember(squadID, dollIter->second)) {
+
 			//	분대장이 비어있으면 0번째 친구를 분대장으로 임명한다.
 			appointLeaderTacDoll(squadID, IOPsquad->callSquad(squadID)->squadLeaderID);
 			return S_OK;

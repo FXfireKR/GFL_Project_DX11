@@ -76,6 +76,14 @@ void EquipScene::init()
 	LOAD->Add_LoadTray("EquipCardBk", "Texture2D/EquipCardBk.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOAD->Add_LoadTray("SquadEmit", "Texture2D/SquadEmit.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
+	LOAD->Add_LoadTray("SG_icon", "Texture2D/SG_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("SMG_icon", "Texture2D/SMG_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("AR_icon", "Texture2D/AR_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("SR_icon", "Texture2D/SR_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("RF_icon", "Texture2D/RF_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("MG_icon", "Texture2D/MG_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+	LOAD->Add_LoadTray("HG_icon", "Texture2D/HG_icon.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
+
 	//EQUIP->AddTray_EquipImage();										//	get List of Equip
 
 	//	Loading Setting
@@ -643,6 +651,42 @@ void EquipScene::State_CharacterRender()
 			DWRITE->ChangeText("CHARA_NAME", focusedTdoll->keys.name);
 			DWRITE->TextRender("CHARA_NAME", rendPos.x - halfWid, rendPos.y + halfHei - 60, wid, 40, ColorF(1, 1, 1),
 				DWRITE_TEXT_ALIGNMENT_CENTER);
+
+			string key;
+			switch (focusedTdoll->getWeaponType())
+			{
+			case TWT_AR:
+				key = "AR_icon";
+				break;
+
+			case TWT_RF:
+				key = "RF_icon";
+				break;
+
+			case TWT_SR:
+				key = "SR_icon";
+				break;
+
+			case TWT_MG:
+				key = "MG_icon";
+				break;
+
+			case TWT_SG:
+				key = "SG_icon";
+				break;
+
+			case TWT_HG:
+				key = "HG_icon";
+				break;
+
+			case TWT_SMG:
+				key = "SMG_icon";
+				break;
+			}
+
+			DRAW->render(key, Vector2(74, 43),
+				Vector2(selBox[i].pos.x + 37 + 2, selBox[i].pos.y + 21 + 2), COLR(1, 1, 1, 0.8));
+
 		}
 		else {
 			//D2D->renderRect(selBox[i].box, ColorF(1, 0, 0), true);
