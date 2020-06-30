@@ -31,8 +31,8 @@ Ksg::Ksg()
 	mEquip.insert(make_pair(EPT_ACESORY2, nullptr));	// ¿Ü°ñ°Ý
 
 	//	Setting Spec
-	curState.HitPoint.max = curState.HitPoint.curr = 2530;
-	curState.ArmorPoint.max = curState.ArmorPoint.curr = 30;
+	curState.HitPoint.max = curState.HitPoint.curr = 3100;
+	curState.ArmorPoint.max = curState.ArmorPoint.curr = 50;
 	curState.Armor = 15;
 	curState.Accuracy = 0.9;
 	curState.CriticPoint = 40.0;
@@ -192,7 +192,7 @@ void Ksg::update()
 
 			if (curState.ArmorPoint.max > curState.ArmorPoint.curr + 1) {
 				if (counterArmor < FLOAT_EPSILON) {
-					counterArmor = 2.0f;
+					counterArmor = 1.0f;
 					++curState.ArmorPoint.curr;
 				}
 				else
@@ -314,6 +314,8 @@ void Ksg::Update_DrawPos()
 	motion->p_getRotate().y = Flip ? (motion->getRotate().y < 180.0f ? motion->p_getRotate().y + (1000.0 * DELTA()) : 180.0f)
 		: (motion->getRotate().y > 0.0f ? motion->p_getRotate().y - (1000.0 * DELTA()) : 0.0f);
 
+	flipVal = Flip ? -1 : 1;
+
 	motion->p_getTrans().x = Pos.x;
 	motion->p_getTrans().y = Pos.y;
 }
@@ -368,8 +370,7 @@ void Ksg::render_Motion()
 
 void Ksg::render_Ellipse()
 {
-	for (auto& iterCollition : mCollision)
-		iterCollition.second->Rend_Ellipse(D3DXCOLOR(0.1, 0.8, 0.1, Select ? 0.8f : 0.1f));
+	mCollision["SELF"]->Rend_Ellipse(D3DXCOLOR(0.1, 0.8, 0.1, Select ? 0.8f : 0.0f));
 }
 
 void Ksg::KSG_Attack_Action(void * _this)
@@ -389,7 +390,7 @@ void Ksg::KSG_Attack_Action(void * _this)
 			if (object->safeTrigger == 0)
 			{
 				//SG_BLT
-				EFFECT->createEffect("SG_BLT", VEC2(object->Pos.x + (float)(120 * object->flipVal), object->Pos.y - 65)
+				EFFECT->createEffect("SG_BLT", VEC2(object->Pos.x + (float)(120 * object->flipVal), object->Pos.y - 60)
 					, DELTA() * 2.0f, 80.0f, 1.0f, object->Flip);
 
 				BULLET->CreateBullet(object, object->TargetID, object->curState, object->alianceType, 90.0f, 150.0f);
@@ -402,10 +403,10 @@ void Ksg::KSG_Attack_Action(void * _this)
 			}
 		}
 
-		if (curTime < 0.883f && curTime > 0.883f - DELTA())
-		{
-			if (object->safeTrigger == 1)
-			{
+		if (curTime < 0.883f && curTime > 0.883f - DELTA()) {
+
+			if (object->safeTrigger == 1) {
+
 				SOUND->Play_Effect(SOUND_CHANNEL::CH_EFFECT, "sgReload", 0.05f);
 				++object->safeTrigger;
 			}
