@@ -14,16 +14,17 @@ public:
 	virtual void update() override;
 	virtual void render() override;
 
-	
-public:
 	static worldMapScene* objectPtr;	//	Button Pointer
 
 private:
+
+	void updateSquadLeader();
 	void keyUpate();
-	bool Find_SquadInWorld(TATICDOLL_ALIANCE_TYPE ac, UINT id);
 
 	void render_NormalWorld();	//	일반
 	void render_SelectWorld();	//	분대 선택중
+
+	bool Find_SquadInWorld(TATICDOLL_ALIANCE_TYPE ac, UINT id);
 
 
 	//	@ when Button was selected action fnc
@@ -67,7 +68,7 @@ private:
 
 	TATICDOLL_ALIANCE_TYPE turnAliance;
 
-	VEC2 guardPos;
+	Vector2 guardPos;
 
 	unordered_map<BUTTON_CODE, Button>		mButton;
 };

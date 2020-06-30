@@ -262,8 +262,7 @@ void Ntw20::render_Motion()
 
 void Ntw20::render_Ellipse()
 {
-	//for (auto& iterCollition : mCollision)
-	//	iterCollition.second->Rend_Ellipse(D3DXCOLOR(0.1, 0.8, 0.1, Select ? 0.8f : 0.1f));
+	mCollision["SELF"]->Rend_Ellipse(D3DXCOLOR(0.1, 0.8, 0.1, Select ? 0.8f : 0.0f));
 }
 
 void Ntw20::Ntw20_Attack_Action(void * _this)

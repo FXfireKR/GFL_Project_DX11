@@ -208,6 +208,7 @@ void Strelet::render_Motion()
 
 void Strelet::render_Ellipse()
 {
+	//mCollision["SELF"]->Rend_Ellipse(D3DXCOLOR(0.1, 0.8, 0.1, Select ? 0.8f : 0.0f));
 	//if (isAlive)
 	//	for (auto& iterCollition : mCollision)
 	//		iterCollition.second->Rend_Ellipse(D3DXCOLOR(0.8, 0.1, 0.1, 0.9f));

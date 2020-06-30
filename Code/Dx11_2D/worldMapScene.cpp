@@ -10,8 +10,8 @@ worldMapScene::worldMapScene()
 	isInsertSquad = false;
 	isThermalSupport = false;
 
-	mButton.insert(make_pair(BCODE_TURN, Button(1195, 670, 150, 80, TurnChange_Select)));					//	턴 넘김
-	mButton.insert(make_pair(BCODE_BATCH, Button(1195, 540, 150, 60, SquadBatch_Select)));					//	배치가능한 발판을 눌렀을때 활성화
+	mButton.insert(make_pair(BCODE_TURN, Button(1100, 670, 150, 80, TurnChange_Select)));					//	턴 넘김
+	mButton.insert(make_pair(BCODE_BATCH, Button(1110, 540, 150, 60, SquadBatch_Select)));					//	배치가능한 발판을 눌렀을때 활성화
 	mButton.insert(make_pair(BCODE_GIVEUP, Button(100, 10, 150, 80, GiveUpGame_Select)));					//	작전 포기
 
 	mButton.insert(make_pair(BCODE_INSERT, Button(1000, 670, 150, 80, InsertSquad_Select)));				//	해당 유닛 배치
@@ -47,12 +47,14 @@ void worldMapScene::init()
 
 		CAMERA->CameraReset();
 
-		for (auto& it : PLAYER->getPlayerTaticDoll().getAllDolls())		//	get List of Player's TacticalDoll
+		//	get List of Player's TacticalDoll
+		for (auto& it : PLAYER->getPlayerTaticDoll().getAllDolls())		
 		{
 			it.second->LoadTray_SoundList();
 			it.second->LoadTray_ImageList();
 			//PLAYER->insertTacDolToSquad(it.first, 1);
 		}
+
 
 		mInstSquad.clear();
 		for (int i = 0; i < 5; ++i)
@@ -189,22 +191,69 @@ void worldMapScene::update()
 	CAMERA->setCameraFix(isInsertSquad);
 	MAP->update();
 
+	//	Fix World CameraPosition
 	if (CameraPositionX < WINSIZEX * (-0.5f))
 		CameraPositionX = WINSIZEX * (-0.5f);
 
 	if (CameraPositionX > (WINSIZEX * 0.5f))
 		CameraPositionX = (WINSIZEX * 0.5f);
 
-	if (CameraPositionY < WINSIZEY * (-0.5f))
-		CameraPositionY = WINSIZEY * (-0.5f);
+	if (CameraPositionY < WINSIZEY)
+		CameraPositionY = WINSIZEY;
 					  
-	if (CameraPositionY > WINSIZEY * 0.5f)
-		CameraPositionY = WINSIZEY * 0.5f;
+	if (CameraPositionY > WINSIZEY)
+		CameraPositionY = WINSIZEY;
 
 	//Helicopter::UpdateHelicopter();
 
 	keyUpate();
+	
+	updateSquadLeader();
+}
 
+void worldMapScene::render()
+{
+	//	맵 이미지 랜더링
+	MAP->render();
+
+	for (auto& aliance : mInstSquad) 
+	{
+		for (auto& squadID : aliance.second) {
+			switch (aliance.first)
+			{
+			case ALIANCE_GRIFFON:
+			{
+				int nowNode = PLAYER->getPlayerSquad(squadID)->nowNodeID;
+				auto panel = MAP->pManager->findPanel(nowNode);
+				auto Leader = PLAYER->getPlayerSquad(squadID)->squadLeader;
+
+				Leader->render_Motion();
+			}
+			break;
+
+			case ALIANCE_IRONBLOD:
+			case ALIANCE_PEREDEUS:
+			case ALIANCE_SCCOM:
+			case ALIANCE_NONE:
+			{
+				auto Leader = BDATA->getSquadSNV()->callSquad(squadID)->squadLeader;
+				Leader->render_Motion();
+			}
+			break;
+			}
+		}
+	}
+
+	//Helicopter::RenderHelicopter();
+
+	if (isInsertSquad == false)
+		render_NormalWorld();
+	else
+		render_SelectWorld();
+}
+
+void worldMapScene::updateSquadLeader()
+{
 	//	분대별 분대장 업데이트
 	for (auto& it : mInstSquad.find(ALIANCE_GRIFFON)->second)
 	{
@@ -223,12 +272,12 @@ void worldMapScene::update()
 				BDATA->getEngageSquadID() = enemyID;
 				PLAYER->getCurrentSquad() = it;
 
-				SOUND->Play_Effect(SOUND_CHANNEL::CH_VOICE, MAP->pGetMissionFlag().battlePlag < 5 ? 
-					PLAYER->getPlayerSquad(it)->squadLeader->keys.SOUND_MEET : 
-					PLAYER->getPlayerSquad(it)->squadLeader->keys.SOUND_DEFENSE , 0.15f);
+				SOUND->Play_Effect(SOUND_CHANNEL::CH_VOICE, MAP->pGetMissionFlag().battlePlag < 5 ?
+					PLAYER->getPlayerSquad(it)->squadLeader->keys.SOUND_MEET :
+					PLAYER->getPlayerSquad(it)->squadLeader->keys.SOUND_DEFENSE, 0.15f);
 
 				squadInit = false;
-				
+
 				PLAYER->getPlayerSquad(it)->squadLeader->setInWorld(false);
 
 				SCENE->changeScene("BATTLE", true);
@@ -242,6 +291,7 @@ void worldMapScene::update()
 		/*if (leader->getMotion()->isCurrent("wait") && !(PLAYER->getPlayerSquad(it)->nextNodeID > 0))
 			PLAYER->getPlayerSquad(it)->nowNodeID = PLAYER->getPlayerSquad(it)->nextNodeID;*/
 	}
+
 
 	for (auto& it : mInstSquad.find(ALIANCE_PEREDEUS)->second)
 	{
@@ -382,65 +432,15 @@ void worldMapScene::keyUpate()
 	}
 }
 
-bool worldMapScene::Find_SquadInWorld(TATICDOLL_ALIANCE_TYPE ac, UINT id)
-{
-	if (mInstSquad.count(ac))
-	{
-		for (auto& it : mInstSquad.find(ac)->second)
-		{
-			if (it == id)
-				return true;
-		}
-	}
-	return false;
-}
-
-void worldMapScene::render()
-{
-	//	맵 이미지 랜더링
-	MAP->render();
-
-	for (auto& aliance : mInstSquad) 
-	{
-		for (auto& squadID : aliance.second) {
-			switch (aliance.first)
-			{
-			case ALIANCE_GRIFFON:
-			{
-				int nowNode = PLAYER->getPlayerSquad(squadID)->nowNodeID;
-				auto panel = MAP->pManager->findPanel(nowNode);
-				auto Leader = PLAYER->getPlayerSquad(squadID)->squadLeader;
-
-				Leader->render_Motion();
-			}
-			break;
-
-			case ALIANCE_IRONBLOD:
-			case ALIANCE_PEREDEUS:
-			case ALIANCE_SCCOM:
-			case ALIANCE_NONE:
-			{
-				auto Leader = BDATA->getSquadSNV()->callSquad(squadID)->squadLeader;
-				Leader->render_Motion();
-			}
-			break;
-			}
-		}
-	}
-
-	//Helicopter::RenderHelicopter();
-
-	if (isInsertSquad == false)
-		render_NormalWorld();
-	else
-		render_SelectWorld();
-}
-
 void worldMapScene::render_NormalWorld()
 {
 	for (int i = (int)BCODE_TURN; i < (int)BCODE_INSERT; ++i)
 		D2D->renderRect(mButton[(BUTTON_CODE)i].box.left, mButton[(BUTTON_CODE)i].box.top, mButton[(BUTTON_CODE)i].box.right - mButton[(BUTTON_CODE)i].box.left,
 			mButton[(BUTTON_CODE)i].box.bottom - mButton[(BUTTON_CODE)i].box.top, ColorF(1, 0, 0));
+
+	const uiAtlas* atlas = IMAGEMAP->getUiAtlas("TurnButton");
+	DRAW->render(atlas->textureKey, atlas->alphaTexKey, VEC2(80, 40),
+		VEC2(mButton[BUTTON_CODE::BCODE_END].box.left + 80, mButton[BUTTON_CODE::BCODE_END].box.top + 40), atlas->mixTexCoord, atlas->maxTexCoord);
 }
 
 void worldMapScene::render_SelectWorld()
@@ -469,6 +469,19 @@ void worldMapScene::render_SelectWorld()
 		D2D->renderRect(mButton[(BUTTON_CODE)i].box.left, mButton[(BUTTON_CODE)i].box.top, mButton[(BUTTON_CODE)i].box.right - mButton[(BUTTON_CODE)i].box.left,
 			mButton[(BUTTON_CODE)i].box.bottom - mButton[(BUTTON_CODE)i].box.top, ColorF(1, 0, 0));
 	}
+}
+
+bool worldMapScene::Find_SquadInWorld(TATICDOLL_ALIANCE_TYPE ac, UINT id)
+{
+	if (mInstSquad.count(ac))
+	{
+		for (auto& it : mInstSquad.find(ac)->second)
+		{
+			if (it == id)
+				return true;
+		}
+	}
+	return false;
 }
 
 void worldMapScene::TurnChange_Select(void * obj)

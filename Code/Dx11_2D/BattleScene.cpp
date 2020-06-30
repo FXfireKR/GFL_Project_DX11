@@ -19,18 +19,18 @@ void BattleScene::init()
 	DAMAGE->loadImageList();
 	DAMAGE->AllocateMemory();
 
-	LOAD->Add_LoadTray("arSound", "Battle_AR.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("mgSound1", "Battle_170.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("mgSound2", "Battle_171.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("mgReload", "mgReload.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("srSound1", "Battle_179.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("srSound2", "Battle_180.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("srSound3", "Battle_181.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("sgSound", "SG_shot.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("sgReload", "SG_re.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("arSound", "Battle_ARacb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("mgSound1", "Battle_170acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("mgSound2", "Battle_171acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("mgReload", "mgReloadacb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("srSound1", "Battle_179acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("srSound2", "Battle_180acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("srSound3", "Battle_181acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("sgSound", "SG_shotacb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("sgReload", "SG_reacb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
-	LOAD->Add_LoadTray("exploYutan", "Battle_114.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-	LOAD->Add_LoadTray("fireYutan", "Battle_115.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("exploYutan", "Battle_114acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+	LOAD->Add_LoadTray("fireYutan", "Battle_115acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
 	LOAD->Add_LoadTray("YutanSmoke", "Texture2D/smoke_side.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 4, 1);
 	//LOAD->Add_LoadTray("SG_BLT", "Texture2D/fire1.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 5, 1);
@@ -162,14 +162,14 @@ void BattleScene::render()
 
 	BULLET->render();
 
-	//for (auto& it : vRendList)
-	//{
-		//if (it.x < 100)
-		//	PLAYER->getIOPdoll_crntSquad(it.y)->render_Ellipse();
+	for (auto& it : vRendList)
+	{
+		if (it.x < 100)
+			PLAYER->getIOPdoll_crntSquad(it.y)->render_Ellipse();
 
-		//else
-		//	BDATA->getObject(it.y)->render_Ellipse();
-	//}
+		else
+			BDATA->getObject(it.y)->render_Ellipse();
+	}
 
 	for (auto& it : vRendList)
 	{

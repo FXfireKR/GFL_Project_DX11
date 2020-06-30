@@ -57,10 +57,10 @@ void LogoScene::init()
 	LOAD->Add_LoadTray("AllCard", "Texture2D/AllCard.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 	LOAD->Add_LoadTray("TurnBack", "Texture2D/TurnBack.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
-	LOAD->Add_LoadTray("LobbyLoop", "LobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);					//	LobbyTheme
-	LOAD->Add_LoadTray("TitleLoop", "TitleLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);					//	TitleTheme
-	LOAD->Add_LoadTray("ChapterLoop", "ChapterLobbyLoop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	ChapterTheme
-	LOAD->Add_LoadTray("FormationLoop", "GF_Achieve_loop.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	FormationTheme
+	LOAD->Add_LoadTray("LobbyLoop", "LobbyLoop.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);					//	LobbyTheme
+	LOAD->Add_LoadTray("TitleLoop", "TitleLoop.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);					//	TitleTheme
+	LOAD->Add_LoadTray("ChapterLoop", "ChapterLobbyLoop.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	ChapterTheme
+	LOAD->Add_LoadTray("FormationLoop", "GF_Achieve_loop.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);		//	FormationTheme
 
 	//DAMAGE->loadImageList();
 	//DAMAGE->AllocateMemory();

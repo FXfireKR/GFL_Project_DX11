@@ -21,6 +21,7 @@ private:
 
 public:
 	static void LoadUiAtlasData(__in const char* _path);
-	static const unordered_map<string, uiAtlas*>& LoadUiAtlasData(__in const char* _path, __out unordered_map<string, uiAtlas*>* _dataBase);
+	static const unordered_map<string, uiAtlas*>& LoadUiAtlasData(__in const char* _path, 
+		__out unordered_map<string, uiAtlas*>* _dataBase);
 };
 #endif

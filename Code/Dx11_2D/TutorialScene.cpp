@@ -44,13 +44,13 @@ void TutorialScene::init()
 
 		LOAD->Add_LoadTray("YutanSmoke", "Texture2D/smoke_side.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE, 4, 1);
 
-		LOAD->Add_LoadTray("arSound", "Battle_AR.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-		LOAD->Add_LoadTray("mgSound1", "Battle_170.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-		LOAD->Add_LoadTray("mgSound2", "Battle_171.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+		LOAD->Add_LoadTray("arSound", "Battle_AR.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+		LOAD->Add_LoadTray("mgSound1", "Battle_170.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+		LOAD->Add_LoadTray("mgSound2", "Battle_171.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 		LOAD->Add_LoadTray("AR_BLT", "Texture2D/riflebullet.ab", LOADRESOURCE_TYPE::RESOURCE_IMAGE);
 
-		LOAD->Add_LoadTray("exploYutan", "Battle_114.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
-		LOAD->Add_LoadTray("fireYutan", "Battle_115.ab", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+		LOAD->Add_LoadTray("exploYutan", "Battle_114.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
+		LOAD->Add_LoadTray("fireYutan", "Battle_115.acb", LOADRESOURCE_TYPE::RESOURCE_SOUND);
 
 		DAMAGE->loadImageList();
 		DAMAGE->AllocateMemory();

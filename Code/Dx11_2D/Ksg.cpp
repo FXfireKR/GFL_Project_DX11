@@ -22,9 +22,9 @@ Ksg::Ksg()
 	keys.SOUND_TITLECALL = "KSG_TITLECALL_JP";
 	keys.SOUND_WIN = "KSG_WIN_JP";
 
-	keys.vecDialogue.push_back("작전은 언제든 개시될 수 있으므로, 대비해주십시오.");
-	keys.vecDialogue.push_back("지난번 훈련 데이터가 발표되었습니까? 아직 좀 더 향상할 수 있을지도 모릅니다.");
-	keys.vecDialogue.push_back("그 손 멈추시죠. 지휘관, 저의 인내심과 반사 신경을 시험하실 필요는 없습니다.");
+	keys.vecDialogue.push_back("작전이 언제든 개시될지 모르니, 대비해주십시오.");
+	keys.vecDialogue.push_back("지난번 훈련 데이터가 나왔습니까? 아직 좀 더 향상할 여지가 있을지도 모릅니다.");
+	keys.vecDialogue.push_back("그만둬주시죠 지휘관, 저의 인내심과 반사 신경을 시험하실 필요는 없습니다.");
 
 	mEquip.insert(make_pair(EPT_ACESORY, nullptr));		// 사이트
 	mEquip.insert(make_pair(EPT_BULLET, nullptr));		// 탄환
